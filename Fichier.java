@@ -4,10 +4,17 @@
 *
 *@author BELHADJI Rafik
 *@since 20/01/2024
-*/    /* déclaration des attributs nécessaires pour la classe robot  */
+*@version 22/01/2024
+*/
 
-import java.util.ArrayList;
-import java.util.Collection;
+/**
+ * j'ai choisi de mettre import java.util.* afin de simplifier le travail importer tout 
+ * et ne pas avoir à importer à chaque fois les outils que j'utilise 
+ * comme ArrayList , Collection,.....etc
+ */
+
+import java.util.*;
+
 
 public class Fichier 
 {
@@ -20,7 +27,10 @@ public class Fichier
      *  et que chaque fichier a un contenu dans le niveau 1 il contient des String
      *  dans le niveau 2 il contient des entier 
      * donc je déclare une ArrayList de type objet  et je l'initialise selon le niveau 
-     * 
+     * c'est à dire dans le niveau  ça sera une arrayList de String
+     * dans le niveau  2 ça sera une arrayList d'entier 
+     * je parle précisément du fichier d'identifiant 200 qui contient des String au niveau 1
+     * et des entiers au niveau 2 
      */
 
 
@@ -41,11 +51,17 @@ public class Fichier
      {
         if( id<0)
             throw new IllegalArgumentException();
+        
         if ( c==null || c.contains(null))
             throw new NullPointerException();
 
         this.id=id;
-        this.list=new ArrayList<Object >(c);
+        
+        this.list=new ArrayList<Object >(c); 
+        /** 
+         * ici j'ai préféré créer une nouvelle instance de classe comme ça list ne sera pas dépendante de la collection c
+         * en cas ou elle est modifiée 
+         */
 
      }
 
@@ -71,6 +87,9 @@ public class Fichier
         
         ArrayList <Object> fList = new ArrayList<Object>(f.list);
 
+        if(fList.size()!=list.size())
+            return false;
+
         for( int i=0;i<list.size();i++)
         {
             if(!(fList.remove(list.get(i))))
@@ -81,6 +100,10 @@ public class Fichier
         return fList.isEmpty();
 
     }
+    /**
+     * c'est une classe modifiable je dois redéfinir clone , hashCode, toString si je redéfini équals ( c'est à voir après )
+     */
+    
 
 
 

@@ -4,14 +4,21 @@
 *
 *@author BELHADJI Rafik
 *@since 20/01/2024
+*@version 22/01/2024
 */
-import java.util.ArrayList;
+
+/**
+ * j'ai choisi de mettre import java.util.* afin de simplifier le travail importer tout 
+ * et ne pas avoir à importer à chaque fois les outils que j'utilise 
+ * comme ArrayList , Collection,.....etc
+ */
+import java.util.*;
 
 public class Piece {
 
     /* déclaration des attributs nécessaires pour la classe pièce  */
     private ArrayList <Fichier> listFichier ; /* une list  de fichier contenu dans la classe */
-    int taillePiece; 
+    private int taillePiece; 
     /** la taille de la pièce réprésente le nombre de case 
      * si taillePiece=2 , donc le nombre de case est 4 (taillePiece  x taille Piece )
      * le nombre maximum de fichier qu'une pièce peut porter est taillePiece x Taille Piece -1 
@@ -21,7 +28,7 @@ public class Piece {
     */
     /**
  
-     * @param longueur c'est la longueur de la pièce 
+     * @param longueur c'est la longueur de la pièce ( la longueur = la largeur car la pièce a la forme d'un carré )
      * @requires longueur>0
      * @ensures listFichier.isEmpty()
      * @throws IllegalArgumentException si longueur <0 
@@ -47,7 +54,7 @@ public class Piece {
      */
     public boolean peutRajouterFicher()
     {  /**
-        *on a vu qu'il nous faut au moins de case vide dans la pièce pour pouvoir rajouter un fichier s'il reste qu'une seule c'est bon on 
+        *on a vu qu'il nous faut au moins deux case vide dans la pièce pour pouvoir rajouter un fichier s'il reste qu'une seule c'est bon on 
         * ne peut plus rajouter un fichier car on laisse la case qui reste pour le déplacement du robot  
         */
         if(taillePiece-listFichier.size()>=2)
@@ -55,7 +62,16 @@ public class Piece {
         
         return false;
     }
-
+    /**
+     * je crée cette méthode pour retourner arrayList de fichier de cette pièce qui sera utilisée par la méthode
+     * GRAB ET DROP de la classe robot , car on ne peut pas accéder à l'attribut listFichiers car il est private
+     * donc la solution est de créer cette méthode public qui permet d'avoir la meme liste de fichier 
+     * @return renvoyer arraylist de fichier contenu dans la classe Robot
+     */
+    public ArrayList<Fichier> getListFichiers()
+    {
+        return listFichier;
+    }
 
 
 
