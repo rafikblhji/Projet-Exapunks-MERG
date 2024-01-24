@@ -1,0 +1,10 @@
+1) Créer 2 fichiers dans la boîte de sortie.
+ 
+2)  Déplacer le fichier 200 vers la boîte où se trouve  Octopunks.
+ 
+
+3) Déplacer les 2  fichiers dans la 2éme boîte  de sortie.
+
+4) Créer une 3éme fichier dans la 2éme boîte de sortie.
+
+5) Faire disparaître Octopunks.
