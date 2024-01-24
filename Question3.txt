@@ -1,0 +1,13 @@
+1) Réinitialiser le registre X à 5.
+
+2) Créer un fichier.
+
+3)  Définir une étiquette  appelée LOOP.
+
+4)  Ecrivez 500 dans le fichier détenu.
+
+5)  Incrémenter X de 2.
+
+6)  Tester si X est égal à 105 stockez le résultat dans T.
+
+7)  Allez à LOOP. Si X n'est pas encore égale à 105.
