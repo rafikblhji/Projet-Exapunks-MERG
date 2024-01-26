@@ -1,12 +1,7 @@
-Utiliser les valeurs en entrée qui sont : 34,28,11,75.
-
 1)  Additionner les 2 premières valeurs du fichier 200.
-
 2) Multiplier le résultat par la 3éme valeur.
-
 3)  Soustraire la 4éme valeur.
-
 4)  Rejoindre le résultat à la fin du fichier.
-
 5)  Déplacer le fichier vers la 2éme boîte.
+NB: Utiliser les valeurs en entrée qui sont : 34,28,11,75.
 
