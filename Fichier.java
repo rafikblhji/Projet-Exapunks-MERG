@@ -105,6 +105,9 @@ public class Fichier
     /**
      * c'est une classe modifiable je dois redéfinir clone , hashCode, toString si je redéfini équals ( c'est à voir après )
      */
+    /**
+     * 
+     */
     
 
 
