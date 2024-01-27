@@ -5,7 +5,7 @@
 *
 *@author BELHADJI Rafik
 *@since 20/01/2024
-*@version 22/01/2024
+*@version 26/01/2024
 */
 
 /**
@@ -19,12 +19,25 @@ import java.util.*;
 public class Robot {
     /* déclaration des attributs nécessaires pour la classe robot  */
     private String nomR; /* le nom du robot  */
-    private boolean peutTransporter ; /* si il est à true on peut transporter fichier sinon on ne peut pas le transporter   */
-    private ArrayList <Piece> lp; /* liste de pièce ou le robot peut se déplacer  */
+    private boolean peutTransporter ; 
+    /**  
+     * si il est à true on peut transporter fichier sinon on ne peut pas le transporter   
+     * Je voudrais répondre à la remarque de Monsieur Breuvart à propos de cette variable : 
+     * je suis d'accord avec vous sur le faite qu'un robot peut toujour transporter un fichier
+     * c'est juste dans le jeu , un fichier ne peut transporter un fichier seulement si il n'a rien entre les mains
+     * par contre si on fait par exemple GRAB 200 ensuite GRAB 400 ( 200 et 400 sont les identifiants de deux fichiers qui existent dans la pièce
+     * courante du fichier ) , le GRAB 200 va marcher parcontre GRAB 400 non car en effet il faut d'abord faire un DROP
+     * pour déposer le fichier d'identifiant 200 sinon on ne pourra pas porter le fichier d'identifiant 400
+     * 
+     * */
+    private ArrayList <Piece> lp;  /* liste de pièce  */
     private int indexPieceCourante; /* l'index de la pièce courante elle est initialisé à 0our le moment */
-    private Object X,T; /** ce sont les registres X, T du robot  
-    * je les ai déclaré comme object car on peut manipuler dans un fichier sois un String , sois un entier 
-    * donc ça reste un Object
+    private String X,T; /** ce sont les registres X, T du robot  
+    * je les ai déclaré comme String car on peut manipuler dans un fichier sois un String , sois un entier 
+    * donc on peut simplifier les choses en les déclarant comme String ensuite 
+    * si on a besoin de savoir si ce sont des entiers , ou bien manipuler ces registres en tant qu'entier 
+    * on utilisera des méthodes qui vont nous permettre de faciliter la vérification et savoir si c'est des entiers et si oui on
+    * va récupérer leur valeur en entier 
     */
     private Fichier F ; 
     /**
@@ -40,6 +53,12 @@ public class Robot {
     *donc je créé cette variable qui est initialisé à 0 au début et à chaque fois qu'on crée un fichier
     * son identifiant est compteurFichierCréé+400 ensuite make va surement augmenter compteurFichierCréé de 1 
     */
+    private int indexFichier; 
+    /**
+     * c'est l'indice qui pointe vers le début du fichier
+     * dans le jeu on peut voir ça comme le registre F qui à chaque fois qu'on utilise
+     * COPY,ADDI,MULI,SUBI avec le fichier... cet index pointe vers le suivant 
+     */
 
 
     /**  Note très importante : 
@@ -66,16 +85,17 @@ public class Robot {
 
         nomR=name ;
         indexPieceCourante=0;
-        peutTransporter=true; 
+        indexFichier=0;
+        peutTransporter=true;
         lp = new ArrayList<Piece>(c);
         F=null;
-        X=null;
-        T=null;
+        X="0";
+        T="0";
         compteurFichierCréé=0;
         /**
          * X , T je les ai initialisé à null mais c'est facultatif car 
          * meme si je le fais pas , ça aurait été fait automatiquement car c'est la valeur par défaut 
-         * meme chose compteurFichierCréé et  indexPieceCourante meme si je ne les avais pas initialisé à 0 
+         * meme chose compteurFichierCréé,indexFichier et  indexPieceCourante meme si je ne les avais pas initialisé à 0 
          * ça aurait été fait automatiquement on a vu ça au Semestre 1 en POO
          * ce sont les valeurs par défaut
          */
@@ -108,7 +128,10 @@ public class Robot {
      */
     public boolean peutTransporterFichier()
     {
-        return peutTransporter;
+        if(peutTransporter)
+            return true;
+        
+        return false;
     }
     
     /**
@@ -129,7 +152,7 @@ public class Robot {
             throw new IllegalArgumentException("LINK ID NOT FOUND");
 
         if(a==800)
-        {   /* comme j'ai explique si on doit avancer et y a pas de pièce suivante elel va rien faire  */
+        {   /* comme j'ai explique si on doit avancer et y a pas de pièce suivante ells va rien faire  */
             if(!(getIndexPieceCourante()==lp.size()-1))
             {
                 indexPieceCourante++;
@@ -160,13 +183,19 @@ public class Robot {
      */
     public void MAKE()
     {
-        if(!peutTransporter)
+        if(!peutTransporterFichier())
         {
             throw new UnsupportedOperationException("CANNOT GRAB A SECOND FILE");
         }
-        F = new Fichier(400+compteurFichierCréé,new ArrayList<Object>());
+        F = new Fichier(400+compteurFichierCréé,new ArrayList<String>());
         compteurFichierCréé++; /* il faut l'augmenter comme ça l'id du prochain fichier  sera mis à jour  */
         peutTransporter=false;
+        /**
+         * c'est dans cette méthode qu'on remarque l'utilité de la variable booléenne , 
+         * que j'ai déclarée en effet c'est elle qui permet de savoir directement si 
+         * ce robot a déjà un fichier entre les mains et donc il ne peut pas transporter un autre fichier
+         * si c'est false , s'il peut cette variable sera à true 
+         */
 
 
     }
@@ -186,30 +215,53 @@ public class Robot {
      */
     public void GRAB ( int id ) 
     {
-        if(!peutTransporter)
+        if(!peutTransporterFichier())
             throw new UnsupportedOperationException("CANNOT GRAB A SECOND FILE ");
-        
-        ArrayList <Fichier> listFichierTemp= new ArrayList<Fichier> (lp.get(indexPieceCourante).getListFichiers());
 
+        
+        /**
+         * listFichierTemp contient la liste de fichier contenu dans la pièce courante ou se trouve le robot 
+         * j'ai utilisé celle là pour ne pas toucher à la liste de fichier elle meme 
+         * donc j'ai renvoyé une nouvelle instance qui contient cette liste de fichier , sans toucher la liste de fichier elle meme 
+         * 
+         */
+        ArrayList <Fichier> listFichierTemp= new ArrayList<Fichier> (lp.get(indexPieceCourante).getListFichiers());
+        
         /**
          * on vérifie d'abord si la pièce ne contient aucun fichier donc pas la peine de chercher si y a un fichier qui ce id 
          */
         if(listFichierTemp.isEmpty())
             throw new IllegalArgumentException("FILE ID NOT FOUND");
-
-        
+            
         for(int i=0;i<listFichierTemp.size();i++)
         {
-            if(listFichierTemp.get(i).getId()==id)
+            if(listFichierTemp.get(i).getId()==id)/* si les deux fichiers ont le meme id c'est qu'ils sont pareil */
             {
                 F= new Fichier(id,listFichierTemp.get(i).getElementsOfFile());
                 lp.get(indexPieceCourante).getListFichiers().remove(F);
-                /** à revoir je ne suis pas encore sûr que le faite de le prendre
-                 * TRÈS IMPORTANT À REVENIR APRÈS 
+                /**
+                 * vous allez vous demander pourquoi le faite de prendre le fichier entre les mains du robot
+                 * donc il est plus dans la pièce, en effet en suivant la logique de jeu 
+                 * on sait qu'une pièce peut contenir un fichier si et seulement si y a au moins deux cases vide
+                 * et on sait que GRAB c'et à dire le robot va prendre le fichier entre ses mains 
+                 * j'ai remarqué qu'on peut bien créer un fichier avec MAKE  / ou bien  déplacer le robot
+                 * portant un fichier   vers une pièce qui contient une unique case vide donc dans ce cas il n'est pas considéré
+                 * comme rajouté dans la liste des fichiers contenu dans la pièce 
+                 * donc je suis la logique de: GRAB un fichier donc on l'a enlevé de la pièce , 
+                 * car je vais suivre la convention : un fichier est considéré dans la pièce si et seulement 
+                 * sois on le crée avec un MAKE et on le DROP
+                 * sois on le déplace d'une autre pièce vers cette pièce et on met DROP
                  * 
-                 * donc je l'ai enlevé de la pièce  */
+                 *
+                 */
+
                 peutTransporter=false;
-                /* rajouter un break ???? à réfléchir  */
+                break; 
+                /**
+                 * une fois qu'on a trouvé le fichire c'est bon ce n'est plus la peine de continuer la boucle
+                 * car on l'a trouvé et on a fait ce qu'on avait à faire donc faire le break c'est pour
+                 * avoir de meilleure performance et gagner en temps dans le cas ou on rentre dans la structure conditionnelle if
+                 */
             }
         }
         /**
@@ -219,14 +271,10 @@ public class Robot {
          * donc si peutTransporter reste faux donc on a pas trouvé le fichier
          * donc on doit lancer l'exception IllegalArgumentException avec le message FILE ID NOT FOUND 
          */
-        if(peutTransporter) /* c'est à dire peutTransporter est trouver  */
+        if(peutTransporter) /* c'est à dire peutTransporter est toujours vrai  */
             throw new IllegalArgumentException("FILE ID NOT FOUND ");
 
-        /**
-         * à revoir après !!!!!!!!
-         */
-
-
+    
 
     }
 
@@ -239,12 +287,12 @@ public class Robot {
      * s'il est vrai donc il n'a rien , s'il est faux donc il a quelque chose 
      * j'ai remarqué aussi une chose très importante qui est si la pièce ne peut plus prendre un fichier
      * cette méthode ne fait rien 
-     * @requires !peutTransporter 
+     * @requires !peutTransporter Fichier()
      * @throws UnsupportedOperationException() si le robot ne transporte rien 
      */
     public void DROP ()
     {
-        if(peutTransporter)
+        if(peutTransporterFichier())
             throw new UnsupportedOperationException("NO FILE IS HELD ");
         
         Piece pTmPiece=lp.get(getIndexPieceCourante()); /* la pièce courante ou se trouve le robot  */
@@ -269,7 +317,101 @@ public class Robot {
 
     }
 
+    /* FIN DE MÉTHODE DROP */
+
+    /**
+     * Partie 2 : 26 JANVIER 2024
+     */
+    /**
+     * test si on est arrivé a la fin du fichier entre les mains du robot 
+     * @requires F!=null
+     * @return vrai si on est à la fin du fichier faux sinon 
+     */
+    public boolean testEndOfFile()
+    {
+        if(indexFichier+1>=F.getElementsOfFile().size())
+        return true;
+
+        return false;
     
+    } 
+    
+     /**
+      * Implémentation de la commande COPY
+      * 
+      * dans le jeu on a deux types de COPY on a une qui prend une valeur d'un registre , et le stocke dans le fichier 
+      * on a l'autre qui prend la valeur du fichier d'indice courant dans le fichier et le stocke dans le registre
+      * donc on aura deux COPY qui ont deux formes différentes mais qui se ressemblent vraiment 
+      *
+      * quelques propriété importante de COPY : 
+      * 1- si le robot n'a aucun fichier entre ses mains on ne peut rien faire on arrete le jeu en affichant le
+      * message qui indique qu'aucun fichier est entre les mains du robot NO FILE IS HELD 
+      *2- si l'indice du fichier arrive à la fin de fichier on s'arrete aussi car on ne peut rien faire 
+      *  on affiche CANNOT READ PAST END OF FILE 
+      *
+      *
+      */
+
+     
+
+      /**
+       * 
+       * 
+       * @param registre registre ou la valeur est stockée 
+       * @param file fichier ou on va mettre la valeur 
+       * @requires peutTransporterFichier()
+       * @throws UnsupportedOperationException() si le robot n'a rien entre ses mains 
+       * dans cette méthode on a pas de condition de testEndOfFile() car on peut toujours rajouter une valeur à un fichier
+       * si on arrive à la fin bah on la rajoute simplement à la fin parcontre dans la méthode suivante 
+       * si on arrive à la fin du fichier y aura une erreur 
+       * y a pas de condition aussi sur le String registre car dans le jeu
+       * on aura pas à faire à des registre qui seront null 
+       * comme vous avez remarqué dans le constructeur du robot les registres X ET T  sont 
+       * initialisé à "0" 
+       */
+
+      public void COPY (String registre, Fichier fic)
+     {
+        if(peutTransporterFichier()) /* si le robot n'a rien entre ses mains  */
+            throw new UnsupportedOperationException("NO FILE IS HELD ");
+        
+        
+        fic.getElementsOfFile().add(indexFichier, registre); /* on met la valeur dans l'indice courante du fichier  */
+
+        indexFichier++;
+     }
+     /**
+      * 
+      * @param fic fichier d'ou on va prendre la valeur 
+      * @param registre ou on va stocker la valeur 
+      * @requires peutTransporterFichier() && testEndOfFile()
+      * @throws UnsupportedOperationException() si le robot n'a rien entre ses mains ou bien si l'indice arrive à la fin du fichier 
+      */
+     public void COPY(Fichier fic , String registre  )
+     {
+        if(peutTransporterFichier()) /* si le robot n'a rien entre ses mains  */
+            throw new UnsupportedOperationException("NO FILE IS HELD ");
+
+        if(testEndOfFile())
+            throw new UnsupportedOperationException("CANNOT READ PAST END OF FILE ");
+
+        registre=fic.getElementsOfFile().get(indexFichier);
+        indexFichier++;
+        
+
+     }
+     /**
+      * avant de commencer à implémenter les méthodes qui manipulent les entiers contenus dans un fichier
+      * comme addition , multiplication , division ,soustraction..
+      * je dois définir des méthodes utiles qui permettent de savoir si l'élément d'un fichier est un entier ou pas
+      * car les méthodes d'addition,multiplication , division et soustraction ne peuvent pas marcher sur les String 
+      * d'ailleurs si ....( à compléter )
+      */
+
+
+
+
+
 
 
 

@@ -4,7 +4,7 @@
 *
 *@author BELHADJI Rafik
 *@since 20/01/2024
-*@version 22/01/2024
+*@version 26/01/2024
 */
 
 /**
@@ -20,17 +20,19 @@ public class Fichier
 {
     /* déclaration des attributs nécessaires pour la classe robot  */
     private int id; /* identifiant de fichier  */
-    private ArrayList <Object> list; /* car le fichier il a un contenu  */
+    private ArrayList <String> list; /* car le fichier il a un contenu dedans   */
 
     /**
      *  En effet j'ai remarqué dans le jeu que chaque fichier a un identifiant 
-     *  et que chaque fichier a un contenu dans le niveau 1 il contient des String
-     *  dans le niveau 2 il contient des entier 
-     * donc je déclare une ArrayList de type objet  et je l'initialise selon le niveau 
-     * c'est à dire dans le niveau  ça sera une arrayList de String
-     * dans le niveau  2 ça sera une arrayList d'entier 
-     * je parle précisément du fichier d'identifiant 200 qui contient des String au niveau 1
-     * et des entiers au niveau 2 
+     *  et que chaque fichier a un contenu qui peut etre sois un int sois un String
+     * j'ai choisi alors de déclarer une arraylist de String tel que je considère meme les entier
+     * comme des String mais bien sûr , je sais bien que parfois dans le jeu on doit savoir si l'élément du fichier est un entier ou pas 
+     * comme par exemple pour pouvoir faire une addition , donc en première vu , je considère tout comme String
+     * mais ensuite je vais rajouter les méthodes nécessaires dans la classe robot afin de pouvoir distinguer un string s'il représente un entier
+     * ou pas par exemple si le fichier contient "Move","this","file ","15","ok","super","2"
+     * je dois créer une méthode qui peut vérifier si l'élément représente un entier ou pas comme ça si on fait une addition
+     * comme dans le jeu on vérifiera si c'est possible ( si un entier ), par exemple dans le niveau 1 de jeu  si on essaye de faire
+     * une addition ça va bloquer car le fichier d'identifiant 200 ne contient pas des entiers 
      */
 
 
@@ -47,7 +49,7 @@ public class Fichier
      * la condition de identifiant >0 est facultatif mais en effet j'ai remarqué dans le jeu que 
      * les identifiants sont toujours positifs donc j'aimerai bien garder ça ici 
      */
-     public Fichier ( int id , Collection <? extends Object> c )
+     public Fichier ( int id , Collection <String> c )
      {
         if( id<0)
             throw new IllegalArgumentException();
@@ -57,7 +59,7 @@ public class Fichier
 
         this.id=id;
         
-        this.list=new ArrayList<Object >(c); 
+        this.list=new ArrayList<String >(c); 
         /** 
          * ici j'ai préféré créer une nouvelle instance de classe comme ça list ne sera pas dépendante de la collection c
          * en cas ou elle est modifiée 
@@ -70,7 +72,7 @@ public class Fichier
         return id;
      }
 
-    public Collection <? extends Object> getElementsOfFile()
+    public ArrayList <String> getElementsOfFile()
     {
         return list;
     }
@@ -85,7 +87,7 @@ public class Fichier
         if( f.id != id)
             return false;
         
-        ArrayList <Object> fList = new ArrayList<Object>(f.list);
+        ArrayList <String> fList = new ArrayList<String>(f.list);
 
         if(fList.size()!=list.size())
             return false;
