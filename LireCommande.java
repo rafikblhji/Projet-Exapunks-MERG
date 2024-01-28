@@ -15,7 +15,7 @@ public class LireCommande{
    String MARK,argMARK;
    String HALT;
    //Lecture fichier des commandes saisies par le joueur.
-   File doc = new File("./Solution1.txt");
+   File doc = new File("./SaisieCommande.txt");
     
     BufferedReader obj = new BufferedReader(new FileReader(doc));
 
