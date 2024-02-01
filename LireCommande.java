@@ -3,69 +3,77 @@ import java.io.*;
 //Déclaration de la classe qui permet la lecture du fichier des commandes.
 public class LireCommande{
   public static void main(String[] args) throws Exception {
-   String MAKE;
-   String LINK,argLINK;
-   String GRAB,agrGRAB;
-   String MULI,argMULI;
-   String ADDI,argADDI;
-   String SUBI,argSUBI;
-   String DROP;
-   String COPY,argCOPY;
-   String FJMP,argFJMP;
-   String MARK,argMARK;
-   String HALT;
    //Lecture fichier des commandes saisies par le joueur.
    File doc = new File("./SaisieCommande.txt");
-    
+   //Appel de la classe Buffereader qui permet de lire le fichier en entrée et le mettre dans le buffer.
     BufferedReader obj = new BufferedReader(new FileReader(doc));
 
     String strng;
     //Boucle while qui permet de parser le fichier à la recherche de la commande et de son argument.
     while ((strng = obj.readLine()) != null) 
     {
-
-                                      switch(strng) {
+    							
+                                     //J'utilise un switch pour distinguer les commandes et les arguments. 
+                                      switch(strng.substring(0, 4)) {
                                         case "LINK":
-                                                          System.out.println("\nCommande=LINK");
+                                        		    //Affichage de la commande.
+                                                          System.out.println("Commande=LINK");
+                                                          //Affichage de l'argument.
+                                                          System.out.println("Argument="+strng.substring(5, strng.length()));
                                                           break;
                                         case "GRAB":
-                                                          System.out.println("\nCommande=GRAB");
+                                        		    //Affichage de la commande.
+                                                          System.out.println("Commande=GRAB");
+                                                          //Affichage de l'argument.
+                                                          System.out.println("Argument="+strng.substring(5, strng.length()));
                                                           break;
                                         case "DROP":
-                                                          System.out.println("\nCommande=DROP");
+                                                          //Affichage de la commande.
+                                                          System.out.println("Commande=DROP");
                                                           break;
                                         case "COPY":
-                                                          System.out.println("\nCommande=COPY");
+                                        		    //Affichage de la commande.
+                                                          System.out.println("Commande=COPY");
+                                                          //Affichage de l'argument.
+                                                          System.out.println("Argument="+strng.substring(5, strng.length()));
                                                           break;
                                         case "MULI":
-                                                          System.out.println("\nCommande=MULI");
+                                        		   //Affichage de la commande.
+                                                          System.out.println("Commande=MULI");
+                                                          //Affichage de l'argument.
+                                                          System.out.println("Argument="+strng.substring(5, strng.length()));
                                                           break;
                                         case "ADDI":
-                                                          System.out.println("\nCommande=ADDI");
+                                                         //Affichage de la commande.
+                                                          System.out.println("Commande=ADDI");
+                                                          //Affichage de l'argument.
+                                                          System.out.println("Argument="+strng.substring(5, strng.length()));
                                                           break;
                                         case "SUBI":
-                                                          System.out.println("\nCommande=SUBI");
+                                        		    //Affichage de la commande.
+                                                          System.out.println("Commande=SUBI");
+                                                          //Affichage  de l'argument.
+                                                          System.out.println("Argument="+strng.substring(5, strng.length()));
                                                           break;
                                         case "MAKE":
-                                                          System.out.println("\nCommande=MAKE");
+                                                         //Affichage de la commande. 
+                                                          System.out.println("ommande=MAKE");
                                                           break;
                                         case "MARK":
-                                                          System.out.println("\nCommande=MARK");
+                                                          //Affichage de la commande.
+                                                          System.out.println("Commande=MARK");
                                                           break;
                                         case "HALT":
-                                                          System.out.println("\nCommande=HALT");
+                                                         //Affichage de la commande.
+                                                          System.out.println("Commande=HALT");
                                                           break;                   
                                         case "FJMP":
-                                                          System.out.println("\nCommande=FJMP");
-                                                          break;
-                                        default:
-                                                          System.out.println("Commande="+strng.substring(0, 4)+" "+"Argument="+strng.substring(5, strng.length()));
+                                          	           //Affichage de la commande.
+                                                          System.out.println("ommande=FJMP");
+                                                          //Affichage de l'argument.
+                                                          System.out.println("Argument="+strng.substring(5, strng.length()));
                                                           break;
                                     }                             
-  }
-  //Affichage de chaque commande et de son argument s'il est présent.
-  //En cas de non présence de commande et d'argument on envoi null.
-  System.out.println(strng);
+  };
 }
-
 }
