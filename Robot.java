@@ -5,7 +5,7 @@
 *
 *@author BELHADJI Rafik
 *@since 20/01/2024
-*@version 26/01/2024
+*@version 8/02/2024
 */
 
 /**
@@ -32,7 +32,9 @@ public class Robot {
      * */
     private ArrayList <Piece> lp;  /* liste de pièce  */
     private int indexPieceCourante; /* l'index de la pièce courante elle est initialisé à 0our le moment */
-    private String X,T; /** ce sont les registres X, T du robot  
+    private String X;
+    private String T;
+     /** ce sont les registres X, T , M du robot  
     * je les ai déclaré comme String car on peut manipuler dans un fichier sois un String , sois un entier 
     * donc on peut simplifier les choses en les déclarant comme String ensuite 
     * si on a besoin de savoir si ce sont des entiers , ou bien manipuler ces registres en tant qu'entier 
@@ -52,6 +54,8 @@ public class Robot {
     * le deuxième 401 , le 3ème 402.....etc
     *donc je créé cette variable qui est initialisé à 0 au début et à chaque fois qu'on crée un fichier
     * son identifiant est compteurFichierCréé+400 ensuite make va surement augmenter compteurFichierCréé de 1 
+    * donc le premier fichier aura 400 ( 400+0 ) comme identifiant le deuxième (400+1)... le n-ième 400+n
+    *
     */
     private int indexFichier; 
     /**
@@ -59,6 +63,8 @@ public class Robot {
      * dans le jeu on peut voir ça comme le registre F qui à chaque fois qu'on utilise
      * COPY,ADDI,MULI,SUBI avec le fichier... cet index pointe vers le suivant 
      */
+
+     static String M; /* c'est le registre M du robot mais qui est Global dans le jeu */
 
 
     /**  Note très importante : 
@@ -82,7 +88,8 @@ public class Robot {
      *  */    
     public Robot (String name , Collection <? extends Piece> c )
     {   
-
+        if(name==null)
+            throw new NullPointerException();
         nomR=name ;
         indexPieceCourante=0;
         indexFichier=0;
@@ -99,6 +106,11 @@ public class Robot {
          * ça aurait été fait automatiquement on a vu ça au Semestre 1 en POO
          * ce sont les valeurs par défaut
          */
+
+         /**
+          * on a remarqué dans le jeu que y a toujours un fichier au début du jeu qui a un identifiant 200
+          * que son contenu change selon le niveau 
+          */
         
     }
     /**
@@ -120,6 +132,11 @@ public class Robot {
     {
         return indexPieceCourante;
 
+    }
+
+    public List<Piece> getListPieceRobot()
+    {
+        return lp;
     }
 
     /**
@@ -145,11 +162,13 @@ public class Robot {
      * 
      * @param a l'entier que la fonction prend en paramètre  ( l'id de la pièce )
      * @requires a==800 || a==-1
-     * @throws IllegalArgumentException() si a n'est pas ègal à 800 et n'est pas égale à -1 
      */
     public void LINK(int a )
-    {   if(a!=800 && a!=-1)
-            throw new IllegalArgumentException("LINK ID NOT FOUND");
+    {   if(a!=800 && a!=-1){
+            System.out.println("LINK ID NOT FOUND");
+            System.exit(1);
+
+    }
 
         if(a==800)
         {   /* comme j'ai explique si on doit avancer et y a pas de pièce suivante ells va rien faire  */
@@ -179,13 +198,13 @@ public class Robot {
      * j'ai aussi remarqué que à chaque fois qu'on créé un fichier dans le jeu , il est vide à l'intérieur 
      *  donc on peut l'initialiser avec une arrayList vide et l'identifiant est toujours 400+compteurFichierCréé
      * @requires peutTransporterFichier 
-     * @throws UnsupportedOperationException() si le robot ne peut pas créer le fichier car il ne peut pas le transporter 
      */
     public void MAKE()
     {
         if(!peutTransporterFichier())
         {
-            throw new UnsupportedOperationException("CANNOT GRAB A SECOND FILE");
+            System.out.println("CANNOT GRAB A SECOND FILE");
+            System.exit(1);
         }
         F = new Fichier(400+compteurFichierCréé,new ArrayList<String>());
         compteurFichierCréé++; /* il faut l'augmenter comme ça l'id du prochain fichier  sera mis à jour  */
@@ -210,13 +229,12 @@ public class Robot {
      * et qu'on fait un GRAB le programme arrete et on affiche  CANNOT GRAB A SECOND FILE 
      * @param id identifiant de fichier qu'on doit attraprer
      * @requires peutTransporter==true
-     * @throws UnsupportedOperationException() si le robot ne peut pas transporter un fichier
-     * @throws IllegalArgumentException() si la pièce courante ne contient aucun fichier qui a comme identifiant l'id passé en paramètre 
      */
     public void GRAB ( int id ) 
     {
         if(!peutTransporterFichier())
-            throw new UnsupportedOperationException("CANNOT GRAB A SECOND FILE ");
+            System.out.println("CANNOT GRAB A SECOND FILE ");
+            System.exit(1);
 
         
         /**
@@ -231,7 +249,11 @@ public class Robot {
          * on vérifie d'abord si la pièce ne contient aucun fichier donc pas la peine de chercher si y a un fichier qui ce id 
          */
         if(listFichierTemp.isEmpty())
-            throw new IllegalArgumentException("FILE ID NOT FOUND");
+        {
+            System.out.println("FILE ID NOT FOUND");
+            System.exit(1);
+
+        }
             
         for(int i=0;i<listFichierTemp.size();i++)
         {
@@ -272,7 +294,11 @@ public class Robot {
          * donc on doit lancer l'exception IllegalArgumentException avec le message FILE ID NOT FOUND 
          */
         if(peutTransporter) /* c'est à dire peutTransporter est toujours vrai  */
-            throw new IllegalArgumentException("FILE ID NOT FOUND ");
+        {
+            System.out.println("FILE ID NOT FOUND ");
+            System.exit(1);
+
+        }
 
     
 
@@ -287,13 +313,15 @@ public class Robot {
      * s'il est vrai donc il n'a rien , s'il est faux donc il a quelque chose 
      * j'ai remarqué aussi une chose très importante qui est si la pièce ne peut plus prendre un fichier
      * cette méthode ne fait rien 
-     * @requires !peutTransporter Fichier()
-     * @throws UnsupportedOperationException() si le robot ne transporte rien 
+     * @requires !peutTransporterFichier()
      */
     public void DROP ()
     {
         if(peutTransporterFichier())
-            throw new UnsupportedOperationException("NO FILE IS HELD ");
+        {
+            System.out.println("NO FILE IS HELD ");
+            System.exit(1);
+        }
         
         Piece pTmPiece=lp.get(getIndexPieceCourante()); /* la pièce courante ou se trouve le robot  */
         boolean verite=pTmPiece.peutRajouterFicher(); /* verite est vrai si on peut rajouter un fichier dans la pièce faux sinon  */
@@ -360,7 +388,6 @@ public class Robot {
        * @param registre registre ou la valeur est stockée 
        * @param file fichier ou on va mettre la valeur 
        * @requires peutTransporterFichier()
-       * @throws UnsupportedOperationException() si le robot n'a rien entre ses mains 
        * dans cette méthode on a pas de condition de testEndOfFile() car on peut toujours rajouter une valeur à un fichier
        * si on arrive à la fin bah on la rajoute simplement à la fin parcontre dans la méthode suivante 
        * si on arrive à la fin du fichier y aura une erreur 
@@ -373,7 +400,10 @@ public class Robot {
       public void COPY (String registre, Fichier fic)
      {
         if(peutTransporterFichier()) /* si le robot n'a rien entre ses mains  */
-            throw new UnsupportedOperationException("NO FILE IS HELD ");
+        {
+            System.out.println("NO FILE IS HELD ");
+            System.exit(1);
+        }
         
         
         fic.getElementsOfFile().add(indexFichier, registre); /* on met la valeur dans l'indice courante du fichier  */
@@ -385,15 +415,20 @@ public class Robot {
       * @param fic fichier d'ou on va prendre la valeur 
       * @param registre ou on va stocker la valeur 
       * @requires peutTransporterFichier() && testEndOfFile()
-      * @throws UnsupportedOperationException() si le robot n'a rien entre ses mains ou bien si l'indice arrive à la fin du fichier 
       */
      public void COPY(Fichier fic , String registre  )
      {
         if(peutTransporterFichier()) /* si le robot n'a rien entre ses mains  */
-            throw new UnsupportedOperationException("NO FILE IS HELD ");
+        {
+            System.out.println("NO FILE IS HELD ");
+            System.exit(1);
+        }
 
         if(testEndOfFile())
-            throw new UnsupportedOperationException("CANNOT READ PAST END OF FILE ");
+        {
+            System.out.println("CANNOT READ PAST END OF FILE ");
+            System.exit(1);
+        }
 
         registre=fic.getElementsOfFile().get(indexFichier);
         indexFichier++;
@@ -403,14 +438,171 @@ public class Robot {
      /**
       * avant de commencer à implémenter les méthodes qui manipulent les entiers contenus dans un fichier
       * comme addition , multiplication , division ,soustraction..
-      * je dois définir des méthodes utiles qui permettent de savoir si l'élément d'un fichier est un entier ou pas
-      * car les méthodes d'addition,multiplication , division et soustraction ne peuvent pas marcher sur les String 
-      * d'ailleurs si ....( à compléter )
+      * je dois définir et utiliser  des méthodes utiles qui permettent de savoir si l'élément d'un fichier est un entier ou pas
+      * car les méthodes d'addition,multiplication , division et soustraction ne peuvent pas fonctionner sur les String 
+      *  je vais définir la méthode  isInteger(String s) prend un string en paramètre et vérifie s'il correspond à un entier
+      * si oui elle renvoie l'entier correspondant 
       */
      /**
       * 
       */
 
+    public boolean isInteger(String s )
+    {    
+        try {
+            Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+
+    }
+
+    /**
+     * 
+     * @param a c'est la première valeur à additionner
+     * @param u c'est le fichier d'ou on va prendre la deuxième valeur à additionner , il est important d'utiliser le fichier F déclaré
+     * comme attribut dans cette classe pour remplacer le u 
+     * @param b c'est la destination ou on va mettre le résultat d'addition 
+     * quelques caractéristique de ADDI remarquée dans le jeu 
+     * si y a aucun fichier entre les mains du robot on affiche NO FILE IS HELD et on arrete le jeu 
+     * si on arrive à la fin du fichier u on pourra pas prendre une valeur à partir de fichier on affiche CANNOT READ PAST END OF FILE et on arrete 
+     * il faut impérativement que String a peut etre transformée en entier comme "12" vers 12 et aussi le contenu de fichier doit etre 
+     * un  String qui peut etre transformée en int 
+     * @requires !peutTransporterFichier() &&  !testEndOfFile()
+     * 
+     */
+    public void ADDI(String a, Fichier u , String b )
+    {   boolean verite=false;
+        if(peutTransporterFichier())
+        {
+            System.out.println("NO FILE IS HELD ");
+            System.exit(1);
+        }
+        
+        if(testEndOfFile())
+        {
+            System.out.println("CANNOT READ PAST END OF FILE ");
+            System.exit(1);
+        
+        }
+        
+        if(isInteger(a) && isInteger(u.getElementsOfFile().get(indexFichier)))
+        {
+            int x=Integer.parseInt(a);
+            int y=Integer.parseInt(u.getElementsOfFile().get(indexFichier));
+            if(b.equals("M")) 
+            {
+                M=String.valueOf(x+y);
+            }
+            else if ( b.equals("X"))
+            {
+                X=String.valueOf(x+y);
+            }
+            else if ( b.equals("T"))
+            {
+                T=String.valueOf(x+y);
+            }
+            else { 
+                /**
+                 * on va supposer que b est sois X sois T sois M ( les registres des robots ), sinon la valeur d'addition des deux entiers
+                 * se mettra dans l'indice indexFichier+1
+                 * en effet dans le jeu , j'ai remarqué que la logique est de à chaque fois on met le résultat dans le registre
+                 * ensuite si on veut mettre la valeur dans le fichier on fait COPY registre F , mais j'ai bien remarqué qu'on peut
+                 * bien la mettre directement dans le fichier comme ADDI X F F c'est pour ça j'ai rajouté ce cas exceptionnel
+                 * 
+                 * */
+                u.getElementsOfFile().add(indexFichier+1,String.valueOf(x+y));
+                indexFichier+=2; /* dans ce cas on remarque on avance de 2  */
+                verite=true;
+                
+
+            }
+
+            if(!verite)
+                indexFichier++; /* pour distinguer le cas ou on met la valeur dans un registre et ou on met la valeur dans le fichier  */
+
+
+
+
+        }
+
+        System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+        System.exit(1); /* dans le cas ou c'est pas des entiers */
+    }
+
+
+        /**
+     * 
+     * @param a c'est la première valeur à multiplier
+     * @param u c'est le fichier d'ou on va prendre la deuxième valeur à multiplier , il est important d'utiliser le fichier F déclaré
+     * comme attribut dans cette classe pour remplacer le u 
+     * @param b c'est la destination ou on va mettre le résultat de multiplication 
+     * quelques caractéristique de ADDI remarquée dans le jeu 
+     * si y a aucun fichier entre les mains du robot on affiche NO FILE IS HELD et on arrete le jeu 
+     * si on arrive à la fin du fichier u on pourra pas prendre une valeur à partir de fichier on affiche CANNOT READ PAST END OF FILE et on arrete 
+     * il faut impérativement que String a peut etre transformée en entier comme "12" vers 12 et aussi le contenu de fichier doit etre 
+     * un  String qui peut etre transformée en int 
+     * @requires !peutTransporterFichier() &&  !testEndOfFile()
+     * 
+     */
+    public void MULI(String a, Fichier u , String b )
+    {   boolean verite=false;
+        if(peutTransporterFichier())
+        {
+            System.out.println("NO FILE IS HELD ");
+            System.exit(1);
+        }        
+        if(testEndOfFile())
+        {
+            System.out.println("CANNOT READ PAST END OF FILE ");
+            System.exit(1);
+        
+        }        
+        if(isInteger(a) && isInteger(u.getElementsOfFile().get(indexFichier)))
+        {
+            int x=Integer.parseInt(a);
+            int y=Integer.parseInt(u.getElementsOfFile().get(indexFichier));
+            if(b.equals("M")) 
+            {
+                M=String.valueOf(x*y);
+            }
+            else if ( b.equals("X"))
+            {
+                X=String.valueOf(x*y);
+            }
+            else if ( b.equals("T"))
+            {
+                T=String.valueOf(x*y);
+            }
+            else { 
+                /**
+                 * on va supposer que b est sois X sois T sois M ( les registres des robots ), sinon la valeur d'addition des deux entiers
+                 * se mettra dans l'indice indexFichier+1
+                 * en effet dans le jeu , j'ai remarqué que la logique est de à chaque fois on met le résultat dans le registre
+                 * ensuite si on veut mettre la valeur dans le fichier on fait COPY registre F , mais j'ai bien remarqué qu'on peut
+                 * bien la mettre directement dans le fichier comme ADDI X F F c'est pour ça j'ai rajouté ce cas exceptionnel
+                 * 
+                 * */
+                u.getElementsOfFile().add(indexFichier+1,String.valueOf(x*y));
+                indexFichier+=2; /* dans ce cas on remarque on avance de 2  */
+                verite=true;
+                
+
+            }
+            if(!verite)
+                indexFichier++; /* pour distinguer le cas ou on met la valeur dans un registre et ou on met la valeur dans le fichier  */
+
+
+
+
+        }
+        System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+        System.exit(1);
+
+    }
+
+        
 
 
 
@@ -421,4 +613,144 @@ public class Robot {
 
 
 
+           /**
+     * 
+     * @param a c'est la première valeur à multiplier
+     * @param u c'est le fichier d'ou on va prendre la deuxième valeur à multiplier , il est important d'utiliser le fichier F déclaré
+     * comme attribut dans cette classe pour remplacer le u 
+     * @param b c'est la destination ou on va mettre le résultat de multiplication 
+     * quelques caractéristique de ADDI remarquée dans le jeu 
+     * si y a aucun fichier entre les mains du robot on affiche NO FILE IS HELD et on arrete le jeu 
+     * si on arrive à la fin du fichier u on pourra pas prendre une valeur à partir de fichier on affiche CANNOT READ PAST END OF FILE et on arrete 
+     * il faut impérativement que String a peut etre transformée en entier comme "12" vers 12 et aussi le contenu de fichier doit etre 
+     * un  String qui peut etre transformée en int 
+     * @requires !peutTransporterFichier() &&  !testEndOfFile()
+     * 
+     */
+    public void SUBI(String a, Fichier u , String b )
+    {   boolean verite=false;
+        if(peutTransporterFichier())
+        {
+            System.out.println("NO FILE IS HELD");
+            System.exit(1);
+        }
+        if(testEndOfFile())
+        {
+            System.out.println("CANNOT READ PAST END OF FILE ");
+            System.exit(1);
+        }
+        if(isInteger(a) && isInteger(u.getElementsOfFile().get(indexFichier)))
+        {
+            int x=Integer.parseInt(a);
+            int y=Integer.parseInt(u.getElementsOfFile().get(indexFichier));
+            if(b.equals("M")) 
+            {
+                M=String.valueOf(x-y);
+            }
+            else if ( b.equals("X"))
+            {
+                X=String.valueOf(x-y);
+            }
+            else if ( b.equals("T"))
+            {
+                T=String.valueOf(x-y);
+            }
+            else { 
+                /**
+                 * on va supposer que b est sois X sois T sois M ( les registres des robots ), sinon la valeur d'addition des deux entiers
+                 * se mettra dans l'indice indexFichier+1
+                 * en effet dans le jeu , j'ai remarqué que la logique est de à chaque fois on met le résultat dans le registre
+                 * ensuite si on veut mettre la valeur dans le fichier on fait COPY registre F , mais j'ai bien remarqué qu'on peut
+                 * bien la mettre directement dans le fichier comme ADDI X F F c'est pour ça j'ai rajouté ce cas exceptionnel
+                 * 
+                 * */
+                u.getElementsOfFile().add(indexFichier+1,String.valueOf(x-y));
+                indexFichier+=2; /* dans ce cas on remarque on avance de 2  */
+                verite=true;
+                
+
+            }
+            if(!verite)
+                indexFichier++; /* pour distinguer le cas ou on met la valeur dans un registre et ou on met la valeur dans le fichier  */
+
+
+
+
+        }
+        System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+        System.exit(1);
+
+    }
+
+    /**
+     * dans le niveau 4 de Exapunks on aura à faire à des instruction de genre
+     * COPY 0 X or , cette instruction ne pourra pas marcher avec COPY que j'ai déjà défini 
+     * qui doit contenir au moins un paramètre fichier
+     * 
+     */
+    /**
+     * 
+     * @param a la valeur à copier 
+     * @param b l'emplacement qui doit etre un registre ou un fichier 
+     * 
+     */
+     public void COPY(String a, String b )
+     {
+        if(b.equals("M"))
+        {
+            M=a;
+        }
+        else if ( b.equals("X"))
+        {
+            X=a;
+        } 
+        else if (b.equals("T"))
+        {
+            T=a;
+        }
+        else
+        { /* ce cas est surement le cas ou on met dans le fichier comme COPY 0  F */
+            F.getElementsOfFile().add(indexFichier,a);
+
+        }
+
+
+
+
+
+     }
+
+     /**
+      * on a aussi une importante version ADDI qui est de la forme ADDI X 1 X par exemple pour augmenter la valeur de X de 1 
+      * si X a  un entier comme valeur  bien sûr
+      */
+
+      public void ADDI ( String a , int b , String destination )
+      {
+
+        if(!isInteger(a))
+            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+
+        int x = Integer.parseInt(a); 
+        if(destination.equals("X"))
+        {
+            X=x+b+""; /* afin de transformer le le nombre x+b en chaine de caractère  */
+        }
+        else if ( destination.equals("T"))
+        {
+            T=x+b+"";
+        }
+        else if ( destination.equals("M"))
+        {
+            M=x+b+"";
+        }
+        else
+        {
+            /* le cas ou c'est un fichier  */
+            F.getElementsOfFile().add(indexFichier,x+b+"");
+
+
+        }
+
+      }
 }

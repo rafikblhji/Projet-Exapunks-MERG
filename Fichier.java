@@ -4,7 +4,7 @@
 *
 *@author BELHADJI Rafik
 *@since 20/01/2024
-*@version 26/01/2024
+*@version 8/02/2024
 */
 
 /**
@@ -66,16 +66,33 @@ public class Fichier
          */
 
      }
+     /**
+     * deuxième Constructeur de la classe fichier qui initialise un fichier vide 
+     * @param id identifiant de fichier
+     * @requires id >0 
+     * @throws IllegalArgumentException si identifiant est inférieur à 0 , 
+     * la condition de identifiant >0 est facultatif mais en effet j'ai remarqué dans le jeu que 
+     * les identifiants sont toujours positifs donc j'aimerai bien garder ça ici 
+     */
+     public Fichier ( int id )
+     {
+        if ( id<0)
+            throw new IllegalArgumentException();
+        
+            this.id=id;
+        this.list = new ArrayList<String>();
+     }
 
      public int getId()
      {
         return id;
      }
 
-    public ArrayList <String> getElementsOfFile()
-    {
-        return list;
-    }
+     
+     public ArrayList <String> getElementsOfFile()
+     {
+         return list;
+     }
 
     public boolean equals (Object o )
     {
