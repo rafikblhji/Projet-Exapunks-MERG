@@ -125,6 +125,43 @@ public class Fichier
     /**
      * 
      */
+
+     public Fichier Clone()
+     {
+        Object o=null;
+        try 
+        {
+            o=super.clone();
+        }
+        catch(CloneNotSupportedException e)
+        {
+            throw new InternalError("CLONE ECHEC");
+        }
+        Fichier fichierNew=(Fichier) o;
+        fichierNew.list= new ArrayList<String>(list);
+        return fichierNew;
+
+
+     }
+
+     public int hashCode()
+     {
+
+        int code=id;
+        code=code*31+list.hashCode();
+        return code;
+
+
+     }
+
+     public String toString()
+     {
+        String s;
+        s="Fichier : { " +id + list.toString() + "}";
+        return s;
+
+
+     }
     
 
 

@@ -746,9 +746,32 @@ public class Robot {
         }
 
       }
-}
+
 
 public int getValueOfInstructionCounter()
 {
         return compteurInstruction;
+}
+
+public String getValueOfRegisterX()
+{
+    return X;
+
+}
+public String getValueOfRegisterT()
+{
+    return T;
+    
+}
+
+public String getValueOfRegisterM()
+{
+    return M;
+    
+}
+
+
+
+
+
 }
