@@ -7,10 +7,17 @@ public class LireCommande{
   public static void main(String[] args) throws Exception {
    //Lecture fichier des commandes saisies par le joueur.
    File doc = new File("./SaisieCommande.txt");
-   //Appel de la classe Buffereader qui permet de lire le fichier en entrée et le mettre dans le buffer.
+   //Appel de la classe BufferedReader qui permet de lire le fichier en entrée et le mettre dans le buffer.
     BufferedReader obj = new BufferedReader(new FileReader(doc));
-
+    String name="XA";
     String strng;
+    int longueur=5;
+    Piece a=new Piece(longueur);
+    Piece b=new Piece(longueur);
+    ArrayList<Piece> c=new ArrayList<Piece>();
+    c.add(a);
+    c.add(b);
+    Robot robot=new Robot(name,c);
     //obj.readLine() permet de lire une ligne du fichier.
     //Tant que la ligne n'est pas null le programme continue de lire le fichier.
     //Boucle while qui permet de parser le fichier à la recherche de la commande et de son argument.
@@ -33,24 +40,38 @@ public class LireCommande{
                                                         //On utilise parseInt qui permet de convertir une chaine de caractère de valeur numérique
                                                         // en entier.
                                                          int number = Integer.parseInt(arg_LINK);
-                                                         System.out.println(number);
+                                                         //System.out.println(number);
+                                                         robot.LINK(number);
                                                      }
                                                      //catch permet de capter le message d'erreur "warning" et l'erreur compte la chaine de caractère 
                                                      //n'est pas une valeur numérique. 
                                                      catch (NumberFormatException ex){
                                                          ex.printStackTrace();
                                                      }
-
                                                       break;
                                 case "GRAB":
                                                       //Affichage de la commande.
                                                       System.out.println("Commande=GRAB");
                                                       //Affichage de l'argument.
                                                       System.out.println("Instruction("+strng.substring(5, strng.length())+")");
+                                                      String arg_GRAB=strng.substring(5, strng.length());
+                                                      try{
+                                                        //On utilise parseInt qui permet de convertir une chaine de caractère de valeur numérique
+                                                        // en entier.
+                                                         int number = Integer.parseInt(arg_GRAB);
+                                                         //System.out.println(number);
+                                                         robot.GRAB(number);
+                                                     }
+                                                     //catch permet de capter le message d'erreur "warning" et l'erreur compte la chaine de caractère 
+                                                     //n'est pas une valeur numérique. 
+                                                     catch (NumberFormatException ex){
+                                                         ex.printStackTrace();
+                                                     }
                                                       break;
                                 case "DROP":
                                                       //Affichage de la commande.
                                                       System.out.println("Instruction(DROP)");
+                                                      robot.DROP();
                                                       break;
                                 case "COPY":
                                                       //Affichage de la commande.
@@ -62,22 +83,10 @@ public class LireCommande{
                                                       //Il faut mettre le deuxiéme argument dans une variable String.
 
                                                       String arg1_COPY=Str_COPY[0];
-
-                                                      try{
-                                                        //On utilise parseInt qui permet de convertir une chaine de caractère de valeur numérique
-                                                        // en entier.
-                                                         int number = Integer.parseInt(arg1_COPY);
-                                                         System.out.println(number);
-                                                     }
-                                                     //catch permet de capter le message d'erreur "warning" et l'erreur compte la chaine de caractère 
-                                                     //n'est pas une valeur numérique. 
-                                                     catch (NumberFormatException ex){
-                                                         ex.printStackTrace();
-                                                     }
-
-                                                     String arg2_COPY=Str_COPY[1];
-                                                     
-                                                      System.out.println("Instruction(COPY,"+Str_COPY[0]+","+Str_COPY[1]+")");                                                          
+                                                      String arg2_COPY=Str_COPY[1];
+                                                      //Fichier F=(Fichier) arg2_COPY;
+                                                      //robot.COPY(arg1_COPY,arg2_COPY);
+                                                      System.out.println("Instruction(COPY,"+Str_COPY[0]+","+Str_COPY[1]+")");                                                       
                                                       break;
                                 case "MULI":
                                                       //Affichage de la commande.
@@ -90,22 +99,13 @@ public class LireCommande{
 
                                                       //Il faut mettre le deuxiéme argument dans une variable String.
                                                       String arg2_MULI=Str_MULI[1];
-
-                                                      try{
-                                                        //On utilise parseInt qui permet de convertir une chaine de caractère de valeur numérique
-                                                        // en entier.
-                                                         int number = Integer.parseInt(arg2_MULI);
-                                                         System.out.println(number);
-                                                     }
-                                                     //catch permet de capter le message d'erreur "warning" et l'erreur compte la chaine de caractère 
-                                                     //n'est pas une valeur numérique. 
-                                                     catch (NumberFormatException ex){
-                                                         ex.printStackTrace();
-                                                     }
                                                       //Il faut mettre le troisiéme argument dans une variable String.
-                                                      String arg3_MULI=Str_MULI[2];    
+                                                      String arg3_MULI=Str_MULI[2];
                                                       
+                                      
+                                                     //robot.MULI(arg1_MULI,arg2_MULI,arg3_MULI);
                                                       System.out.println("Instruction(MULI,"+arg1_MULI+","+arg2_MULI+","+arg3_MULI+")");
+                                                      
                                                       break;
                                 case "ADDI":
                                                       //Affichage de la commande.
@@ -127,7 +127,7 @@ public class LireCommande{
                                                           //On utilise parseInt qui permet de convertir une chaine de caractère de valeur numérique
                                                          // en entier.
                                                           int number = Integer.parseInt(str1);
-                                                          System.out.println(number); 
+                                                          //System.out.println(number); 
                                                       }
                                                       //catch permet de capter le message d'erreur "warning" et l'erreur compte la chaine de caractère 
                                                       //n'est pas une valeur numérique.
@@ -139,6 +139,7 @@ public class LireCommande{
                                                       String str2 = Str_ADDI[2];
                     								
                                                       System.out.println("Instruction(ADDI,"+str+","+str1+","+str2+")");
+                                                      //robot.ADDI(str,number,str2);
                                                       break;
                                 case "TEST":
                                                       //Affichage de la commande.
@@ -155,14 +156,14 @@ public class LireCommande{
                                                         //On utilise parseInt qui permet de convertir une chaine de caractère de valeur numérique
                                                         // en entier.
                                                          int number = Integer.parseInt(arg3_TEST);
-                                                         System.out.println(number);
+                                                         //System.out.println(number);
                                                      }
                                                      //catch permet de capter le message d'erreur "warning" et l'erreur compte la chaine de caractère 
                                                      //n'est pas une valeur numérique. 
                                                      catch (NumberFormatException ex){
                                                          ex.printStackTrace();
                                                      }
-
+                                                     
                                                       break;
                                 case "SUBI":
                                                       //Affichage de la commande
@@ -181,7 +182,7 @@ public class LireCommande{
                                                       //On utilise parseInt qui permet de convertir une chaine de caractère de valeur numérique
                                                      // en entier.
                                                       int number = Integer.parseInt(arg2_SUBI);
-                                                      System.out.println(number); 
+                                                      //System.out.println(number); 
                                                   }
                                                   //catch permet de capter le message d'erreur "warning" et l'erreur compte la chaine de caractère 
                                                   //n'est pas une valeur numérique.
@@ -192,18 +193,22 @@ public class LireCommande{
                                                   String arg3_SUBI=Str_SUBI[2];
 
                                                       System.out.println("Instruction(SUBI,"+Str_SUBI[0]+","+Str_SUBI[1]+","+Str_SUBI[2]+")");
+                                                      //robot.SUBI(arg1_SUBI,number,arg3_SUBI);
                                                       break;
                                 case "MAKE":
                                                       //Affichage de la commande. 
                                                       System.out.println("Instructio(MAKE)");
+                                                      robot.MAKE();
                                                       break;
                                 case "MARK":
                                                       //Affichage de la commande.
                                                       System.out.println("Instruction(MARK)");
+                                                      robot.MARK();
                                                       break;
                                 case "HALT":
                                                       //Affichage de la commande.
                                                       System.out.println("Instruction(HALT)");
+                                                      robot.HALT();
                                                       break;                   
                                 case "FJMP":
                                                       //Affichage de la commande.
