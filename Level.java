@@ -60,7 +60,10 @@ public class Level {
 
         }
 
-        exapunks.getListPieceRobot().get(1).getListFichiers().add(fichInt);
+        exapunks.getListPieceRobot().get(1).getListFichiers().add(fichInt); 
+        /**  
+         * ici on peut surement ajouter le fichier dans la pièce
+         *car elle contient aucun fichier pour le moment  donc pas la peine de vérifier la condition if peutRajouterFichier  */
         /**
          * on rajoute le fichier identifiant 200 à deuxième pièce ( pièce du milieu dans le jeu )
          * ce qui est toujours fait dans le jeu automatiquement quelque soit le niveau

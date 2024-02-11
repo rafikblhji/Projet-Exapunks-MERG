@@ -24,7 +24,7 @@ public class Robot {
      * si il est à true on peut transporter fichier sinon on ne peut pas le transporter   
      * Je voudrais répondre à la remarque de Monsieur Breuvart à propos de cette variable : 
      * je suis d'accord avec vous sur le faite qu'un robot peut toujour transporter un fichier
-     * c'est juste dans le jeu , un fichier ne peut transporter un fichier seulement si il n'a rien entre les mains
+     * c'est juste dans le jeu , un robot ne peut transporter un fichier seulement si il n'a rien entre les mains
      * par contre si on fait par exemple GRAB 200 ensuite GRAB 400 ( 200 et 400 sont les identifiants de deux fichiers qui existent dans la pièce
      * courante du fichier ) , le GRAB 200 va marcher parcontre GRAB 400 non car en effet il faut d'abord faire un DROP
      * pour déposer le fichier d'identifiant 200 sinon on ne pourra pas porter le fichier d'identifiant 400
@@ -64,7 +64,11 @@ public class Robot {
      * COPY,ADDI,MULI,SUBI avec le fichier... cet index pointe vers le suivant 
      */
 
-     static String M; /* c'est le registre M du robot mais qui est Global dans le jeu */
+    private  static String M; /* c'est le registre M du robot mais qui est Global dans le jeu */
+
+    private int compteurInstruction;
+
+
 
 
     /**  Note très importante : 
@@ -99,6 +103,7 @@ public class Robot {
         X="0";
         T="0";
         compteurFichierCréé=0;
+        compteurInstruction=0;
         /**
          * X , T je les ai initialisé à null mais c'est facultatif car 
          * meme si je le fais pas , ça aurait été fait automatiquement car c'est la valeur par défaut 
@@ -601,18 +606,6 @@ public class Robot {
         System.exit(1);
 
     }
-
-        
-
-
-
-
-
-
-
-
-
-
            /**
      * 
      * @param a c'est la première valeur à multiplier
@@ -753,4 +746,9 @@ public class Robot {
         }
 
       }
+}
+
+public int getValueOfInstructionCounter()
+{
+        return compteurInstruction;
 }

@@ -42,6 +42,7 @@ public class Piece {
             throw new IllegalArgumentException();
 
         taillePiece=longueur*longueur;
+        listFichier=new ArrayList<Fichier>();
 
 
 
@@ -72,26 +73,9 @@ public class Piece {
     {
         return listFichier;
     }
+    
+    
 
-
-    /**
-     * 
-     */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+     
 
 }
