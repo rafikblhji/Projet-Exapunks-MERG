@@ -1,0 +1,5 @@
+1)Fichier 199 contient deux valeurs clé+un chiffre.
+2)Créer un nouveau fichier dans la boîte de sortie.
+3)Copier les deux valeurs dans le nouveaux fichier.
+4)Inverser les valeurs pour que que le chiffre soit en premier.
+5)Supprimer le fichier 199.
