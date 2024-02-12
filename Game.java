@@ -3,10 +3,11 @@
  * 
  *@since 01/02/2024
  *@version 11/02/2024
- *@author  BELHADJI Rafik 
+ *@author  BELHADJI Rafik  BOUGHRARA Mohamed
  *
- * Je voudrais remercier BOUGHRARA Mohammed qui nous a donné l'idée de mettre les instructions dans un fichier
+ * Je voudrais remercier BOUGHRARA Mohamed qui nous a donné l'idée de mettre les instructions dans un fichier
  * ensuite il faut les parser .. merci aussi à tout le groupe pour vos efforts !
+ * *merci aussu au tuteur et à Monsieur Breuvart
  *
  */
 import java.io.*;
@@ -17,14 +18,18 @@ public class Game {
 
     public static void main(String[] args )
     {   
-         ArrayList<Piece> listePieceDeJeu = new ArrayList<Piece>(3);
          int numNiveau=0;
          Level levelOfGame;
+
          /**
           * j'ai décide de mettre level=0 , juste parce que level est initialisé dans le bloc if 
           * le compilateur va m'afficher erreur car pour lui le bloc if peut ne pas s'écuter et donc level peut ne pas avoir 
           * une valeur ( initialisé ) donc je mets à 0 , mais dans tous les cas , on aura jamais le niveau 0 
+          * car en cas ou l'utilisateur ne fait pas rentrer un niveau , on va quitter surement avec une erreur
           */
+
+        int compteurInstruction=0; /* compteur d'instruction exécutées par robot */
+
          
 
          if (args.length > 0) {
@@ -59,7 +64,7 @@ public class Game {
           */
 
           String nomFichier = "ligne.txt"; /* Chemin vers le fichier à lire */ 
-          String argument="",commande=""; /* je les ai initialisé avec des chaines vides juste pour éviter des erreurs de compilateur */
+          String commande=""; /* je les ai initialisé avec des chaines vides juste pour éviter des erreurs de compilateur */
         
         try {
             BufferedReader lecteur = new BufferedReader(new FileReader(nomFichier));
@@ -75,11 +80,59 @@ public class Game {
                  commande = tokens[0];
                 
                 /*Récupérer l'argument s'il y en a un */
-                 argument = null;
-                if (tokens.length > 1) {
-                    argument = tokens[1];
-                }
                 
+                String[] arguments; /* je l'utiliserai quand y a des instructions à plusieurs arguments  */
+
+                switch(commande)
+                {
+                    case "LINK":
+                    /**
+                     * LINK doit avoir un argument entier , il sera surement stocké dans tokens[1]
+                     */
+                    /* j'ai déjà défini une fonction isInteger dans robot qui vérifie
+                    *si un string peut etre parsé en entier donc je l'utilise
+                    */
+                    if(!(levelOfGame.getRobot().isInteger(tokens[1]))) 
+                    {
+                        System.err.println("LINK doit avoir un entier en argument");
+                        System.exit(1);
+                    }
+                    /* si c'est un entier super! */
+
+                    levelOfGame.getRobot().LINK(Integer.parseInt(tokens[1]));
+                    compteurInstruction++;                    
+                     break;
+                    /**
+                     * le bloc suivant contient les instructions qui sont sans arguments 
+                     */
+                    case "HALT": 
+                        System.exit(0);
+                        break;
+                    
+                    case "DROP":
+                    levelOfGame.getRobot().DROP();
+                    break;
+
+                    case "MAKE":
+                    levelOfGame.getRobot().MAKE();
+                    break;
+
+                    case "TEOF":
+                    levelOfGame.getRobot().TEOF();
+                    break;
+
+
+
+                    /* fin du bloc d'instruction sans arguments  */
+
+                    
+
+
+
+
+                }
+
+             
                 
             }
             
@@ -91,17 +144,15 @@ public class Game {
             e.printStackTrace();
         }
     
-
+    
+        /**
         switch(commande)
         {
             case "LINK":  
             if(argument.equals(null))
                 System.out.println("LINK a besoin d'argument ");
 
-                /**
-                 * ici faire appel à link par le robot 
-                 */
-
+               
 
 
              break;
@@ -137,6 +188,9 @@ public class Game {
             break;
 
         }
+        */
+
+        levelOfGame.getRobot().MAKE();
     }
 }
 

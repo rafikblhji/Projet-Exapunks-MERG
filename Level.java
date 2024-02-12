@@ -21,12 +21,13 @@ public class Level {
         num=a;
         fichInt=new Fichier(200);
         ArrayList<Piece> listePiece = new ArrayList<Piece>();
-        int i=1;
         /* dans notre jeu on a 3 pièce ou le robot se déplace car on a que les niveau ou y a un seul robot  */
-        while(i<=3)
-        {
+       
         listePiece.add(new Piece(5));
-        }
+        listePiece.add(new Piece(5));
+        listePiece.add(new Piece(5));
+
+        
 
         exapunks= new Robot ( "xa",listePiece);
 
@@ -72,6 +73,12 @@ public class Level {
 
         
     }
+
+    public Robot getRobot()
+    {
+        return exapunks;
+    }
+
 
     
 

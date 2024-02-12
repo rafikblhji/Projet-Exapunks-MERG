@@ -66,8 +66,6 @@ public class Robot {
 
     private  static String M; /* c'est le registre M du robot mais qui est Global dans le jeu */
 
-    private int compteurInstruction;
-
 
 
 
@@ -103,7 +101,6 @@ public class Robot {
         X="0";
         T="0";
         compteurFichierCréé=0;
-        compteurInstruction=0;
         /**
          * X , T je les ai initialisé à null mais c'est facultatif car 
          * meme si je le fais pas , ça aurait été fait automatiquement car c'est la valeur par défaut 
@@ -238,8 +235,10 @@ public class Robot {
     public void GRAB ( int id ) 
     {
         if(!peutTransporterFichier())
+        {
             System.out.println("CANNOT GRAB A SECOND FILE ");
             System.exit(1);
+        }
 
         
         /**
@@ -259,8 +258,7 @@ public class Robot {
             System.exit(1);
 
         }
-            
-        for(int i=0;i<listFichierTemp.size();i++)
+        for(int i=0;i<listFichierTemp.size() && peutTransporter;i++)
         {
             if(listFichierTemp.get(i).getId()==id)/* si les deux fichiers ont le meme id c'est qu'ils sont pareil */
             {
@@ -283,7 +281,7 @@ public class Robot {
                  */
 
                 peutTransporter=false;
-                break; 
+                 
                 /**
                  * une fois qu'on a trouvé le fichire c'est bon ce n'est plus la peine de continuer la boucle
                  * car on l'a trouvé et on a fait ce qu'on avait à faire donc faire le break c'est pour
@@ -360,7 +358,7 @@ public class Robot {
      * @requires F!=null
      * @return vrai si on est à la fin du fichier faux sinon 
      */
-    public boolean testEndOfFile()
+    public boolean TEOF()
     {
         if(indexFichier+1>=F.getElementsOfFile().size())
         return true;
@@ -429,7 +427,7 @@ public class Robot {
             System.exit(1);
         }
 
-        if(testEndOfFile())
+        if(TEOF())
         {
             System.out.println("CANNOT READ PAST END OF FILE ");
             System.exit(1);
@@ -485,7 +483,7 @@ public class Robot {
             System.exit(1);
         }
         
-        if(testEndOfFile())
+        if(TEOF())
         {
             System.out.println("CANNOT READ PAST END OF FILE ");
             System.exit(1);
@@ -558,7 +556,7 @@ public class Robot {
             System.out.println("NO FILE IS HELD ");
             System.exit(1);
         }        
-        if(testEndOfFile())
+        if(TEOF())
         {
             System.out.println("CANNOT READ PAST END OF FILE ");
             System.exit(1);
@@ -627,7 +625,7 @@ public class Robot {
             System.out.println("NO FILE IS HELD");
             System.exit(1);
         }
-        if(testEndOfFile())
+        if(TEOF())
         {
             System.out.println("CANNOT READ PAST END OF FILE ");
             System.exit(1);
@@ -748,10 +746,7 @@ public class Robot {
       }
 
 
-public int getValueOfInstructionCounter()
-{
-        return compteurInstruction;
-}
+
 
 public String getValueOfRegisterX()
 {
@@ -771,7 +766,46 @@ public String getValueOfRegisterM()
 }
 
 
+public  boolean TEST(String str, String operator, int num) {
+    if (!isInteger(str)) {
+        System.out.println("La chaîne '" + str + "' n'est pas un entier valide.");
+         System.exit(1);
+    }
+    
+    int value = Integer.parseInt(str);
+
+    switch (operator) {
+        case "<=":
+            return (value <= num) ;
+        case ">=":
+        return (value >= num) ;
+        case "=":
+        return (value == num) ;
+
+        default:
+         {
+            System.out.println("Opérateur non pris en charge ");
+            return false;
+         }
+         
+    }
+}
+
+
+public void FJMP( int nombrePas)
+{
+    /* je vais supposer que si le nombrePas en arrière  > au nombre d'instruction tapé 
+     * donc on va juste revenir au tout début , si nombrePas est -4 et on a tapé 3 instructions on reviens à la première
+     * meme chose pour le nombre Pas en avant si y a plus d'instruction en avant on reste ou on est , ou bien s'il reste 
+     * deux instrucitons et que le nombrePas est +3 on va juste avancer à la dernière et on ignore le faite qu'il faut avancer de +3
+     * on avance juste de +2 ( exemple )
+     */
+}
 
 
 
 }
+
+
+
+
