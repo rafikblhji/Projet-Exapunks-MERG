@@ -69,6 +69,8 @@ public class Robot {
 
 
 
+
+
     /**  Note très importante : 
      *  j'ai remarqué dans le jeu , que à chaque fois qu'on crée un robot , ( un exa )
      * il est toujours positionné dans la pièce d'index 0 ( la première pièce )
@@ -791,20 +793,14 @@ public  boolean TEST(String str, String operator, int num) {
     }
 }
 
-
-public void FJMP( int nombrePas)
+public Fichier getFileRobot()
 {
-    /* je vais supposer que si le nombrePas en arrière  > au nombre d'instruction tapé 
-     * donc on va juste revenir au tout début , si nombrePas est -4 et on a tapé 3 instructions on reviens à la première
-     * meme chose pour le nombre Pas en avant si y a plus d'instruction en avant on reste ou on est , ou bien s'il reste 
-     * deux instrucitons et que le nombrePas est +3 on va juste avancer à la dernière et on ignore le faite qu'il faut avancer de +3
-     * on avance juste de +2 ( exemple )
-     */
+    return F;
 }
 
 
-
 }
+
 
 
 

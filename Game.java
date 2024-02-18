@@ -2,12 +2,12 @@
  * classe d'exécution du jeu 
  * 
  *@since 01/02/2024
- *@version 11/02/2024
- *@author  BELHADJI Rafik  BOUGHRARA Mohamed
+ *@version 18/02/2024
+ *@author  BELHADJI Rafik  
  *
  * Je voudrais remercier BOUGHRARA Mohamed qui nous a donné l'idée de mettre les instructions dans un fichier
  * ensuite il faut les parser .. merci aussi à tout le groupe pour vos efforts !
- * *merci aussu au tuteur et à Monsieur Breuvart
+ * *merci aussi au tuteur et à Monsieur Breuvart
  *
  */
 import java.io.*;
@@ -15,21 +15,19 @@ import java.util.*;
 
 public class Game {
   
-
+    
     public static void main(String[] args )
     {   
          int numNiveau=0;
          Level levelOfGame;
+         int registreCountInstruction=0;
 
          /**
           * j'ai décide de mettre level=0 , juste parce que level est initialisé dans le bloc if 
-          * le compilateur va m'afficher erreur car pour lui le bloc if peut ne pas s'écuter et donc level peut ne pas avoir 
+          * le compilateur va m'afficher erreur car pour lui le bloc if peut ne pas s'exécuter et donc level peut ne pas avoir 
           * une valeur ( initialisé ) donc je mets à 0 , mais dans tous les cas , on aura jamais le niveau 0 
           * car en cas ou l'utilisateur ne fait pas rentrer un niveau , on va quitter surement avec une erreur
           */
-
-        int compteurInstruction=0; /* compteur d'instruction exécutées par robot */
-
          
 
          if (args.length > 0) {
@@ -54,22 +52,34 @@ public class Game {
 
         }
 
+
+
+
         levelOfGame= new Level(numNiveau);
         /**
-         * c'est là qu'on a initialisé robot ,les pièces.... c'est là que ça devient marrant 
+         * c'est là qu'on a initialisé robot ,les pièces.... c'est là que ça devient intéressant 
          */
 
          /**
           * maintenant on lit les instructions 
           */
 
-          String nomFichier = "ligne.txt"; /* Chemin vers le fichier à lire */ 
+          String nomFichier = "ligne.txt"; 
+          /**
+           * 
+           * Chemin vers le fichier à lire 
+           * le chargé de l'interface graphique et le chargé de sortie et entrée textuelle doivent me 
+           * communiquer au plus vite le répertoire ou se trouve le fichier
+           * 
+           * */ 
           String commande=""; /* je les ai initialisé avec des chaines vides juste pour éviter des erreurs de compilateur */
         
         try {
             BufferedReader lecteur = new BufferedReader(new FileReader(nomFichier));
             String ligne;
+           
             
+         
             /* Lecture ligne par ligne */ 
                 
             while ((ligne = lecteur.readLine()) != null) {
@@ -100,7 +110,8 @@ public class Game {
                     /* si c'est un entier super! */
 
                     levelOfGame.getRobot().LINK(Integer.parseInt(tokens[1]));
-                    compteurInstruction++;                    
+                    registreCountInstruction++;
+                                       
                      break;
                     /**
                      * le bloc suivant contient les instructions qui sont sans arguments 
@@ -145,53 +156,14 @@ public class Game {
         }
     
     
-        /**
-        switch(commande)
-        {
-            case "LINK":  
-            if(argument.equals(null))
-                System.out.println("LINK a besoin d'argument ");
 
-               
-
-
-             break;
-
-             case "GRAB":
-                if(argument.equals(null))
-                    System.out.println("GRAB a besoin d'argument ");
-                    
-            break;
-
-             case "MAKE":
-                if(!argument.equals(null))
-                    System.out.println("MAKE n'a pas besoin d'argument");
-
-
-                    
-            break;
-            
-            case "DROP":
-                if(!argument.equals(null))
-                   System.out.println("DROP n'a pas besoin d'argument");
-
-
-
-            break;
-            
-            case "HALT":
-                if(!argument.equals(null))
-                System.out.println("HALT n'a pas besoin d'argument");
-
-
-
-            break;
-
-        }
-        */
-
-        levelOfGame.getRobot().MAKE();
     }
+
+
+
+
+    /* méthode très importante  */
+
 }
 
 
