@@ -1,5 +1,9 @@
 /**
- * 
+ * Cette classe est utile quand je vais découper le fichier qui contient les instructions
+ * elle sert à stocker le nom de l'instruction et ses arguments 
+ * @since 18/02/2024
+ * @version 19/02/2024
+ * @author Belhadji Rafik
  * 
  */
 

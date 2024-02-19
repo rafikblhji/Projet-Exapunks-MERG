@@ -1,7 +1,7 @@
 /**
  * classe d'exécution du jeu
  * @since 18/02/2024
- * @version 18/02/2024
+ * @version 19/02/2024
  * @author BELHADJI Rafik
  */
 import java.io.*;
@@ -70,11 +70,9 @@ import java.util.*;
            * 
            * Chemin vers le fichier à lire 
            * le chargé de l'interface graphique et le chargé de sortie et entrée textuelle doivent me 
-           * communiquer au plus vite le répertoire ou se trouve le fichier
+           * communiquer au plus vite le répertoire ou se trouve le fichier contenant la commande
            * 
-           * */ 
-          String commande=""; /* je les ai initialisé avec des chaines vides juste pour éviter des erreurs de compilateur */
-        
+           * */         
         try {
             BufferedReader lecteur = new BufferedReader(new FileReader(nomFichier));
             String ligne;
@@ -109,73 +107,150 @@ import java.util.*;
 
     Instruction tmp;
 
-    while(registreCountInstruction<instructions.size())
-    {
-        tmp=instructions.get(registreCountInstruction);
+    while(registreCountInstruction<instructions.size()){
+                /* on execute les instructions avec une boucle while tant que y a toujours une instruction à exxécuter on execute*/
 
-        /* implémentation de JMP et FJMP  */
-        if(tmp.getNom().equals("JMP"))
-        {
-            String[] arg= tmp.getArguments();
-            if(!(levelOfGame.getRobot().isInteger(arg[0])))
-            {
-                System.err.println("JMP a besoin d'un entier comme argument ");
-                System.exit(1);
-            }
-            int pas= Integer.parseInt(arg[0]);
+                    tmp=instructions.get(registreCountInstruction); /* récupérer l'instruction à exécuter tel que GRAB 200  */
 
-        if(pas <0){
-        if((-1 * registreCountInstruction) > pas ) /* si on est a l'instruction 1 par exemple et on a JMP -2 je reviens par convention juste au début */
-        {
-            registreCountInstruction=0;
-        }
+                    /* implémentation de JMP et FJMP  */
+                    if(tmp.getNom().equals("JMP"))
+                {
+                        String[] arg= tmp.getArguments(); /* récupéreation des arguments de l'instruction  */
+                        if(!(levelOfGame.getRobot().isInteger(arg[0]))) /* tester si l'argument est bien un entier en utilisant la méthode définit dans la classe Robot */
+                        {
+                            System.err.println("JMP a besoin d'un entier comme argument ");
+                            System.exit(1);
+                        }
+                        int pas= Integer.parseInt(arg[0]); /* transformer la chaine en entier tel que "10" en entier 10 par exemple  */
 
-        registreCountInstruction+=pas; /* sinon on enlève la quantité et c'est tout */
-        /**
-         * par exemple si on a le pas est -2 et on est à l'instruction 1 on revient au début et c'est tout 
-         * si on est  à l'instruction 5 et on a le pas est -2 on revient à l'instruction 3
-         */
+                    if(pas <0){
+                    if((-1 * registreCountInstruction) > pas ) /* si on est a l'instruction 1 par exemple et on a JMP -2 je reviens par convention juste au début */
+                    {
+                        registreCountInstruction=0;
+                    }
 
-
-        }
-
-        /*
-         * le cas ou pas est >0 
-         */
-
-         if(registreCountInstruction+pas<=(instructions.size()-1)) /* c'est dans ce cas qu'on peut avancer  */
-         {
-            registreCountInstruction+=pas; /* on peut rajouter tant que ça dépasse pas  */
-         }
-         else
-         {
-            registreCountInstruction=instructions.size()-1; /* sinon on saute à la dernière instruction dans le cas ou ça dépasse */
-         }
+                    registreCountInstruction+=pas; /* sinon on enlève la quantité et c'est tout */
+                    /**
+                     * par exemple si on a le pas est -2 et on est à l'instruction 1 on revient au début et c'est tout 
+                     * si on est  à l'instruction 5 et on a le pas est -2 on revient à l'instruction 3
+                     */
 
 
+                    }
 
+                    /*
+                    * le cas ou pas est >0 
+                    */
 
-
-        /* fin de JMP */
-        }
-
+                    if(registreCountInstruction+pas<=(instructions.size()-1)) /* c'est dans ce cas qu'on peut avancer  */
+                    {
+                        registreCountInstruction+=pas; /* on peut rajouter tant que ça dépasse pas  par exemple on a 5 instruction on est à la 3em on rajoute 2 on sera à la  5em */
+                    }
+                    else
+                    {
+                        registreCountInstruction=instructions.size()-1;
+                        /**
+                         *  sinon on saute à la dernière instruction dans le cas ou ça dépasse 
+                         * par exemple on a 5 instruction et on a un JMP 5 et on est à la 3em instruction on va juste sauter à la 5em vu qu'il y a que 5
+                         * */
+                    }
+                }
 
 
 
 
-    }
+
+                    /* fin de JMP */
+                    
+                    else if ( tmp.getNom().equals("TEST")) 
+                    {   /**
+                        * dans le cas ou le nom de l'instruction est TEST donc l'instruction est de la forme
+                        * par exemple TEST X = 10 
+                        * ce qui est aussi sûr c'est que la prochaine instruction est FJMP nombrePas
+                        * on va revenir en arrière de nombrePas tant que le TEST est faux 
+                        */
+                        String[] tabArguments= tmp.getArguments(); /* récupéreation des arguments de l'instruction  */
+                        boolean testTemporaire=levelOfGame.getRobot().TEST(tabArguments[0],tabArguments[1],Integer.parseInt(tabArguments[2]));
+                        /* ici attention le 3em argument de test doit etre un entier vous le donnez sous forme
+                        * de chaine de caractère bien sûr mais il doit etre possible de le convertir en entier 
+                        */
+
+                        if(testTemporaire) /* si le test est vrai on saute l'instruction d'après qui est FJMP car elle sert à rien dans ce cas  */
+                        {
+                            registreCountInstruction+=2;
+                        }
+                        else
+                        { /* dans le cas ou le test de TEST est faux on doit appliquer le FJMP  */
+
+                        
+                        /*
+                        * on a maintenant besoin de récupérer l'argument de FJMP qui est la prochaine instruction
+                        */
+                        Instruction prochaineInstruction=instructions.get(++registreCountInstruction);
+                        String[] tabArgFJMP=prochaineInstruction.getArguments();
+                        /**
+                         * elle sera de la forme FJMP -4 .. 
+                         */
+                        int nombrePas=Integer.parseInt(tabArgFJMP[0]); 
+                        if(nombrePas<=0)
+                        {
+                            System.err.println("FJMP doit avoir un entier négatif comme argument");
+                            System.exit(1);
+                        }
+                        /* là on récupère le nombre de pas 
+                        * ce nombre on s'est mis d'accord pour qu'il sois toujours négative 
+                        * car on va revenir vers l'arrière et non avancer 
+                        * 
+                        */
+
+                        while(testTemporaire && (registreCountInstruction < instructions.size()))
+                        {
+                            if(-1 * registreCountInstruction >nombrePas)
+                            {
+                                registreCountInstruction=0;
+                            }
+                            else
+                            {
+                                registreCountInstruction=registreCountInstruction+nombrePas;
+                            }
+
+                            programme.lireInstruction(tmp,levelOfGame);
+                            registreCountInstruction++;
+
+
+                        }
+
+                        
+
+
+                        
+
+
+
+
+                    } 
+                } /* fin de else if  */
+                    else
+                    {
+                            /*
+                             * comme expliqué avant , en effet j'ai implémenté JMP FJMP et test à part , maintenant on va traiter le cas si l'instruction est une autre à part ces 3 
+                             */
+                        programme.lireInstruction(tmp, levelOfGame);
+                        registreCountInstruction++; /* il faut incrémenter après chaque registreCountInstruction */
+                
+                    }/* fin de if  */
+ 
+
+
+
+            }/* fin de la boucle while   */
 
     
+    } /* fin de main  */
 
 
 
-
-
-
-
-
-
-}
+/* méthode utile  */
 
 public void lireInstruction(Instruction executMe, Level levelOfGame) 
 {   
@@ -242,6 +317,7 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
                     case "ADDI": 
 
                     levelOfGame.getRobot().ADDI(tabArguments[0],Integer.parseInt(tabArguments[1]),tabArguments[2]);
+                    /* par exemple l'appel ici est de la forme ADDI T 1 X  */
 
                     break;
 
@@ -278,20 +354,13 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
 
                     break;
 
+                    /* à continuer les instructions qui restent  */
 
-                  
-
-
-                    
-
-
-
-
-
-
-
-
-
+                    default : 
+                    /* le cas ou on fait appel à une instruction bizarre  */
+                    System.err.println("Nom d'instruction inconnu ");
+                    System.exit(1);
+                   
 
 
 
@@ -300,10 +369,9 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
 
 
 }
+    }
 
 
-
- }
 
 
 
