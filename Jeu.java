@@ -259,6 +259,7 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
     /*
      * les deux instructions JMP et FJMP sont un peu spéciales ils servent à déplacer
      * le curseur qui pointe vers l'instruction suivante 
+     *
      */
     switch(executMe.getNom())
     {
@@ -355,6 +356,24 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
                     break;
 
                     /* à continuer les instructions qui restent  */
+
+                    case "GRAB":
+                    /**
+                     * GRAB doit avoir un argument entier , il sera surement stocké dans tabArguments[0]
+                     */
+                    /* j'ai déjà défini une fonction isInteger dans robot qui vérifie
+                    *si un string peut etre parsé en entier donc je l'utilise
+                    */
+                    if(!(levelOfGame.getRobot().isInteger(tabArguments[0])))
+                    {
+                        System.err.println("GRAB doit avoir un entier en argument");
+                        System.exit(1);
+                    }
+                    /* si c'est un entier super! */
+
+                    levelOfGame.getRobot().GRAB(Integer.parseInt(tabArguments[0]));                                       
+                     break;
+
 
                     default : 
                     /* le cas ou on fait appel à une instruction bizarre  */

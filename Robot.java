@@ -491,10 +491,27 @@ public class Robot {
             System.exit(1);
         
         }
-        
-        if(isInteger(a) && isInteger(u.getElementsOfFile().get(indexFichier)))
+
+        String verif="";
+        switch(a)
         {
-            int x=Integer.parseInt(a);
+            case "X": 
+                verif=X;
+                break;
+            case "T":
+                verif=T;
+                break;
+            case "M":
+                verif=M;
+                break;
+            default:    
+                verif=a;
+
+        }
+        
+        if(isInteger(verif) && isInteger(u.getElementsOfFile().get(indexFichier)))
+        {
+            int x=Integer.parseInt(verif);
             int y=Integer.parseInt(u.getElementsOfFile().get(indexFichier));
             if(b.equals("M")) 
             {
@@ -563,8 +580,24 @@ public class Robot {
             System.out.println("CANNOT READ PAST END OF FILE ");
             System.exit(1);
         
-        }        
-        if(isInteger(a) && isInteger(u.getElementsOfFile().get(indexFichier)))
+        }  
+        String verif="";
+        switch(a)
+        {
+            case "X": 
+                verif=X;
+                break;
+            case "T":
+                verif=T;
+                break;
+            case "M":
+                verif=M;
+                break;
+            default:    
+                verif=a;
+
+        }      
+        if(isInteger(verif) && isInteger(u.getElementsOfFile().get(indexFichier)))
         {
             int x=Integer.parseInt(a);
             int y=Integer.parseInt(u.getElementsOfFile().get(indexFichier));
@@ -632,9 +665,25 @@ public class Robot {
             System.out.println("CANNOT READ PAST END OF FILE ");
             System.exit(1);
         }
-        if(isInteger(a) && isInteger(u.getElementsOfFile().get(indexFichier)))
+        String verif="";
+        switch(a)
         {
-            int x=Integer.parseInt(a);
+            case "X": 
+                verif=X;
+                break;
+            case "T":
+                verif=T;
+                break;
+            case "M":
+                verif=M;
+                break;
+            default:    
+                verif=a;
+
+        }
+        if(isInteger(verif) && isInteger(u.getElementsOfFile().get(indexFichier)))
+        {
+            int x=Integer.parseInt(verif);
             int y=Integer.parseInt(u.getElementsOfFile().get(indexFichier));
             if(b.equals("M")) 
             {
@@ -720,11 +769,26 @@ public class Robot {
 
       public void ADDI ( String a , int b , String destination )
       {
+        String verif="";
+        switch(a)
+        {
+            case "X": 
+                verif=X;
+                break;
+            case "T":
+                verif=T;
+                break;
+            case "M":
+                verif=M;
+                break;
+            default:    
+                verif=a;
 
-        if(!isInteger(a))
+        }
+        if(!isInteger(verif))
             throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
 
-        int x = Integer.parseInt(a); 
+        int x = Integer.parseInt(verif); 
         if(destination.equals("X"))
         {
             X=x+b+""; /* afin de transformer le le nombre x+b en chaine de caractère  */
@@ -769,12 +833,28 @@ public String getValueOfRegisterM()
 
 
 public  boolean TEST(String str, String operator, int num) {
-    if (!isInteger(str)) {
+    String verif="";
+        switch(str)
+        {
+            case "X": 
+                verif=X;
+                break;
+            case "T":
+                verif=T;
+                break;
+            case "M":
+                verif=M;
+                break;
+            default:    
+                    verif=str;
+
+        }
+    if (!isInteger(verif)) {
         System.out.println("La chaîne '" + str + "' n'est pas un entier valide.");
          System.exit(1);
     }
     
-    int value = Integer.parseInt(str);
+    int value = Integer.parseInt(verif);
 
     switch (operator) {
         case "<=":
