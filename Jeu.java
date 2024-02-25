@@ -16,6 +16,7 @@ import java.util.*;
         int numNiveau=0;
          Level levelOfGame;
          int registreCountInstruction=0;
+         boolean testJMP=false; /* cette variable permet l'execution de JMP une fois dans le programme  */
          List<Instruction> instructions = new ArrayList<>();
 
 
@@ -114,7 +115,18 @@ import java.util.*;
 
                     /* implémentation de JMP et FJMP  */
                     if(tmp.getNom().equals("JMP"))
-                {
+
+                {       /*
+                         * dans ma version de JMP je veux qu'elle soit exécuter une fois c'est tout pas plus c'est pour cela je vais utiliser une variable booléenne afin d'éviter que
+                         * le programme tourne infiniment et avoir des problèmes 
+                         * on applique notre JMP une fois , et puis c'est bon si on en arrive une autre fois on la saute pour continuer notre programme 
+                        */
+                     if(testJMP) /* si cette variable est à vrai donc on a déjà  exécuté JMP  donc cette fois faut la sauter */
+                        {
+
+                            registreCountInstruction++;
+                            continue; 
+                        }
                         String[] arg= tmp.getArguments(); /* récupéreation des arguments de l'instruction  */
                         if(!(levelOfGame.getRobot().isInteger(arg[0]))) /* tester si l'argument est bien un entier en utilisant la méthode définit dans la classe Robot */
                         {
@@ -154,6 +166,9 @@ import java.util.*;
                          * par exemple on a 5 instruction et on a un JMP 5 et on est à la 3em instruction on va juste sauter à la 5em vu qu'il y a que 5
                          * */
                     }
+
+                    testJMP=true;
+
                 }
 
 
