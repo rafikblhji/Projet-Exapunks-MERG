@@ -5,7 +5,7 @@
 *
 *@author BELHADJI Rafik
 *@since 20/01/2024
-*@version 8/02/2024
+*@version 25/02/2024
 */
 
 /**
@@ -410,8 +410,17 @@ public class Robot {
             System.exit(1);
         }
         
-        
-        fic.getElementsOfFile().add(indexFichier, registre); /* on met la valeur dans l'indice courante du fichier  */
+        String valeur;
+        if(registre.equals("X"))
+        valeur=X;
+        else if(registre.equals("T"))
+        valeur=T;
+        else if(registre.equals("M"))
+        valeur=M;
+        else
+        valeur=registre;
+
+        fic.getElementsOfFile().add(indexFichier, valeur); /* on met la valeur dans l'indice courante du fichier  */
 
         indexFichier++;
      }
@@ -434,8 +443,21 @@ public class Robot {
             System.out.println("CANNOT READ PAST END OF FILE ");
             System.exit(1);
         }
+        switch(registre)   
+        {
+            case "X":          
+               X=fic.getElementsOfFile().get(indexFichier);
+               break;
+            case "T":         T=fic.getElementsOfFile().get(indexFichier);
 
-        registre=fic.getElementsOfFile().get(indexFichier);
+            break;
+            case "M":         M=fic.getElementsOfFile().get(indexFichier);
+
+            break;
+            default: System.err.println("COPY F registre : le registre que vous avez donné n'est pas valable ");
+            System.exit(1);
+
+        }     
         indexFichier++;
         
 
@@ -534,7 +556,7 @@ public class Robot {
                  * bien la mettre directement dans le fichier comme ADDI X F F c'est pour ça j'ai rajouté ce cas exceptionnel
                  * 
                  * */
-                u.getElementsOfFile().add(indexFichier+1,String.valueOf(x+y));
+                F.getElementsOfFile().add(indexFichier+1,String.valueOf(x+y));
                 indexFichier+=2; /* dans ce cas on remarque on avance de 2  */
                 verite=true;
                 
@@ -581,7 +603,7 @@ public class Robot {
             System.exit(1);
         
         }  
-        String verif="";
+        String verif;
         switch(a)
         {
             case "X": 
@@ -622,7 +644,7 @@ public class Robot {
                  * bien la mettre directement dans le fichier comme ADDI X F F c'est pour ça j'ai rajouté ce cas exceptionnel
                  * 
                  * */
-                u.getElementsOfFile().add(indexFichier+1,String.valueOf(x*y));
+                F.getElementsOfFile().add(indexFichier+1,String.valueOf(x*y));
                 indexFichier+=2; /* dans ce cas on remarque on avance de 2  */
                 verite=true;
                 
@@ -706,7 +728,7 @@ public class Robot {
                  * bien la mettre directement dans le fichier comme ADDI X F F c'est pour ça j'ai rajouté ce cas exceptionnel
                  * 
                  * */
-                u.getElementsOfFile().add(indexFichier+1,String.valueOf(x-y));
+                F.getElementsOfFile().add(indexFichier+1,String.valueOf(x-y));
                 indexFichier+=2; /* dans ce cas on remarque on avance de 2  */
                 verite=true;
                 
@@ -737,22 +759,35 @@ public class Robot {
      * 
      */
      public void COPY(String a, String b )
-     {
+    
+     {     String valeur;
+        
+        if(a.equals("X"))
+        valeur=X;
+        else if(a.equals("T"))
+        valeur=T;
+        else if(a.equals("M"))
+        valeur=M;
+        else
+        valeur=a;
+
+
+
         if(b.equals("M"))
         {
-            M=a;
+            M=valeur;
         }
         else if ( b.equals("X"))
         {
-            X=a;
+            X=valeur;
         } 
         else if (b.equals("T"))
         {
-            T=a;
+            T=valeur;
         }
         else
         { /* ce cas est surement le cas ou on met dans le fichier comme COPY 0  F */
-            F.getElementsOfFile().add(indexFichier,a);
+            F.getElementsOfFile().add(indexFichier,valeur);
 
         }
 
@@ -878,6 +913,248 @@ public Fichier getFileRobot()
     return F;
 }
 
+
+
+
+
+
+
+
+
+
+public void ADDI ( String a , String b , String destination )
+      {
+        String verif="",verif2;
+        switch(a)
+        {
+            case "X": 
+                verif=X;
+                break;
+            case "T":
+                verif=T;
+                break;
+            case "M":
+                verif=M;
+                break;
+            default:    
+                verif=a;
+
+        }
+
+        switch(b)
+        {
+            case "X": 
+                verif2=X;
+                break;
+            case "T":
+                verif2=T;
+                break;
+            case "M":
+                verif2=M;
+                break;
+            default:    
+                verif2=a;
+
+        }
+
+
+
+
+        if(!isInteger(verif))
+            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+
+        if(!isInteger(verif2))
+            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+        
+
+        int x = Integer.parseInt(verif);
+        int x2=Integer.parseInt(verif2); 
+        if(destination.equals("X"))
+        {
+            X=x+x2+""; /* afin de transformer le le nombre x+b en chaine de caractère  */
+        }
+        else if ( destination.equals("T"))
+        {
+            T=x+x2+"";
+        }
+        else if ( destination.equals("M"))
+        {
+            M=x+x2+"";
+        }
+        else
+        {
+            /* le cas ou c'est un fichier  */ /* je considère toujours ce cas que destination =F meme si c'est pas le cas , */
+            if(F!=null)
+            F.getElementsOfFile().add(indexFichier,x-x2+"");
+            else /* le cas ou  */
+            {
+                System.err.println("Le Robot n'a aucun fichier entre ses mains ");
+                System.exit(1);
+            }
+
+        }
+
+      }
+
+
+
+
+
+
+      public void MULI ( String a , String b , String destination )
+      {
+        String verif="",verif2;
+        switch(a)
+        {
+            case "X": 
+                verif=X;
+                break;
+            case "T":
+                verif=T;
+                break;
+            case "M":
+                verif=M;
+                break;
+            default:    
+                verif=a;
+
+        }
+
+        switch(b)
+        {
+            case "X": 
+                verif2=X;
+                break;
+            case "T":
+                verif2=T;
+                break;
+            case "M":
+                verif2=M;
+                break;
+            default:    
+                verif2=a;
+
+        }
+
+
+
+
+        if(!isInteger(verif))
+            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+
+        if(!isInteger(verif2))
+            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+        
+
+        int x = Integer.parseInt(verif);
+        int x2=Integer.parseInt(verif2); 
+        if(destination.equals("X"))
+        {
+            X=x*x2+""; /* afin de transformer le le nombre x+b en chaine de caractère  */
+        }
+        else if ( destination.equals("T"))
+        {
+            T=x*x2+"";
+        }
+        else if ( destination.equals("M"))
+        {
+            M=x*x2+"";
+        }
+        else
+        {
+           /* le cas ou c'est un fichier  */ /* je considère toujours ce cas que destination =F meme si c'est pas le cas , */
+           if(F!=null)
+           F.getElementsOfFile().add(indexFichier,x-x2+"");
+           else /* le cas ou  */
+           {
+               System.err.println("Le Robot n'a aucun fichier entre ses mains ");
+               System.exit(1);
+           }
+
+
+        }
+
+      }
+
+
+
+
+
+
+      public void SUBI ( String a , String b , String destination )
+      {
+        String verif="",verif2;
+        switch(a)
+        {
+            case "X": 
+                verif=X;
+                break;
+            case "T":
+                verif=T;
+                break;
+            case "M":
+                verif=M;
+                break;
+            default:    
+                verif=a;
+
+        }
+
+        switch(b)
+        {
+            case "X": 
+                verif2=X;
+                break;
+            case "T":
+                verif2=T;
+                break;
+            case "M":
+                verif2=M;
+                break;
+            default:    
+                verif2=a;
+
+        }
+
+
+
+
+        if(!isInteger(verif))
+            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+
+        if(!isInteger(verif2))
+            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+        
+
+        int x = Integer.parseInt(verif);
+        int x2=Integer.parseInt(verif2); 
+        if(destination.equals("X"))
+        {
+            X=x-x2+""; /* afin de transformer le le nombre x+b en chaine de caractère  */
+        }
+        else if ( destination.equals("T"))
+        {
+            T=x-x2+"";
+        }
+        else if ( destination.equals("M"))
+        {
+            M=x-x2+"";
+        }
+        else
+        {
+            /* le cas ou c'est un fichier  */ /* je considère toujours ce cas que destination =F meme si c'est pas le cas , */
+            if(F!=null)
+            F.getElementsOfFile().add(indexFichier,x-x2+"");
+            else /* le cas ou  */
+            {
+                System.err.println("Le Robot n'a aucun fichier entre ses mains ");
+                System.exit(1);
+            }
+
+
+        }
+
+      }
 
 }
 

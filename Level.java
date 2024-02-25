@@ -2,7 +2,7 @@
  * Classe qui réprésente  le niveau du robot 
 *@author BELHADJI Rafik
 *@since 6/02/2024
-*@version 8/02/2024
+*@version 25/02/2024
  */
 import java.util.*;
 
@@ -55,7 +55,14 @@ public class Level {
             fichInt.getElementsOfFile().add("9");
 
             default : 
-                /* à réfléchir ce que je dois mettre ici ? */
+                /* si l'utilisateur fait rentrer un niveau > 4 on va automatiquement initialiser le */
+                fichInt.getElementsOfFile().add("MOVE");
+                    fichInt.getElementsOfFile().add("THIS");
+                    fichInt.getElementsOfFile().add("FILE");
+                    fichInt.getElementsOfFile().add("TO");
+                    fichInt.getElementsOfFile().add("THE");
+                    fichInt.getElementsOfFile().add("OUTBOX");
+                    break;
 
 
 

@@ -1,7 +1,7 @@
 /**
  * classe d'exécution du jeu
  * @since 18/02/2024
- * @version 19/02/2024
+ * @version 25/02/2024
  * @author BELHADJI Rafik
  */
 import java.io.*;
@@ -192,7 +192,7 @@ import java.util.*;
                          * elle sera de la forme FJMP -4 .. 
                          */
                         int nombrePas=Integer.parseInt(tabArgFJMP[0]); 
-                        if(nombrePas<=0)
+                        if(nombrePas>=0)
                         {
                             System.err.println("FJMP doit avoir un entier négatif comme argument");
                             System.exit(1);
@@ -317,23 +317,36 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
 
                     case "ADDI": 
 
-                    levelOfGame.getRobot().ADDI(tabArguments[0],Integer.parseInt(tabArguments[1]),tabArguments[2]);
-                    /* par exemple l'appel ici est de la forme ADDI T 1 X  */
+                    levelOfGame.getRobot().ADDI(tabArguments[0],tabArguments[1],tabArguments[2]);
+                    /* par exemple l'appel ici est de la forme ADDI T X X  */
+
+                    break;
+                    case "ADDIf": /* juste pour indiquer que la version appelée ici est celle qui est de la forme ADDI X F X ( le fichier en deuxième argument) */
+                    levelOfGame.getRobot().ADDI(tabArguments[0],levelOfGame.getRobot().getFileRobot(),tabArguments[2]);
 
                     break;
 
                     case "SUBI": 
 
-                    levelOfGame.getRobot().SUBI(tabArguments[0],levelOfGame.getRobot().getFileRobot(),tabArguments[2]);
+                    levelOfGame.getRobot().SUBI(tabArguments[0],tabArguments[1],tabArguments[2]);
                     /**
                      * attention dans ce cas vous appelez SUBI comme suit  : SUBI X F T mais le F on va l'ignorer dans notre programme on passe directement au
                      * T
                      */
 
                     break;
+                    case "SUBIf": /* juste pour indiquer que la version appelée ici est celle qui est de la forme MULI X F X ( le fichier en deuxième argument) */
+                    levelOfGame.getRobot().SUBI(tabArguments[0],levelOfGame.getRobot().getFileRobot(),tabArguments[2]);
+
+                    break;
 
                     case "MULI": 
 
+                    levelOfGame.getRobot().MULI(tabArguments[0],tabArguments[1],tabArguments[2]);
+
+                    break;
+
+                    case "MULIf": /* juste pour indiquer que la version appelée ici est celle qui est de la forme MULI X F X ( le fichier en deuxième argument) */
                     levelOfGame.getRobot().MULI(tabArguments[0],levelOfGame.getRobot().getFileRobot(),tabArguments[2]);
 
                     break;
