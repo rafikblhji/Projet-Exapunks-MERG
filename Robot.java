@@ -5,7 +5,7 @@
 *
 *@author BELHADJI Rafik
 *@since 20/01/2024
-*@version 25/02/2024
+*@version 26/02/2024
 */
 
 /**
@@ -760,7 +760,20 @@ public class Robot {
      */
      public void COPY(String a, String b )
     
-     {     String valeur;
+     {     
+        
+        
+        if(a.equals("F")) 
+        {
+            this.COPY(F, b);
+        }
+        else if(b.equals("F"))
+        {
+            this.COPY(a,F);
+        }
+        else
+        {
+        String valeur;
         
         if(a.equals("X"))
         valeur=X;
@@ -791,6 +804,8 @@ public class Robot {
 
         }
 
+    }
+
 
 
 
@@ -804,7 +819,7 @@ public class Robot {
 
       public void ADDI ( String a , int b , String destination )
       {
-        String verif="";
+        String verif;
         switch(a)
         {
             case "X": 
@@ -868,7 +883,7 @@ public String getValueOfRegisterM()
 
 
 public  boolean TEST(String str, String operator, int num) {
-    String verif="";
+    String verif;
         switch(str)
         {
             case "X": 
@@ -923,8 +938,15 @@ public Fichier getFileRobot()
 
 
 public void ADDI ( String a , String b , String destination )
-      {
-        String verif="",verif2;
+      { 
+
+        if(b.equals("F"))
+        {
+            this.ADDI(a,F,destination);
+        }
+        else
+        {
+        String verif,verif2;
         switch(a)
         {
             case "X": 
@@ -993,6 +1015,7 @@ public void ADDI ( String a , String b , String destination )
             }
 
         }
+    }
 
       }
 
@@ -1003,7 +1026,12 @@ public void ADDI ( String a , String b , String destination )
 
       public void MULI ( String a , String b , String destination )
       {
-        String verif="",verif2;
+        if(b.equals("F"))
+        {
+            this.MULI(a,F,destination);
+        }
+        else{
+        String verif,verif2;
         switch(a)
         {
             case "X": 
@@ -1073,6 +1101,7 @@ public void ADDI ( String a , String b , String destination )
 
 
         }
+    }
 
       }
 
@@ -1083,7 +1112,12 @@ public void ADDI ( String a , String b , String destination )
 
       public void SUBI ( String a , String b , String destination )
       {
-        String verif="",verif2;
+        if(b.equals("F"))
+        {
+            this.SUBI(a,F,destination);
+        }
+        else {
+        String verif,verif2;
         switch(a)
         {
             case "X": 
@@ -1153,6 +1187,7 @@ public void ADDI ( String a , String b , String destination )
 
 
         }
+    }
 
       }
 

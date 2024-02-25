@@ -1,7 +1,7 @@
 /**
  * classe d'exécution du jeu
  * @since 18/02/2024
- * @version 25/02/2024
+ * @version 26/02/2024
  * @author BELHADJI Rafik
  */
 import java.io.*;
@@ -336,10 +336,7 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
                     /* par exemple l'appel ici est de la forme ADDI T X X  */
 
                     break;
-                    case "ADDIf": /* juste pour indiquer que la version appelée ici est celle qui est de la forme ADDI X F X ( le fichier en deuxième argument) */
-                    levelOfGame.getRobot().ADDI(tabArguments[0],levelOfGame.getRobot().getFileRobot(),tabArguments[2]);
-
-                    break;
+                 
 
                     case "SUBI": 
 
@@ -350,10 +347,7 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
                      */
 
                     break;
-                    case "SUBIf": /* juste pour indiquer que la version appelée ici est celle qui est de la forme MULI X F X ( le fichier en deuxième argument) */
-                    levelOfGame.getRobot().SUBI(tabArguments[0],levelOfGame.getRobot().getFileRobot(),tabArguments[2]);
-
-                    break;
+                 
 
                     case "MULI": 
 
@@ -361,10 +355,7 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
 
                     break;
 
-                    case "MULIf": /* juste pour indiquer que la version appelée ici est celle qui est de la forme MULI X F X ( le fichier en deuxième argument) */
-                    levelOfGame.getRobot().MULI(tabArguments[0],levelOfGame.getRobot().getFileRobot(),tabArguments[2]);
-
-                    break;
+                   
 
                     case "COPY":
 
@@ -372,16 +363,7 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
 
                     break;
 
-                    case "fCOPY": /* juste pour distinguer COPY qui copie d'un fichier envers un registre COPY F X  */
-
-                    levelOfGame.getRobot().COPY(levelOfGame.getRobot().getFileRobot(),tabArguments[1]);
-
-                    break;
-
-                    case "COPYf": /* juste pour distinguer COPY qui copie d'un registre vers le fichier  COPY  X F */
-                    levelOfGame.getRobot().COPY(tabArguments[0],levelOfGame.getRobot().getFileRobot());
-
-                    break;
+                  
 
                     /* à continuer les instructions qui restent  */
 
