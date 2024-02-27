@@ -622,7 +622,7 @@ public class Robot {
         }      
         if(isInteger(verif) && isInteger(u.getElementsOfFile().get(indexFichier)))
         {
-            int x=Integer.parseInt(a);
+            int x=Integer.parseInt(verif);
             int y=Integer.parseInt(u.getElementsOfFile().get(indexFichier));
             if(b.equals("M")) 
             {
