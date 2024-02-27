@@ -1,7 +1,3 @@
-// cette classe represente la zone de code du joueur avec les parametre et ses zones memoires,chaque robot a ca propre zone de code donc 
-// elle prend un unique constructeur avec le nom du robot qui lui correspond. ceci est une premiere version il manque un bouton pour fermer la zone de code depuis
-// la classe "fenetreprincipale".
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -15,6 +11,7 @@ public class VueZoneCode extends JPanel {
     private JTextArea yValueTextArea;
     private JTextArea tValueTextArea;
     private JTextArea zValueTextArea;
+    private JTextArea zoneTexte;
 
     public VueZoneCode(String nom) {
         setLayout(new GridBagLayout());
@@ -32,12 +29,11 @@ public class VueZoneCode extends JPanel {
         JPanel textePanel = new JPanel(new BorderLayout());
         textePanel.setBorder(createOrLineBorder());
 
-        JTextArea texte = new JTextArea(5, 10);
-        texte.setBackground(Color.BLACK);
-        texte.setForeground(Color.WHITE);
-        JScrollPane scrollPane = new JScrollPane(texte); // creer la barre de scroll
-        textePanel.add(scrollPane, BorderLayout.CENTER); 
-        // avec Gridbag on gere la position de la zone texte pour la mettre a gauche 
+        zoneTexte = createEditableTextArea();
+        JScrollPane scrollPane = new JScrollPane(zoneTexte); // Créer la barre de défilement
+        textePanel.add(scrollPane, BorderLayout.CENTER);
+
+        // Avec Gridbag, on gère la position de la zone texte pour la mettre à gauche
         GridBagConstraints gbcTexte = new GridBagConstraints();
         gbcTexte.gridx = 0;
         gbcTexte.gridy = 2;
@@ -61,7 +57,7 @@ public class VueZoneCode extends JPanel {
         yValueTextArea = createNonEditableTextArea("0");
         zoneDroitePanel.add(yValueTextArea);
 
-        labelT = createCenteredLabel("F", new Color(150, 75, 0));
+        labelT = createCenteredLabel("T", new Color(150, 75, 0));
         zoneDroitePanel.add(labelT);
         tValueTextArea = createNonEditableTextArea("0");
         zoneDroitePanel.add(tValueTextArea);
@@ -70,7 +66,8 @@ public class VueZoneCode extends JPanel {
         zoneDroitePanel.add(labelZ);
         zValueTextArea = createNonEditableTextArea("0");
         zoneDroitePanel.add(zValueTextArea);
-        // gerer la disposition des element avec Gridbag pour les mettre a droite de la zone texte
+
+        // Gérer la disposition des éléments avec Gridbag pour les mettre à droite de la zone texte
         GridBagConstraints gbcDroite = new GridBagConstraints();
         gbcDroite.gridx = 1;
         gbcDroite.gridy = 2;
@@ -79,7 +76,8 @@ public class VueZoneCode extends JPanel {
         gbcDroite.fill = GridBagConstraints.BOTH;
         add(zoneDroitePanel, gbcDroite);
     }
-    // creation des noms 
+
+    // Création des noms
     private JLabel createCenteredLabel(String text, Color bgColor) {
         JLabel label = new JLabel(text);
         label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -87,7 +85,17 @@ public class VueZoneCode extends JPanel {
         label.setOpaque(true);
         return label;
     }
-    // creation des champs des paramtres X Y... avec mettant leur zone inchangeable par l'utilisateur
+
+    // Création de la zone de texte éditable
+    private JTextArea createEditableTextArea() {
+        JTextArea textArea = new JTextArea();
+        textArea.setBackground(Color.BLACK);
+        textArea.setForeground(Color.WHITE);
+        textArea.setAlignmentX(CENTER_ALIGNMENT);
+        return textArea;
+    }
+
+    // Création des champs des paramètres X Y... avec mettant leur zone inchangeable par l'utilisateur
     private JTextArea createNonEditableTextArea(String initialValue) {
         JTextArea textArea = new JTextArea(initialValue);
         textArea.setEditable(false);
@@ -102,22 +110,49 @@ public class VueZoneCode extends JPanel {
         Color couleurOr = new Color(255, 215, 0);
         return new LineBorder(couleurOr);
     }
-    // creation des methodes permettant d'avoir acces aux differentes valeur pour les changer par la suite en fonction de notre code
+
+    // Accès à la zone de texte
+    public JTextArea getZoneTexte() {
+        return this.zoneTexte;
+    }
+
+    // ... (ajoutez d'autres méthodes pour mettre à jour X, Y, T, Z selon vos besoins)
+    public void setZoneTexte(String text) {
+        this.zoneTexte.setText(text);
+    }
+       public String getXValue() {
+        return xValueTextArea.getText();
+    }
+
     public void setXValue(String value) {
         xValueTextArea.setText(value);
+    }
+
+    public String getYValue() {
+        return yValueTextArea.getText();
     }
 
     public void setYValue(String value) {
         yValueTextArea.setText(value);
     }
 
+    public String getTValue() {
+        return tValueTextArea.getText();
+    }
+
     public void setTValue(String value) {
         tValueTextArea.setText(value);
+    }
+
+    public String getZValue() {
+        return zValueTextArea.getText();
     }
 
     public void setZValue(String value) {
         zValueTextArea.setText(value);
     }
+
+    
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
@@ -132,3 +167,4 @@ public class VueZoneCode extends JPanel {
         frame.setVisible(true);
     }
 }
+
