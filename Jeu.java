@@ -48,6 +48,7 @@ import java.util.*;
             System.err.println("Aucun argument n'a été fourni !");
             System.exit(1);
 
+
         }
 
 
@@ -192,10 +193,12 @@ import java.util.*;
 
                         if(testTemporaire) /* si le test est vrai on saute l'instruction d'après qui est FJMP car elle sert à rien dans ce cas  */
                         {
+                            
                             registreCountInstruction+=2;
                         }
                         else
-                        { /* dans le cas ou le test de TEST est faux on doit appliquer le FJMP  */
+                        { 
+                            /* dans le cas ou le test de TEST est faux on doit appliquer le FJMP  */
 
                         
                         /*
@@ -218,8 +221,7 @@ import java.util.*;
                         * 
                         */
 
-                        while(testTemporaire && (registreCountInstruction < instructions.size()))
-                        {
+                        
                             if(-1 * registreCountInstruction >nombrePas)
                             {
                                 registreCountInstruction=0;
@@ -229,11 +231,7 @@ import java.util.*;
                                 registreCountInstruction=registreCountInstruction+nombrePas;
                             }
 
-                            programme.lireInstruction(tmp,levelOfGame);
-                            registreCountInstruction++;
-
-
-                        }
+                            continue;
 
                         
 
