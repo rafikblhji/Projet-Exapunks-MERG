@@ -570,9 +570,10 @@ public class Robot {
 
 
         }
-
+        else
+        {
         System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
-        System.exit(1); /* dans le cas ou c'est pas des entiers */
+        System.exit(1); /* dans le cas ou c'est pas des entiers */}
     }
 
 
@@ -657,8 +658,10 @@ public class Robot {
 
 
         }
+        else
+        {
         System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
-        System.exit(1);
+        System.exit(1);}
 
     }
            /**
@@ -741,8 +744,10 @@ public class Robot {
 
 
         }
+        else{
         System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
         System.exit(1);
+        }
 
     }
 
