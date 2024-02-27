@@ -51,8 +51,11 @@ public class Level {
             case 3 : 
             fichInt.getElementsOfFile().add("ECHO");
             fichInt.getElementsOfFile().add("9780");
+            break;
+                
             case 4 :
             fichInt.getElementsOfFile().add("9");
+            break;
 
             default : 
                 /* si l'utilisateur fait rentrer un niveau > 4 on va automatiquement initialiser le */
