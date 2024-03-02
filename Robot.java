@@ -361,7 +361,11 @@ public class Robot {
      * @return vrai si on est à la fin du fichier faux sinon 
      */
     public boolean TEOF()
-    {
+    {   if(F==null)
+        {
+            System.err.println("NO FILE IS HELD");
+            System.exit(1);
+        }
         if(indexFichier+1>F.getElementsOfFile().size()) /* merci pour la remarque Emna  */
         return true;
 
