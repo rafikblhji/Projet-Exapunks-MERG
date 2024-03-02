@@ -21,7 +21,7 @@ public class Piece {
     private int taillePiece; 
     /** la taille de la pièce réprésente le nombre de case 
      * si taillePiece=2 , donc le nombre de case est 4 (taillePiece  x taille Piece )
-     * le nombre maximum de fichier qu'une pièce peut porter est taillePiece x Taille Piece -1 
+     * le nombre maximum de fichier qu'une pièce peut porter est (taillePiece x Taille Piece) -1 
      * pourquoi? en effet j'ai remarqué dans le jeu que on peut créer autant de fichier qu'on veut
      * et faire DROP pour les laisser dans la pièce mais à condition que il y a au moins une case vide dans la pièce
      * car il faut toujours laisser au moins une case vide

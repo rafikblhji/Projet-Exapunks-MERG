@@ -362,7 +362,7 @@ public class Robot {
      */
     public boolean TEOF()
     {
-        if(indexFichier+1>=F.getElementsOfFile().size())
+        if(indexFichier+1>F.getElementsOfFile().size()) /* merci pour la remarque Emna  */
         return true;
 
         return false;
