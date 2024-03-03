@@ -5,7 +5,7 @@
 *
 *@author BELHADJI Rafik
 *@since 20/01/2024
-*@version 26/02/2024
+*@version 04/03/2024
 */
 
 /**
@@ -1199,6 +1199,343 @@ public void ADDI ( String a , String b , String destination )
     }
 
       }
+
+
+
+
+
+
+      public void MODI(String a, Fichier u , String b )
+      {   boolean verite=false;
+          if(peutTransporterFichier())
+          {
+              System.out.println("NO FILE IS HELD");
+              System.exit(1);
+          }
+          if(TEOF())
+          {
+              System.out.println("CANNOT READ PAST END OF FILE ");
+              System.exit(1);
+          }
+          String verif="";
+          switch(a)
+          {
+              case "X": 
+                  verif=X;
+                  break;
+              case "T":
+                  verif=T;
+                  break;
+              case "M":
+                  verif=M;
+                  break;
+              default:    
+                  verif=a;
+  
+          }
+          if(isInteger(verif) && isInteger(u.getElementsOfFile().get(indexFichier)))
+          {
+              int x=Integer.parseInt(verif);
+              int y=Integer.parseInt(u.getElementsOfFile().get(indexFichier));
+              if(b.equals("M")) 
+              {
+                  M=String.valueOf(x%y);
+              }
+              else if ( b.equals("X"))
+              {
+                  X=String.valueOf(x%y);
+              }
+              else if ( b.equals("T"))
+              {
+                  T=String.valueOf(x%y);
+              }
+              else { 
+                  /**
+                   * on va supposer que b est sois X sois T sois M ( les registres des robots ), sinon la valeur d'addition des deux entiers
+                   * se mettra dans l'indice indexFichier+1
+                   * en effet dans le jeu , j'ai remarqué que la logique est de à chaque fois on met le résultat dans le registre
+                   * ensuite si on veut mettre la valeur dans le fichier on fait COPY registre F , mais j'ai bien remarqué qu'on peut
+                   * bien la mettre directement dans le fichier comme ADDI X F F c'est pour ça j'ai rajouté ce cas exceptionnel
+                   * 
+                   * */
+                  F.getElementsOfFile().add(indexFichier+1,String.valueOf(x%y));
+                  indexFichier+=2; /* dans ce cas on remarque on avance de 2  */
+                  verite=true;
+                  
+  
+              }
+              if(!verite)
+                  indexFichier++; /* pour distinguer le cas ou on met la valeur dans un registre et ou on met la valeur dans le fichier  */
+  
+  
+  
+  
+          }
+          else{
+          System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+          System.exit(1);
+          }
+  
+      }
+
+
+
+
+
+
+
+
+      public void MODI ( String a , String b , String destination )
+      {
+        if(b.equals("F"))
+        {
+            this.MODI(a,F,destination);
+        }
+        else {
+        String verif,verif2;
+        switch(a)
+        {
+            case "X": 
+                verif=X;
+                break;
+            case "T":
+                verif=T;
+                break;
+            case "M":
+                verif=M;
+                break;
+            default:    
+                verif=a;
+
+        }
+
+        switch(b)
+        {
+            case "X": 
+                verif2=X;
+                break;
+            case "T":
+                verif2=T;
+                break;
+            case "M":
+                verif2=M;
+                break;
+            default:    
+                verif2=a;
+
+        }
+
+
+
+
+        if(!isInteger(verif))
+            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+
+        if(!isInteger(verif2))
+            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+        
+
+        int x = Integer.parseInt(verif);
+        int x2=Integer.parseInt(verif2); 
+        if(destination.equals("X"))
+        {
+            X=(x%x2)+""; /* afin de transformer le le nombre x%b2 en chaine de caractère  */
+        }
+        else if ( destination.equals("T"))
+        {
+            T=(x%x2)+"";
+        }
+        else if ( destination.equals("M"))
+        {
+            M=(x%x2)+"";
+        }
+        else
+        {
+            /* le cas ou c'est un fichier  */ /* je considère toujours ce cas que destination =F meme si c'est pas le cas , */
+            if(F!=null)
+            F.getElementsOfFile().add(indexFichier,x%x2+"");
+            else /* le cas ou  */
+            {
+                System.err.println("Le Robot n'a aucun fichier entre ses mains ");
+                System.exit(1);
+            }
+
+
+        }
+    }
+
+      }
+
+
+      public void DIVI ( String a , String b , String destination )
+      {
+        if(b.equals("F"))
+        {
+            this.DIVI(a,F,destination);
+        }
+        else {
+        String verif,verif2;
+        switch(a)
+        {
+            case "X": 
+                verif=X;
+                break;
+            case "T":
+                verif=T;
+                break;
+            case "M":
+                verif=M;
+                break;
+            default:    
+                verif=a;
+
+        }
+
+        switch(b)
+        {
+            case "X": 
+                verif2=X;
+                break;
+            case "T":
+                verif2=T;
+                break;
+            case "M":
+                verif2=M;
+                break;
+            default:    
+                verif2=a;
+
+        }
+
+
+
+
+        if(!isInteger(verif))
+            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+
+        if(!isInteger(verif2))
+            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+        
+
+        int x = Integer.parseInt(verif);
+        int x2=Integer.parseInt(verif2); 
+        if(destination.equals("X"))
+        {
+            X=x/x2+""; /* afin de transformer le le nombre  en chaine de caractère  */
+        }
+        else if ( destination.equals("T"))
+        {
+            T=x/x2+"";
+        }
+        else if ( destination.equals("M"))
+        {
+            M=x/x2+"";
+        }
+        else
+        {
+            /* le cas ou c'est un fichier  */ /* je considère toujours ce cas que destination =F meme si c'est pas le cas , */
+            if(F!=null)
+            F.getElementsOfFile().add(indexFichier,x/x2+"");
+            else /* le cas ou  */
+            {
+                System.err.println("Le Robot n'a aucun fichier entre ses mains ");
+                System.exit(1);
+            }
+
+
+        }
+    }
+
+      }
+
+
+
+
+
+
+      public void DIVI(String a, Fichier u , String b )
+      {   boolean verite=false;
+          if(peutTransporterFichier())
+          {
+              System.out.println("NO FILE IS HELD");
+              System.exit(1);
+          }
+          if(TEOF())
+          {
+              System.out.println("CANNOT READ PAST END OF FILE ");
+              System.exit(1);
+          }
+          String verif="";
+          switch(a)
+          {
+              case "X": 
+                  verif=X;
+                  break;
+              case "T":
+                  verif=T;
+                  break;
+              case "M":
+                  verif=M;
+                  break;
+              default:    
+                  verif=a;
+  
+          }
+          if(isInteger(verif) && isInteger(u.getElementsOfFile().get(indexFichier)))
+          {
+              int x=Integer.parseInt(verif);
+              int y=Integer.parseInt(u.getElementsOfFile().get(indexFichier));
+              if(b.equals("M")) 
+              {
+                  M=String.valueOf(x/y);
+              }
+              else if ( b.equals("X"))
+              {
+                  X=String.valueOf(x/y);
+              }
+              else if ( b.equals("T"))
+              {
+                  T=String.valueOf(x/y);
+              }
+              else { 
+                  /**
+                   * on va supposer que b est sois X sois T sois M ( les registres des robots ), sinon la valeur d'addition des deux entiers
+                   * se mettra dans l'indice indexFichier+1
+                   * en effet dans le jeu , j'ai remarqué que la logique est de à chaque fois on met le résultat dans le registre
+                   * ensuite si on veut mettre la valeur dans le fichier on fait COPY registre F , mais j'ai bien remarqué qu'on peut
+                   * bien la mettre directement dans le fichier comme ADDI X F F c'est pour ça j'ai rajouté ce cas exceptionnel
+                   * 
+                   * */
+                  F.getElementsOfFile().add(indexFichier+1,String.valueOf(x/y));
+                  indexFichier+=2; /* dans ce cas on remarque on avance de 2  */
+                  verite=true;
+                  
+  
+              }
+              if(!verite)
+                  indexFichier++; /* pour distinguer le cas ou on met la valeur dans un registre et ou on met la valeur dans le fichier  */
+  
+  
+  
+  
+          }
+          else{
+          System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+          System.exit(1);
+          }
+  
+      }
+
+
+
+
+
+
+
+
+
+
+
 
 }
 
