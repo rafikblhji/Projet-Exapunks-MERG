@@ -3,3 +3,4 @@
 3)Copier les deux valeurs dans le nouveaux fichier.
 4)Inverser les valeurs pour que que le chiffre soit en premier.
 5)Supprimer le fichier 199.
+NB: Utiliser les valeurs en entrée qui sont : ECHO, 5000.
