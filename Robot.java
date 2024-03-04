@@ -984,7 +984,7 @@ public void ADDI ( String a , String b , String destination )
                 verif2=M;
                 break;
             default:    
-                verif2=a;
+                verif2=b;
 
         }
 
@@ -1069,7 +1069,7 @@ public void ADDI ( String a , String b , String destination )
                 verif2=M;
                 break;
             default:    
-                verif2=a;
+                verif2=b;
 
         }
 
@@ -1155,7 +1155,7 @@ public void ADDI ( String a , String b , String destination )
                 verif2=M;
                 break;
             default:    
-                verif2=a;
+                verif2=b;
 
         }
 
@@ -1321,7 +1321,7 @@ public void ADDI ( String a , String b , String destination )
                 verif2=M;
                 break;
             default:    
-                verif2=a;
+                verif2=b;
 
         }
 
@@ -1403,7 +1403,7 @@ public void ADDI ( String a , String b , String destination )
                 verif2=M;
                 break;
             default:    
-                verif2=a;
+                verif2=b;
 
         }
 
