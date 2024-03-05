@@ -115,7 +115,7 @@ import java.util.*;
                     tmp=instructions.get(registreCountInstruction); /* récupérer l'instruction à exécuter tel que GRAB 200  */
 
                     /* implémentation de JMP et FJMP  */
-                    if(tmp.getNom().equals("JMP"))
+                    if(tmp.getNom().equals("JUMP"))
 
                 {       /*
                          * dans ma version de JMP je veux qu'elle soit exécuter une fois c'est tout pas plus c'est pour cela je vais utiliser une variable booléenne afin d'éviter que
