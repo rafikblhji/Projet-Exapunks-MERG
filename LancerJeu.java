@@ -2,21 +2,28 @@
  * classe d'exécution du jeu
  * @since 18/02/2024
  * @version 26/02/2024
- * @author BELHADJI Rafik 
- * Cette classe est la version sur terminale de la classe LancerJeu
- * en effet , cette classe permet de lancer le jeu juste sur terminal il faut donner un argument à cette classe Java comme entier qui réprésente le niveau du jeu 
- * ou le robot joue 
+ * @author BELHADJI Rafik
+ * les instructions qui contiennent des appels à la partie graphique du jeu ont été rajoutées par ORCUN Gabriel
  */
 import java.io.*;
 import java.util.*;
 
 
- public class Jeu 
+ public class LancerJeu 
  {
-	
+
     public static void main(String[] args) {
-        Jeu programme= new Jeu();
-        int numNiveau=0;
+        LancerJeu programme= new LancerJeu();
+        // int numNiveau=0;
+        Menu menu =new Menu();
+        while (menu.getNiveau() == null) {
+    try {
+        Thread.sleep(100); // Attendez 100 millisecondes avant de vérifier à nouveau
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+}
+        boolean continuer=false;
          Level levelOfGame;
          int registreCountInstruction=0;
          boolean testJMP=false; /* cette variable permet l'execution de JMP une fois dans le programme  */
@@ -31,44 +38,26 @@ import java.util.*;
           */
          
 
-         if (args.length > 0) {
-            /*  Récupérer le premier argument (le 0-index) */
-            String argument = args[0];
-            
-            try {
-                /*  Convertir la chaîne en un entier */
-                 numNiveau = Integer.parseInt(argument);
-
-                            
-            } catch (NumberFormatException e) {
-                /*  Gérer l'exception si l'argument n'est pas un entier valide */
-                System.err.println("L'argument n'est pas un entier valide !, Veuillez choisir un niveau pour le jeu ");
-                System.exit(1);
-
-            }
-        } else {
-            /* Gérer le cas où aucun argument n'est fourni */
-            System.err.println("Aucun argument n'a été fourni !");
-            System.exit(1);
-
-
-        }
 
 
 
-
-        levelOfGame= new Level(numNiveau);
+        levelOfGame= new Level(menu.getNumNiv());
         /**
          * c'est là qu'on a initialisé robot ,les pièces.... c'est là que ça devient intéressant 
          */
 
-         /**
-         * c'est là qu'on a initialisé robot ,les pièces.... c'est là que ça devient intéressant 
-         */
-
+        
          /**
           * maintenant on lit les instructions 
           */
+        
+              while (menu.getNiveau().getPeutContinuer() != true) {
+    try {
+        Thread.sleep(100); // Attendez 100 millisecondes avant de vérifier à nouveau
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+}
 
           String nomFichier = "ligne.txt"; 
           /**
@@ -84,16 +73,16 @@ import java.util.*;
 
 
             while ((ligne = lecteur.readLine()) != null) {
-                /* Diviser la ligne en tokens en utilisant l'espace comme délimiteur */
+                // Diviser la ligne en tokens en utilisant l'espace comme délimiteur
                 String[] tokens = ligne.split(" ");
 
-                /*  Récupérer le nom de l'instruction (le premier token)*/
+                // Récupérer le nom de l'instruction (le premier token)
                 String nomInstruction = tokens[0];
 
-                /*  Créer un tableau pour stocker les arguments de l'instruction*/
+                // Créer un tableau pour stocker les arguments de l'instruction
                 String[] arguments = new String[tokens.length - 1];
 
-                /* Ajouter les arguments à la liste, à partir du deuxième token */
+                // Ajouter les arguments à la liste, à partir du deuxième token
                 for (int i = 1; i < tokens.length; i++) {
                     arguments[i - 1] = tokens[i];
                 }
@@ -114,11 +103,17 @@ import java.util.*;
 
     while(registreCountInstruction<instructions.size()){
                 /* on execute les instructions avec une boucle while tant que y a toujours une instruction à exxécuter on execute*/
-
+                             while (menu.getNiveau().getPeutContinuer() != true) {
+    try {
+        Thread.sleep(100); // Attendez 100 millisecondes avant de vérifier à nouveau
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+}
                     tmp=instructions.get(registreCountInstruction); /* récupérer l'instruction à exécuter tel que GRAB 200  */
 
                     /* implémentation de JMP et FJMP  */
-                    if(tmp.getNom().equals("JUMP"))
+                    if(tmp.getNom().equals("JMP"))
 
                 {       /*
                          * dans ma version de JMP je veux qu'elle soit exécuter une fois c'est tout pas plus c'est pour cela je vais utiliser une variable booléenne afin d'éviter que
@@ -251,13 +246,14 @@ import java.util.*;
                             /*
                              * comme expliqué avant , en effet j'ai implémenté JMP FJMP et test à part , maintenant on va traiter le cas si l'instruction est une autre à part ces 3 
                              */
-                        programme.lireInstruction(tmp, levelOfGame);
+                        programme.lireInstruction(tmp, levelOfGame, menu);
                         registreCountInstruction++; /* il faut incrémenter après chaque registreCountInstruction */
                 
                     }/* fin de if  */
  
 
 
+            menu.getNiveau().setPeutContinuer(false);
 
             }/* fin de la boucle while   */
 
@@ -268,7 +264,7 @@ import java.util.*;
 
 /* méthode utile  */
 
-public void lireInstruction(Instruction executMe, Level levelOfGame) 
+public void lireInstruction(Instruction executMe, Level levelOfGame,Menu menu) 
 {   
     String[] tabArguments=executMe.getArguments();
 
@@ -293,7 +289,17 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
                     }
                     /* si c'est un entier super! */
 
-                    levelOfGame.getRobot().LINK(Integer.parseInt(tabArguments[0]));                                       
+                    levelOfGame.getRobot().LINK(Integer.parseInt(tabArguments[0]));
+                    menu.getNiveau().deplacerRobott(levelOfGame.getRobot().getIndexPieceCourante());
+                    if(levelOfGame.getRobot().peutTransporterFichier()){
+                        menu.getNiveau().suprimerTouTFichierr(levelOfGame);
+                        menu.getNiveau().dessinerToutFichier(levelOfGame);
+                    }
+                    else{
+                        menu.getNiveau().dessinerToutFichier(levelOfGame);
+                        menu.getNiveau().suprimerlefichier(levelOfGame.getRobot().getIndexPieceCourante(),levelOfGame.getRobot().getFileRobot().getId());
+                    }
+                    // menu.getNiveau().suprimerTouTFichierr(levelOfGame);                                       
                      break;
                     /**
                      * le bloc suivant contient les instructions qui sont sans arguments 
@@ -304,10 +310,13 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
                     
                     case "DROP":
                     levelOfGame.getRobot().DROP();
+                    menu.getNiveau().dessinerToutFichier(levelOfGame);
+
                     break;
 
                     case "MAKE":
                     levelOfGame.getRobot().MAKE();
+                    menu.getNiveau().dessinerlefichier(levelOfGame.getRobot().getIndexPieceCourante(),levelOfGame.getRobot().getFileRobot().getId());
                     break;
 
                     case "TEOF":
@@ -335,7 +344,9 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
 
                     levelOfGame.getRobot().ADDI(tabArguments[0],tabArguments[1],tabArguments[2]);
                     /* par exemple l'appel ici est de la forme ADDI T X X  */
-
+                    menu.getNiveau().getZoneCode().setXValue(levelOfGame.getRobot().getValueOfRegisterX());
+                    menu.getNiveau().getZoneCode().setTValue(levelOfGame.getRobot().getValueOfRegisterT());
+                    menu.getNiveau().getZoneCode().setMValue(levelOfGame.getRobot().getValueOfRegisterM());
                     break;
                  
 
@@ -346,6 +357,9 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
                      * attention dans ce cas vous appelez SUBI comme suit  : SUBI X F T mais le F on va l'ignorer dans notre programme on passe directement au
                      * T
                      */
+                    menu.getNiveau().getZoneCode().setXValue(levelOfGame.getRobot().getValueOfRegisterX());
+                    menu.getNiveau().getZoneCode().setTValue(levelOfGame.getRobot().getValueOfRegisterT());
+                    menu.getNiveau().getZoneCode().setMValue(levelOfGame.getRobot().getValueOfRegisterM());
 
                     break;
                  
@@ -353,7 +367,9 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
                     case "MULI": 
 
                     levelOfGame.getRobot().MULI(tabArguments[0],tabArguments[1],tabArguments[2]);
-
+                    menu.getNiveau().getZoneCode().setXValue(levelOfGame.getRobot().getValueOfRegisterX());
+                    menu.getNiveau().getZoneCode().setTValue(levelOfGame.getRobot().getValueOfRegisterT());
+                    menu.getNiveau().getZoneCode().setMValue(levelOfGame.getRobot().getValueOfRegisterM());
                     break;
 
                    
@@ -361,7 +377,9 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
                     case "COPY":
 
                     levelOfGame.getRobot().COPY(tabArguments[0],tabArguments[1]);
-
+                    menu.getNiveau().getZoneCode().setXValue(levelOfGame.getRobot().getValueOfRegisterX());
+                    menu.getNiveau().getZoneCode().setTValue(levelOfGame.getRobot().getValueOfRegisterT());
+                    menu.getNiveau().getZoneCode().setMValue(levelOfGame.getRobot().getValueOfRegisterM());
                     break;
 
                   
@@ -382,7 +400,9 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
                     }
                     /* si c'est un entier super! */
 
-                    levelOfGame.getRobot().GRAB(Integer.parseInt(tabArguments[0]));                                       
+                    levelOfGame.getRobot().GRAB(Integer.parseInt(tabArguments[0]));
+                    // menu.getNiveau().suprimerrrfichier(levelOfGame.getRobot().getIndexPieceCourante(),levelOfGame.getRobot().get)
+                    // menu.getNiveau().deplacerFichierr(levelOfGame);                                      
                      break;
 
 

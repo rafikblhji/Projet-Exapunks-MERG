@@ -5,7 +5,7 @@
 *
 *@author BELHADJI Rafik
 *@since 20/01/2024
-*@version 04/03/2024
+*@version 06/03/2024
 */
 
 /**
@@ -49,7 +49,7 @@ public class Robot {
      * j'ai besoin de l'attribut F en tant que fichier et bien sur à partir de ce F on peut obtenir l'id du fichier
      * que le robot tient entre ses mains il suffit de faire F.getId()
      */
-    private int compteurFichierCréé; 
+    private int compteurFichierCree; 
     /** j'ai remarqué que dans le jeu , quand on créé un fichier , avec make , le premier aura un identfiant 400
     * le deuxième 401 , le 3ème 402.....etc
     *donc je créé cette variable qui est initialisé à 0 au début et à chaque fois qu'on crée un fichier
@@ -102,7 +102,7 @@ public class Robot {
         F=null;
         X="0";
         T="0";
-        compteurFichierCréé=0;
+        compteurFichierCree=0;
         /**
          * X , T je les ai initialisé à null mais c'est facultatif car 
          * meme si je le fais pas , ça aurait été fait automatiquement car c'est la valeur par défaut 
@@ -210,8 +210,8 @@ public class Robot {
             System.out.println("CANNOT GRAB A SECOND FILE");
             System.exit(1);
         }
-        F = new Fichier(400+compteurFichierCréé,new ArrayList<String>());
-        compteurFichierCréé++; /* il faut l'augmenter comme ça l'id du prochain fichier  sera mis à jour  */
+        F = new Fichier(400+compteurFichierCree,new ArrayList<String>());
+        compteurFichierCree++; /* il faut l'augmenter comme ça l'id du prochain fichier  sera mis à jour  */
         peutTransporter=false;
         /**
          * c'est dans cette méthode qu'on remarque l'utilité de la variable booléenne , 
