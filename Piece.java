@@ -4,7 +4,7 @@
 *
 *@author BELHADJI Rafik
 *@since 20/01/2024
-*@version 8/02/2024
+*@version 15/03/2024
 */
 
 /**
@@ -72,6 +72,17 @@ public class Piece {
     public ArrayList<Fichier> getListFichiers()
     {
         return listFichier;
+    }
+
+    public boolean contientFichier(int id )
+    {
+
+        for ( int i =0; i<listFichier.size();i++)
+        {
+            if(listFichier.get(i).getId()==id)
+                return true;
+        }
+        return false;
     }
     
     

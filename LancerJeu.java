@@ -1,12 +1,13 @@
 /**
  * classe d'exécution du jeu
  * @since 18/02/2024
- * @version 26/02/2024
+ * @version 15/03/2024
  * @author BELHADJI Rafik
- * les instructions qui contiennent des appels à la partie graphique du jeu ont été rajoutées par ORCUN Gabriel
  */
 import java.io.*;
 import java.util.*;
+import java.nio.file.*;
+import java.text.BreakIterator;
 
 
  public class LancerJeu 
@@ -15,6 +16,7 @@ import java.util.*;
     public static void main(String[] args) {
         LancerJeu programme= new LancerJeu();
         // int numNiveau=0;
+        clearFile("ligne.txt");
         Menu menu =new Menu();
         while (menu.getNiveau() == null) {
     try {
@@ -38,15 +40,17 @@ import java.util.*;
           */
          
 
-
-
+    
 
         levelOfGame= new Level(menu.getNumNiv());
         /**
          * c'est là qu'on a initialisé robot ,les pièces.... c'est là que ça devient intéressant 
          */
 
-        
+         /**
+         * c'est là qu'on a initialisé robot ,les pièces.... c'est là que ça devient intéressant 
+         */
+
          /**
           * maintenant on lit les instructions 
           */
@@ -258,10 +262,85 @@ import java.util.*;
             }/* fin de la boucle while   */
 
     
+            /*
+             * Ici j'ai décidé de faire une petite partie qui teste si le joueur a réussi sa mission selon les missions qui dépendant du niveau 
+             * es objectifs de chaque niveaux : 
+            Niveau 1 : déplacer le fichier idebtifiant 200 à la dernière pièce et le robot revient à la pièce 1 ( indice 0 )
+
+            Niveau 2 : 
+            Créer un fichier et le mettre à la dernière pièce et mettre aussi le fichier d'identification 200 là bas et le robot doit être a la dernière pièce 
+
+            Niveau 3 : 
+            Je prends la valeur du fichier f200 qui est automatiquement 2003 (initialise dans le niveau ) je lui rajoute 2 et je le mets dans le registre X ( donc X doit contenir 2005)
+            je déplace le fichier f200 à la première pièce le robot je le laisse dans la pièce du milieu 
+             */
+            boolean testNiveau=false;;
+
+             switch(levelOfGame.getNumLevel())
+             {
+                
+                case 2:
+                    /* on sait que le premier fichier créé aura 400 comme identifiant  */
+                    if( levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(200) && levelOfGame.getRobot().getIndexPieceCourante()==2 &&  levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(400) )
+                    testNiveau=true;
+
+                break;
+
+                case 3:
+                if(levelOfGame.getRobot().getValueOfRegisterX().equals("2005") && levelOfGame.getRobot().getListPieceRobot().get(0).contientFichier(200)&& levelOfGame.getRobot().getIndexPieceCourante()==1)
+                    testNiveau=true;
+                break;
+
+                default: 
+                /*  le cas ou le niveau est 1 ou bien >3( on a dit quand le niveau >3 ce sont les memes objectifs que le niveau 1 ) */
+                if( levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(200) && levelOfGame.getRobot().getIndexPieceCourante()==0)
+                    testNiveau=true;
+
+                
+
+
+
+
+             }
+
+             if ( testNiveau)
+             {
+                /* ici il faut afficher sur le graphique du jeu que voilà le joueur a gagné  */
+                /* à modifier */
+
+                System.out.println("Niveau Réussi !");
+
+             }
+             else
+             {
+                System.out.println("Réessayez , vous avez échoué  !");
+
+             }
+
+
+
+
+
+
+
+
+
+
+
+
     } /* fin de main  */
 
 
-
+private static void clearFile(String filePath) {
+        try {
+            // Utiliser l'API java.nio.file pour vider le fichier
+            Path path = Paths.get(filePath);
+            Files.write(path, new byte[0], StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
 /* méthode utile  */
 
 public void lireInstruction(Instruction executMe, Level levelOfGame,Menu menu) 
@@ -305,7 +384,8 @@ public void lireInstruction(Instruction executMe, Level levelOfGame,Menu menu)
                      * le bloc suivant contient les instructions qui sont sans arguments 
                      */
                     case "HALT": 
-                        System.exit(0);
+                        
+                        menu.getNiveau().suprimerrobotplt(levelOfGame.getRobot().getIndexPieceCourante());
                         break;
                     
                     case "DROP":
@@ -346,7 +426,7 @@ public void lireInstruction(Instruction executMe, Level levelOfGame,Menu menu)
                     /* par exemple l'appel ici est de la forme ADDI T X X  */
                     menu.getNiveau().getZoneCode().setXValue(levelOfGame.getRobot().getValueOfRegisterX());
                     menu.getNiveau().getZoneCode().setTValue(levelOfGame.getRobot().getValueOfRegisterT());
-                    menu.getNiveau().getZoneCode().setMValue(levelOfGame.getRobot().getValueOfRegisterM());
+                    // menu.getNiveau().getZoneCode().setMValue(levelOfGame.getRobot().getValueOfRegisterM());
                     break;
                  
 
@@ -359,7 +439,8 @@ public void lireInstruction(Instruction executMe, Level levelOfGame,Menu menu)
                      */
                     menu.getNiveau().getZoneCode().setXValue(levelOfGame.getRobot().getValueOfRegisterX());
                     menu.getNiveau().getZoneCode().setTValue(levelOfGame.getRobot().getValueOfRegisterT());
-                    menu.getNiveau().getZoneCode().setMValue(levelOfGame.getRobot().getValueOfRegisterM());
+                    // menu.getNiveau().getFichier().chargerContenuFichier(levelOfGame.getRobot().)
+                    // menu.getNiveau().getZoneCode().setMValue(levelOfGame.getRobot().getValueOfRegisterM());
 
                     break;
                  
@@ -369,17 +450,25 @@ public void lireInstruction(Instruction executMe, Level levelOfGame,Menu menu)
                     levelOfGame.getRobot().MULI(tabArguments[0],tabArguments[1],tabArguments[2]);
                     menu.getNiveau().getZoneCode().setXValue(levelOfGame.getRobot().getValueOfRegisterX());
                     menu.getNiveau().getZoneCode().setTValue(levelOfGame.getRobot().getValueOfRegisterT());
-                    menu.getNiveau().getZoneCode().setMValue(levelOfGame.getRobot().getValueOfRegisterM());
+                    // menu.getNiveau().getZoneCode().setMValue(levelOfGame.getRobot().getValueOfRegisterM());
                     break;
 
-                   
+                    case "DIVI":
+                    levelOfGame.getRobot().DIVI(tabArguments[0],tabArguments[1],tabArguments[2]);
+                    break;
+
+
+                    case "MODI":
+                    levelOfGame.getRobot().MODI(tabArguments[0],tabArguments[1],tabArguments[2]);
+                    break;
+      
 
                     case "COPY":
 
                     levelOfGame.getRobot().COPY(tabArguments[0],tabArguments[1]);
                     menu.getNiveau().getZoneCode().setXValue(levelOfGame.getRobot().getValueOfRegisterX());
                     menu.getNiveau().getZoneCode().setTValue(levelOfGame.getRobot().getValueOfRegisterT());
-                    menu.getNiveau().getZoneCode().setMValue(levelOfGame.getRobot().getValueOfRegisterM());
+                    // menu.getNiveau().getZoneCode().setMValue(levelOfGame.getRobot().getValueOfRegisterM());
                     break;
 
                   

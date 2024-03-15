@@ -1,7 +1,7 @@
 /**
  * classe d'exécution du jeu
  * @since 18/02/2024
- * @version 26/02/2024
+ * @version 15/03/2024
  * @author BELHADJI Rafik 
  * Cette classe est la version sur terminale de la classe LancerJeu
  * en effet , cette classe permet de lancer le jeu juste sur terminal il faut donner un argument à cette classe Java comme entier qui réprésente le niveau du jeu 
@@ -353,6 +353,16 @@ public void lireInstruction(Instruction executMe, Level levelOfGame)
                     case "MULI": 
 
                     levelOfGame.getRobot().MULI(tabArguments[0],tabArguments[1],tabArguments[2]);
+
+                    break;
+
+                    case "DIVI":
+                    levelOfGame.getRobot().DIVI(tabArguments[0],tabArguments[1],tabArguments[2]);
+
+                    break;
+
+                    case "MODI":
+                    levelOfGame.getRobot().MODI(tabArguments[0],tabArguments[1],tabArguments[2]);
 
                     break;
 

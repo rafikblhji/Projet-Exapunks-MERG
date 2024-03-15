@@ -2,7 +2,7 @@
  * Classe qui réprésente  le niveau du robot 
 *@author BELHADJI Rafik
 *@since 6/02/2024
-*@version 28/02/2024
+*@version 15/03/2024
  */
 import java.util.*;
 
@@ -15,7 +15,10 @@ public class Level {
      * notre groupe est un groupe de 4 donc on est dans le cas ou on joue toujours avec un seul robot et non 
      * 2 ou 3 ....... 
     */
-
+    /**
+     *@requires a >0
+     @param a le numéro du niveau 
+     */
     public Level ( int a )
     {
         num=a;
@@ -33,14 +36,6 @@ public class Level {
 
         switch(num)
         {
-            case 1 : 
-                    fichInt.getElementsOfFile().add("MOVE");
-                    fichInt.getElementsOfFile().add("THIS");
-                    fichInt.getElementsOfFile().add("FILE");
-                    fichInt.getElementsOfFile().add("TO");
-                    fichInt.getElementsOfFile().add("THE");
-                    fichInt.getElementsOfFile().add("OUTBOX");
-                    break;
             case 2 : 
             fichInt.getElementsOfFile().add("72");
             fichInt.getElementsOfFile().add("52");
@@ -49,16 +44,13 @@ public class Level {
             break;
 
             case 3 : 
-            fichInt.getElementsOfFile().add("ECHO");
-            fichInt.getElementsOfFile().add("9780");
+            fichInt.getElementsOfFile().add("2003");
             break;
                 
-            case 4 :
-            fichInt.getElementsOfFile().add("9");
-            break;
 
             default : 
-                /* si l'utilisateur fait rentrer un niveau > 4 on va automatiquement initialiser le */
+                /* ici le cas ou c'est 1 ou bien > 3 */
+                /* si l'utilisateur fait rentrer un niveau > 3 on va automatiquement initialiser comme le niveau 1  */
                 fichInt.getElementsOfFile().add("MOVE");
                     fichInt.getElementsOfFile().add("THIS");
                     fichInt.getElementsOfFile().add("FILE");
@@ -89,6 +81,10 @@ public class Level {
         return exapunks;
     }
 
+    public int getNumLevel()
+    {
+        return num;
+    }
 
     
 

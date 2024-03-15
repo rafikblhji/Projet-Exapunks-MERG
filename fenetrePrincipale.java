@@ -139,13 +139,17 @@ public class fenetrePrincipale extends JFrame {
         effacerContenuFichier("ligne.txt");
         for(int i=0;i<25;i++){
             supprimerFichierPlateforme1(400+i);
-             supprimerFichierPlateforme2(400+i);
-              supprimerFichierPlateforme3(400+i);
+            supprimerFichierPlateforme2(400+i);
+            supprimerFichierPlateforme3(400+i);
         }
        
         plateforme2.retirerRobot();
         plateforme3.retirerRobot();
         plateforme1.dessinerRobot();
+        supprimerFichierPlateforme1(200);
+        supprimerFichierPlateforme3(200);
+        supprimerFichierPlateforme2(200);
+
         plateforme2.dessinerFichier(200);
 
     }
@@ -449,6 +453,17 @@ public void dessinerToutFichier(Level levelOf){
         }
         if(index==2){
             dessinerFichierPlateforme3(id);
+        }
+    }
+    public void suprimerrobotplt(int index){
+        if(index==0){
+            supprimerRobotPlateforme1();
+        }
+        if(index==1){
+            supprimerRobotPlateforme2();
+        }
+        if(index==2){
+            supprimerRobotPlateforme3();
         }
     }
     

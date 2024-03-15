@@ -5,7 +5,7 @@
 *
 *@author BELHADJI Rafik
 *@since 20/01/2024
-*@version 06/03/2024
+*@version 15/03/2024
 */
 
 /**
@@ -1528,8 +1528,4 @@ public void ADDI ( String a , String b , String destination )
 
 
 }
-
-
-
-
-
+/* C'était un grand honneur pour moi de contribuer pour la première fois à un projet informatique */
