@@ -276,11 +276,13 @@ import java.text.BreakIterator;
                        default: 
                        /* un niveau libre afin de vous permettre de tester les conditions comme vous voulez  */                
                        testNiveau=true;
+
+                    }
                        testNiveauDejaFait=true; /* j'ai fait ça pour ne pas tester une autre fois le niveau  */
 
                     
 
-                }
+                
                 if ( testNiveau)
                 {
                    /* ici il faut afficher sur le graphique du jeu que voilà le joueur a gagné  */
