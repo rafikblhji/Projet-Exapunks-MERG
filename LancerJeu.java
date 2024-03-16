@@ -1,7 +1,7 @@
 /**
  * classe d'exécution du jeu
  * @since 18/02/2024
- * @version 15/03/2024
+ * @version 16/03/2024
  * @author BELHADJI Rafik
  */
 import java.io.*;
@@ -116,8 +116,8 @@ import java.text.BreakIterator;
 }
                     tmp=instructions.get(registreCountInstruction); /* récupérer l'instruction à exécuter tel que GRAB 200  */
 
-                    /* implémentation de JMP et FJMP  */
-                    if(tmp.getNom().equals("JMP"))
+                    /* implémentation de JUMP et FJMP  */
+                    if(tmp.getNom().equals("JUMP"))
 
                 {       /*
                          * dans ma version de JMP je veux qu'elle soit exécuter une fois c'est tout pas plus c'est pour cela je vais utiliser une variable booléenne afin d'éviter que
@@ -133,7 +133,7 @@ import java.text.BreakIterator;
                         String[] arg= tmp.getArguments(); /* récupéreation des arguments de l'instruction  */
                         if(!(levelOfGame.getRobot().isInteger(arg[0]))) /* tester si l'argument est bien un entier en utilisant la méthode définit dans la classe Robot */
                         {
-                            System.err.println("JMP a besoin d'un entier comme argument ");
+                            System.err.println("JUMP a besoin d'un entier comme argument ");
                             System.exit(1);
                         }
                         int pas= Integer.parseInt(arg[0]); /* transformer la chaine en entier tel que "10" en entier 10 par exemple  */
@@ -270,15 +270,28 @@ import java.text.BreakIterator;
             Niveau 2 : 
             Créer un fichier et le mettre à la dernière pièce et mettre aussi le fichier d'identification 200 là bas et le robot doit être a la dernière pièce 
 
-            Niveau 3 : 
-            Je prends la valeur du fichier f200 qui est automatiquement 2003 (initialise dans le niveau ) je lui rajoute 2 et je le mets dans le registre X ( donc X doit contenir 2005)
-            je déplace le fichier f200 à la première pièce le robot je le laisse dans la pièce du milieu 
+
+            niveau3 : créer deux fichier les mettre dans la dernière pièce LINK 800 LINK 800 MAKE DROP MAKE DROP  . 
+            revenir à la pièce du milieu  LINK -1 et prendre le fichier 200 GRAB 200 , 
+            mettre la valeur contenu dans le fichier dans le registre T mettre 5 dans le registre X ( COPY F T et COPY 5  X ) , donc T reçoit 2003 , 
+            ensuite on fait additionner X et T( ou autre registre ) et mettre dans X  ( ADDI X T X ) ensuite multiplier x2 ( MULI X 2 X ) ensuite faire SUBI ( X 16 X ), revenir à la pièce qui contient les deux fichier 
+            ( la dernière pièce ) et à la fin donc logiquement X contiendra la valeur 4000 , à la fin donc X doit contenir 4000
+            le robot doit à la pièce d'indice 2 ( la 3ème pièce )cette dernière doit ocntenir deux nouveaux fichiers
+            je veux aussi que le joueur laisse le fichier d'identifiant 200 à la pièce d'indice 0 ( pièce 1)
+
+            niveau >3 : j'ai mis sans condition de victoire afin de vous permettre de tester les instructions comme vous voulez
+
+
+
              */
             boolean testNiveau=false;;
 
              switch(levelOfGame.getNumLevel())
              {
-                
+                case 1:
+                if( levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(200) && levelOfGame.getRobot().getIndexPieceCourante()==0)
+                    testNiveau=true;
+
                 case 2:
                     /* on sait que le premier fichier créé aura 400 comme identifiant  */
                     if( levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(200) && levelOfGame.getRobot().getIndexPieceCourante()==2 &&  levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(400) )
@@ -287,15 +300,15 @@ import java.text.BreakIterator;
                 break;
 
                 case 3:
-                if(levelOfGame.getRobot().getValueOfRegisterX().equals("2005") && levelOfGame.getRobot().getListPieceRobot().get(0).contientFichier(200)&& levelOfGame.getRobot().getIndexPieceCourante()==1)
+                if(levelOfGame.getRobot().getValueOfRegisterX().equals("4000")  && levelOfGame.getRobot().getListPieceRobot().get(0).contientFichier(200)&& levelOfGame.getRobot().getIndexPieceCourante()==2
+                &&(levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(400)&&levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(401))
+                )
                     testNiveau=true;
                 break;
 
                 default: 
-                /*  le cas ou le niveau est 1 ou bien >3( on a dit quand le niveau >3 ce sont les memes objectifs que le niveau 1 ) */
-                if( levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(200) && levelOfGame.getRobot().getIndexPieceCourante()==0)
-                    testNiveau=true;
-
+                /* un niveau libre afin de vous permettre de tester les conditions comme vous voulez  */                
+                testNiveau=true;
                 
 
 
@@ -406,19 +419,7 @@ public void lireInstruction(Instruction executMe, Level levelOfGame,Menu menu)
 
 
                     /* fin du bloc d'instruction sans arguments  */
-                    /**
-                     * j'invite le chargé de l'interface graphique et 
-                     * le responsable d'entrées et sorties textuels à suivre cette convention avec moi : 
-                     * dans la classe robot les instructions qui font l'addition, la soustraction et la multiplication
-                     * j'ai défini pour chacune de ces instructions deux types
-                     * une ou le deuxième argument est un entier , et une autre version ou le deuxième argument est un fichier
-                     * comme pour ADDI X 1 T ( c'est la version ou le deuxième élément est un entier )
-                     * y a aussi la version ADDI X F T  ou on prend la valeur de registre X et la valeur vers quelle l'index courant
-                     * pointe dans le fichier et on met le résultat de l'addition de ces deux valeurs dans le registre T
-                     * maintenant je vous invite à prendre la convetion suivante avec moi , vous allez tapez sur la fenetre
-                     * du jeu ADDIf en rajoutant f cela veut dire on va utiliser la version ou y a 
-                     * le fichier comme deuxième paramètre , si on rajoute pas le f on va utiliser la version ou y a un entier comme deuxième paramètre 
-                     */
+               
 
                     case "ADDI": 
 
@@ -455,11 +456,15 @@ public void lireInstruction(Instruction executMe, Level levelOfGame,Menu menu)
 
                     case "DIVI":
                     levelOfGame.getRobot().DIVI(tabArguments[0],tabArguments[1],tabArguments[2]);
+                    menu.getNiveau().getZoneCode().setXValue(levelOfGame.getRobot().getValueOfRegisterX());
+                    menu.getNiveau().getZoneCode().setTValue(levelOfGame.getRobot().getValueOfRegisterT());
                     break;
 
 
                     case "MODI":
                     levelOfGame.getRobot().MODI(tabArguments[0],tabArguments[1],tabArguments[2]);
+                    menu.getNiveau().getZoneCode().setXValue(levelOfGame.getRobot().getValueOfRegisterX());
+                    menu.getNiveau().getZoneCode().setTValue(levelOfGame.getRobot().getValueOfRegisterT());
                     break;
       
 
@@ -509,16 +514,3 @@ public void lireInstruction(Instruction executMe, Level levelOfGame,Menu menu)
 
 }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-   

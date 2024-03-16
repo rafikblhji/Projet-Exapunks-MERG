@@ -2,7 +2,7 @@
  * Classe qui réprésente  le niveau du robot 
 *@author BELHADJI Rafik
 *@since 6/02/2024
-*@version 15/03/2024
+*@version 16/03/2024
  */
 import java.util.*;
 
@@ -16,11 +16,17 @@ public class Level {
      * 2 ou 3 ....... 
     */
     /**
-     *@requires a >0
      @param a le numéro du niveau 
      */
     public Level ( int a )
-    {
+    {   
+        /* j'ai décidé de gérer les erreurs possibles par l'utilsiateur moi même comme si a=0 ou a<0 afin de simplifier le travail du chargé du graphique  */
+        if(a==0)
+            a++; /* c'est juste j'ai pas envie d'avoir un niveau 0 le minimum est le niveau 1  */
+        
+        if(a<0)
+            a=-a; /* afin de le rendre positif c'est juste une convention  */
+
         num=a;
         fichInt=new Fichier(200);
         ArrayList<Piece> listePiece = new ArrayList<Piece>();
@@ -35,7 +41,16 @@ public class Level {
         exapunks= new Robot ( "xa",listePiece);
 
         switch(num)
-        {
+        {   
+
+            case 1 : 
+                   fichInt.getElementsOfFile().add("MOVE");
+                    fichInt.getElementsOfFile().add("THIS");
+                    fichInt.getElementsOfFile().add("FILE");
+                    fichInt.getElementsOfFile().add("TO");
+                    fichInt.getElementsOfFile().add("THE");
+                    fichInt.getElementsOfFile().add("OUTBOX");
+                    break;
             case 2 : 
             fichInt.getElementsOfFile().add("72");
             fichInt.getElementsOfFile().add("52");
@@ -49,15 +64,14 @@ public class Level {
                 
 
             default : 
-                /* ici le cas ou c'est 1 ou bien > 3 */
-                /* si l'utilisateur fait rentrer un niveau > 3 on va automatiquement initialiser comme le niveau 1  */
-                fichInt.getElementsOfFile().add("MOVE");
-                    fichInt.getElementsOfFile().add("THIS");
-                    fichInt.getElementsOfFile().add("FILE");
-                    fichInt.getElementsOfFile().add("TO");
-                    fichInt.getElementsOfFile().add("THE");
-                    fichInt.getElementsOfFile().add("OUTBOX");
-                    break;
+                /* si l'utilisateur fait rentrer un niveau > 3 on va automatiquement initialiser un niveau libre  */
+                /* le but du niveau libre c'est de permettre au prof de tester le jeu comme il veut  */
+                    fichInt.getElementsOfFile().add("15");
+                    fichInt.getElementsOfFile().add("12");
+                    fichInt.getElementsOfFile().add("13");
+                    fichInt.getElementsOfFile().add("150");
+                    fichInt.getElementsOfFile().add("120");
+                    fichInt.getElementsOfFile().add("17");
 
 
 

@@ -1,11 +1,13 @@
 /**
  * classe d'exécution du jeu
  * @since 18/02/2024
- * @version 15/03/2024
+ * @version 16s/03/2024
  * @author BELHADJI Rafik 
  * Cette classe est la version sur terminale de la classe LancerJeu
  * en effet , cette classe permet de lancer le jeu juste sur terminal il faut donner un argument à cette classe Java comme entier qui réprésente le niveau du jeu 
  * ou le robot joue 
+ * Note: cette classe : je l'ai commencé à coder et réfléchir sur le fonctionnement du backend 
+ * ensuite je l'ai transformé en LancerJeu.java ou le chargé de graphique a rajouté les instructions qui font appeler la partie graphique du jeu 
  */
 import java.io.*;
 import java.util.*;
@@ -74,8 +76,6 @@ import java.util.*;
           /**
            * 
            * Chemin vers le fichier à lire 
-           * le chargé de l'interface graphique et le chargé de sortie et entrée textuelle doivent me 
-           * communiquer au plus vite le répertoire ou se trouve le fichier contenant la commande
            * 
            * */         
         try {
@@ -134,7 +134,7 @@ import java.util.*;
                         String[] arg= tmp.getArguments(); /* récupéreation des arguments de l'instruction  */
                         if(!(levelOfGame.getRobot().isInteger(arg[0]))) /* tester si l'argument est bien un entier en utilisant la méthode définit dans la classe Robot */
                         {
-                            System.err.println("JMP a besoin d'un entier comme argument ");
+                            System.err.println("JUMP a besoin d'un entier comme argument ");
                             System.exit(1);
                         }
                         int pas= Integer.parseInt(arg[0]); /* transformer la chaine en entier tel que "10" en entier 10 par exemple  */
