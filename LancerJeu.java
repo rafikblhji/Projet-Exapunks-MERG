@@ -257,6 +257,7 @@ import java.text.BreakIterator;
                        case 1:
                        if( levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(200) && levelOfGame.getRobot().getIndexPieceCourante()==0)
                            testNiveau=true;
+                        break;
        
                        case 2:
                            /* on sait que le premier fichier créé aura 400 comme identifiant  */
@@ -277,9 +278,24 @@ import java.text.BreakIterator;
                        testNiveau=true;
                        testNiveauDejaFait=true; /* j'ai fait ça pour ne pas tester une autre fois le niveau  */
 
-                    menu.getNiveau().suprimerrobotplt(levelOfGame.getRobot().getIndexPieceCourante());
+                    
 
                 }
+                if ( testNiveau)
+                {
+                   /* ici il faut afficher sur le graphique du jeu que voilà le joueur a gagné  */
+                   /* à modifier */
+   
+                   System.out.println("Niveau Réussi !");
+   
+                }
+                else
+                {
+                   System.out.println("Réessayez , vous avez échoué  !");
+   
+                }
+                /* et là le HALT */
+                menu.getNiveau().suprimerrobotplt(levelOfGame.getRobot().getIndexPieceCourante());
             }
                     else
                     {
@@ -331,6 +347,7 @@ import java.text.BreakIterator;
                 case 1:
                 if( levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(200) && levelOfGame.getRobot().getIndexPieceCourante()==0)
                     testNiveau=true;
+                break;
 
                 case 2:
                     /* on sait que le premier fichier créé aura 400 comme identifiant  */
@@ -369,11 +386,10 @@ import java.text.BreakIterator;
                 System.out.println("Réessayez , vous avez échoué  !");
 
              }
-            }
+            
 
 
-            if(!testNiveauDejaFait)
-            {
+            
                 /* ici je rajoute automatiquement le HALT si l'utilisateur ne l'a pas déjà fait  */
                 menu.getNiveau().suprimerrobotplt(levelOfGame.getRobot().getIndexPieceCourante());
             }
