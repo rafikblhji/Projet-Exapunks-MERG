@@ -2,18 +2,21 @@
  * classe d'exécution du jeu
  * @since 18/02/2024
  * @version 16/03/2024
- * @author BELHADJI Rafik
+ * @author BELHADJI Rafik et ORCUN Gabriel
+ * 
  */
 import java.io.*;
 import java.util.*;
 import java.nio.file.*;
 import java.text.BreakIterator;
+import javax.swing.JOptionPane;
 
 
  public class LancerJeu 
  {
 
     public static void main(String[] args) {
+        int cpt;
         LancerJeu programme= new LancerJeu();
         boolean testNiveau=false,testNiveauDejaFait=false;
         // int numNiveau=0;
@@ -134,8 +137,10 @@ import java.text.BreakIterator;
                         String[] arg= tmp.getArguments(); /* récupéreation des arguments de l'instruction  */
                         if(!(levelOfGame.getRobot().isInteger(arg[0]))) /* tester si l'argument est bien un entier en utilisant la méthode définit dans la classe Robot */
                         {
-                            System.err.println("JUMP a besoin d'un entier comme argument ");
-                            System.exit(1);
+                            // System.err.println("JUMP a besoin d'un entier comme argument ");
+                            // System.exit(1);
+                            commandeIncorrectee("JUMP a besoin d'un entier comme argument");
+
                         }
                         int pas= Integer.parseInt(arg[0]); /* transformer la chaine en entier tel que "10" en entier 10 par exemple  */
 
@@ -215,8 +220,9 @@ import java.text.BreakIterator;
                         int nombrePas=Integer.parseInt(tabArgFJMP[0]); 
                         if(nombrePas>=0)
                         {
-                            System.err.println("FJMP doit avoir un entier négatif comme argument");
-                            System.exit(1);
+                            // System.err.println("FJMP doit avoir un entier négatif comme argument");
+                            // System.exit(1);
+                            commandeIncorrectee("FJMP doit avoir un entier negatif comme argument");
                         }
                         /* là on récupère le nombre de pas 
                         * ce nombre on s'est mis d'accord pour qu'il sois toujours négative 
@@ -261,7 +267,7 @@ import java.text.BreakIterator;
        
                        case 2:
                            /* on sait que le premier fichier créé aura 400 comme identifiant  */
-                           if( levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(200) && levelOfGame.getRobot().getIndexPieceCourante()==2 &&  levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(400) )
+                           if( levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(200) && levelOfGame.getRobot().getIndexPieceCourante()==0 &&  levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(400) )
                            testNiveau=true;
        
                        break;
@@ -287,13 +293,14 @@ import java.text.BreakIterator;
                 {
                    /* ici il faut afficher sur le graphique du jeu que voilà le joueur a gagné  */
                    /* à modifier */
-   
+                    menu.getNiveau().reussirNiveau();
                    System.out.println("Niveau Réussi !");
    
                 }
                 else
                 {
                    System.out.println("Réessayez , vous avez échoué  !");
+                   menu.getNiveau().raterNiveau();
    
                 }
                 /* et là le HALT */
@@ -379,7 +386,7 @@ import java.text.BreakIterator;
              {
                 /* ici il faut afficher sur le graphique du jeu que voilà le joueur a gagné  */
                 /* à modifier */
-
+                menu.getNiveau().reussirNiveau();
                 System.out.println("Niveau Réussi !");
 
              }
@@ -415,6 +422,10 @@ private static void clearFile(String filePath) {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+     public static void commandeIncorrectee(String msg) {
+        JOptionPane.showMessageDialog(null, msg);
+        // Ajoutez ici tout autre traitement à effectuer en cas de commande incorrecte
     }
 /* méthode utile  */
 

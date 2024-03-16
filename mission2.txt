@@ -1,0 +1,7 @@
+On s'échauffe encore un peu ! Sinon on risque de se blesser si on y va à froid ^^
+*********************************************************
+Crée un fichier et le dépose dans la dernière pièce puis
+Déposer le fichier 200 dans la dernière pièce et enfin
+le robot doit revenir dans la première pièce
+*********************************************************
+Bonne chance :-)

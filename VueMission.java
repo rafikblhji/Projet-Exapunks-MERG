@@ -1,3 +1,11 @@
+/**
+ * La classe qui charge la mission en focntion de niveau
+ * @since 20/01/2024
+ * @version 16/03/2024
+ * @author ORCUN Gabriel
+ * 
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;

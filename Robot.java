@@ -15,6 +15,7 @@
  */
 
 import java.util.*;
+import javax.swing.JOptionPane;
 
 public class Robot {
     /* déclaration des attributs nécessaires pour la classe robot  */
@@ -169,8 +170,9 @@ public class Robot {
      */
     public void LINK(int a )
     {   if(a!=800 && a!=-1){
-            System.out.println("LINK ID NOT FOUND");
-            System.exit(1);
+            // System.out.println("LINK ID NOT FOUND");
+            // System.exit(1);
+            commandeIncorrecte("LINK ID NOT FOUND");
 
     }
 
@@ -207,8 +209,9 @@ public class Robot {
     {
         if(!peutTransporterFichier())
         {
-            System.out.println("CANNOT GRAB A SECOND FILE");
-            System.exit(1);
+            // System.out.println("CANNOT GRAB A SECOND FILE");
+            // System.exit(1);
+            commandeIncorrecte("CANNOT GRAB A SECOND FILE");
         }
         F = new Fichier(400+compteurFichierCree,new ArrayList<String>());
         compteurFichierCree++; /* il faut l'augmenter comme ça l'id du prochain fichier  sera mis à jour  */
@@ -238,8 +241,9 @@ public class Robot {
     {
         if(!peutTransporterFichier())
         {
-            System.out.println("CANNOT GRAB A SECOND FILE ");
-            System.exit(1);
+            // System.out.println("CANNOT GRAB A SECOND FILE ");
+            // System.exit(1);
+            commandeIncorrecte("CANNOT GRAB A SECOND FILE");
         }
 
         
@@ -256,8 +260,9 @@ public class Robot {
          */
         if(listFichierTemp.isEmpty())
         {
-            System.out.println("FILE ID NOT FOUND");
-            System.exit(1);
+            // System.out.println("FILE ID NOT FOUND");
+            // System.exit(1);
+            commandeIncorrecte("FILE ID NOT FOUND");
 
         }
         for(int i=0;i<listFichierTemp.size() && peutTransporter;i++)
@@ -300,8 +305,9 @@ public class Robot {
          */
         if(peutTransporter) /* c'est à dire peutTransporter est toujours vrai  */
         {
-            System.out.println("FILE ID NOT FOUND ");
-            System.exit(1);
+            // System.out.println("FILE ID NOT FOUND ");
+            // System.exit(1);
+            commandeIncorrecte("FILE ID NOT FOUND");
 
         }
 
@@ -324,8 +330,9 @@ public class Robot {
     {
         if(peutTransporterFichier())
         {
-            System.out.println("NO FILE IS HELD ");
-            System.exit(1);
+            // System.out.println("NO FILE IS HELD ");
+            // System.exit(1);
+            commandeIncorrecte("NO FILE IS HELD");
         }
         
         Piece pTmPiece=lp.get(getIndexPieceCourante()); /* la pièce courante ou se trouve le robot  */
@@ -363,8 +370,9 @@ public class Robot {
     public boolean TEOF()
     {   if(F==null)
         {
-            System.err.println("NO FILE IS HELD");
-            System.exit(1);
+            // System.err.println("NO FILE IS HELD");
+            // System.exit(1);
+            commandeIncorrecte("NO FILE IS HELD");
         }
         if(indexFichier+1>F.getElementsOfFile().size()) /* merci pour la remarque Emna  */
         return true;
@@ -410,8 +418,9 @@ public class Robot {
      {
         if(peutTransporterFichier()) /* si le robot n'a rien entre ses mains  */
         {
-            System.out.println("NO FILE IS HELD ");
-            System.exit(1);
+            // System.out.println("NO FILE IS HELD ");
+            // System.exit(1);
+            commandeIncorrecte("NO FILE IS HELD");
         }
         
         String valeur;
@@ -438,14 +447,16 @@ public class Robot {
      {
         if(peutTransporterFichier()) /* si le robot n'a rien entre ses mains  */
         {
-            System.out.println("NO FILE IS HELD ");
-            System.exit(1);
+            // System.out.println("NO FILE IS HELD ");
+            // System.exit(1);
+            commandeIncorrecte("NO FILE IS HELD");
         }
 
         if(TEOF())
         {
-            System.out.println("CANNOT READ PAST END OF FILE ");
-            System.exit(1);
+            // System.out.println("CANNOT READ PAST END OF FILE ");
+            // System.exit(1);
+            commandeIncorrecte("CANNOT READ PAST END OF FILE");
         }
         switch(registre)   
         {
@@ -507,14 +518,16 @@ public class Robot {
     {   boolean verite=false;
         if(peutTransporterFichier())
         {
-            System.out.println("NO FILE IS HELD ");
-            System.exit(1);
+            // System.out.println("NO FILE IS HELD ");
+            // System.exit(1);
+            commandeIncorrecte("NO FILE IS HELD");
         }
         
         if(TEOF())
         {
-            System.out.println("CANNOT READ PAST END OF FILE ");
-            System.exit(1);
+            // System.out.println("CANNOT READ PAST END OF FILE ");
+            // System.exit(1);
+            commandeIncorrecte("CANNOT READ PAST END OF FILE");
         
         }
 
@@ -576,8 +589,10 @@ public class Robot {
         }
         else
         {
-        System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
-        System.exit(1); /* dans le cas ou c'est pas des entiers */}
+        // System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+        // System.exit(1); /* dans le cas ou c'est pas des entiers */
+        commandeIncorrecte("NUMERIC VALUE REQUIRED");
+        }
     }
 
 
@@ -599,13 +614,15 @@ public class Robot {
     {   boolean verite=false;
         if(peutTransporterFichier())
         {
-            System.out.println("NO FILE IS HELD ");
-            System.exit(1);
+            // System.out.println("NO FILE IS HELD ");
+            // System.exit(1);
+            commandeIncorrecte("NO FILE IS HELD");
         }        
         if(TEOF())
         {
-            System.out.println("CANNOT READ PAST END OF FILE ");
-            System.exit(1);
+            // System.out.println("CANNOT READ PAST END OF FILE ");
+            // System.exit(1);
+            commandeIncorrecte("CANNOT READ PAST END OF FILE");
         
         }  
         String verif;
@@ -664,8 +681,10 @@ public class Robot {
         }
         else
         {
-        System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
-        System.exit(1);}
+        // System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+        // System.exit(1);
+        commandeIncorrecte("NUMERIC VALUE REQUIRED");
+        }
 
     }
            /**
@@ -686,13 +705,15 @@ public class Robot {
     {   boolean verite=false;
         if(peutTransporterFichier())
         {
-            System.out.println("NO FILE IS HELD");
-            System.exit(1);
+            // System.out.println("NO FILE IS HELD");
+            // System.exit(1);
+            commandeIncorrecte("NO FILE IS HELD");
         }
         if(TEOF())
         {
-            System.out.println("CANNOT READ PAST END OF FILE ");
-            System.exit(1);
+            // System.out.println("CANNOT READ PAST END OF FILE ");
+            // System.exit(1);
+            commandeIncorrecte("CANNOT READ PAST END OF FILE");
         }
         String verif="";
         switch(a)
@@ -749,8 +770,9 @@ public class Robot {
 
         }
         else{
-        System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
-        System.exit(1);
+        // System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+        // System.exit(1);
+        commandeIncorrecte("NUMERIC VALUE REQUIRED");
         }
 
     }
@@ -845,7 +867,8 @@ public class Robot {
 
         }
         if(!isInteger(verif))
-            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+            commandeIncorrecte("NUMERIC VALUE REQUIRED");
+            // throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
 
         int x = Integer.parseInt(verif); 
         if(destination.equals("X"))
@@ -909,8 +932,9 @@ public  boolean TEST(String str, String operator, int num) {
 
         }
     if (!isInteger(verif)) {
-        System.out.println("La chaîne '" + str + "' n'est pas un entier valide.");
-         System.exit(1);
+        // System.out.println("La chaîne '" + str + "' n'est pas un entier valide.");
+        //  System.exit(1);
+        commandeIncorrecte("La chaine n'est pas une chaine valide");
     }
     
     int value = Integer.parseInt(verif);
@@ -925,7 +949,8 @@ public  boolean TEST(String str, String operator, int num) {
 
         default:
          {
-            System.out.println("Opérateur non pris en charge ");
+            // System.out.println("Opérateur non pris en charge ");
+            commandeIncorrecte("Opérteur non pris en charge");
             return false;
          }
          
@@ -992,10 +1017,12 @@ public void ADDI ( String a , String b , String destination )
 
 
         if(!isInteger(verif))
-            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+            commandeIncorrecte("NUMERIC VALUE REQUIRED");
+            // throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
 
         if(!isInteger(verif2))
-            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+            commandeIncorrecte("NUMERIC VALUE REQUIRED");
+            // throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
         
 
         int x = Integer.parseInt(verif);
@@ -1019,8 +1046,9 @@ public void ADDI ( String a , String b , String destination )
             F.getElementsOfFile().add(indexFichier,x-x2+"");
             else /* le cas ou  */
             {
-                System.err.println("Le Robot n'a aucun fichier entre ses mains ");
-                System.exit(1);
+                // System.err.println("Le Robot n'a aucun fichier entre ses mains ");
+                // System.exit(1);
+                commandeIncorrecte("Le Robot n'a aucun fichier entre ses mains");
             }
 
         }
@@ -1077,10 +1105,12 @@ public void ADDI ( String a , String b , String destination )
 
 
         if(!isInteger(verif))
-            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+            commandeIncorrecte("NUMERIC VALUE REQUIRED");
+            // throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
 
         if(!isInteger(verif2))
-            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+            commandeIncorrecte("NUMERIC VALUE REQUIRED");
+            // throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
         
 
         int x = Integer.parseInt(verif);
@@ -1104,8 +1134,9 @@ public void ADDI ( String a , String b , String destination )
            F.getElementsOfFile().add(indexFichier,x-x2+"");
            else /* le cas ou  */
            {
-               System.err.println("Le Robot n'a aucun fichier entre ses mains ");
-               System.exit(1);
+            //    System.err.println("Le Robot n'a aucun fichier entre ses mains ");
+            //    System.exit(1);
+            commandeIncorrecte("Le Robot n'a aucun fichier entre ses mains");
            }
 
 
@@ -1163,10 +1194,12 @@ public void ADDI ( String a , String b , String destination )
 
 
         if(!isInteger(verif))
-            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+            commandeIncorrecte("NUMERIC VALUE REQUIRED");
+            // throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
 
         if(!isInteger(verif2))
-            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+            commandeIncorrecte("NUMERIC VALUE REQUIRED");
+            // throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
         
 
         int x = Integer.parseInt(verif);
@@ -1190,8 +1223,9 @@ public void ADDI ( String a , String b , String destination )
             F.getElementsOfFile().add(indexFichier,x-x2+"");
             else /* le cas ou  */
             {
-                System.err.println("Le Robot n'a aucun fichier entre ses mains ");
-                System.exit(1);
+                // System.err.println("Le Robot n'a aucun fichier entre ses mains ");
+                // System.exit(1);
+                commandeIncorrecte("Le Robot n'a aucun fichier entre ses mains");
             }
 
 
@@ -1209,13 +1243,15 @@ public void ADDI ( String a , String b , String destination )
       {   boolean verite=false;
           if(peutTransporterFichier())
           {
-              System.out.println("NO FILE IS HELD");
-              System.exit(1);
+            //   System.out.println("NO FILE IS HELD");
+            //   System.exit(1);
+            commandeIncorrecte("NO FILE IS HELD");
           }
           if(TEOF())
           {
-              System.out.println("CANNOT READ PAST END OF FILE ");
-              System.exit(1);
+            //   System.out.println("CANNOT READ PAST END OF FILE ");
+            //   System.exit(1);
+            commandeIncorrecte("CANNOT READ PAST END OF FILE");
           }
           String verif="";
           switch(a)
@@ -1272,8 +1308,9 @@ public void ADDI ( String a , String b , String destination )
   
           }
           else{
-          System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
-          System.exit(1);
+        //   System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+        //   System.exit(1);
+            commandeIncorrecte("NUMERIC VALUE REQUIRED");
           }
   
       }
@@ -1329,10 +1366,12 @@ public void ADDI ( String a , String b , String destination )
 
 
         if(!isInteger(verif))
-            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+            commandeIncorrecte("NUMERIC VALUE REQUIRED");
+            // throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
 
         if(!isInteger(verif2))
-            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+            commandeIncorrecte("NUMERIC VALUE REQUIRED");
+            // throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
         
 
         int x = Integer.parseInt(verif);
@@ -1356,8 +1395,9 @@ public void ADDI ( String a , String b , String destination )
             F.getElementsOfFile().add(indexFichier,x%x2+"");
             else /* le cas ou  */
             {
-                System.err.println("Le Robot n'a aucun fichier entre ses mains ");
-                System.exit(1);
+                // System.err.println("Le Robot n'a aucun fichier entre ses mains ");
+                // System.exit(1);
+                commandeIncorrecte("Le Robot n'a aucun fichier entre ses mains");
             }
 
 
@@ -1411,10 +1451,12 @@ public void ADDI ( String a , String b , String destination )
 
 
         if(!isInteger(verif))
-            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+            commandeIncorrecte("NUMERIC VALUE REQUIRED");
+            // throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
 
         if(!isInteger(verif2))
-            throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+            commandeIncorrecte("NUMERIC VALUE REQUIRED");
+            // throw new UnsupportedOperationException("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
         
 
         int x = Integer.parseInt(verif);
@@ -1438,8 +1480,9 @@ public void ADDI ( String a , String b , String destination )
             F.getElementsOfFile().add(indexFichier,x/x2+"");
             else /* le cas ou  */
             {
-                System.err.println("Le Robot n'a aucun fichier entre ses mains ");
-                System.exit(1);
+                // System.err.println("Le Robot n'a aucun fichier entre ses mains ");
+                // System.exit(1);
+                commandeIncorrecte("Le Robot n'a aucun fichier entre ses mains");
             }
 
 
@@ -1457,13 +1500,15 @@ public void ADDI ( String a , String b , String destination )
       {   boolean verite=false;
           if(peutTransporterFichier())
           {
-              System.out.println("NO FILE IS HELD");
-              System.exit(1);
+            //   System.out.println("NO FILE IS HELD");
+            //   System.exit(1);
+            commandeIncorrecte("NO FILE IS HELD");
           }
           if(TEOF())
           {
-              System.out.println("CANNOT READ PAST END OF FILE ");
-              System.exit(1);
+            //   System.out.println("CANNOT READ PAST END OF FILE ");
+            //   System.exit(1);
+            commandeIncorrecte("CANNOT READ PAST END OF FILE");
           }
           String verif="";
           switch(a)
@@ -1520,11 +1565,16 @@ public void ADDI ( String a , String b , String destination )
   
           }
           else{
-          System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
-          System.exit(1);
+        //   System.out.println("NUMERIC VALUE REQUIRED"); /* dans le cas ou c'est pas des entiers */
+        //   System.exit(1);
+             commandeIncorrecte("NUMERIC VALUE REQUIRED");
           }
   
       }
+       public void commandeIncorrecte(String msg) {
+        JOptionPane.showMessageDialog(null, msg);
+        // Ajoutez ici tout autre traitement à effectuer en cas de commande incorrecte
+    }
 
 
 }

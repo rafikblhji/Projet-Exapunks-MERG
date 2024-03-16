@@ -1,6 +1,11 @@
-// seconde version avec le bouton pas implmeneter et les platforme de jeux qui sont ajouter dans la zone qui leur correspond
-// il manque le bouton stop l'affichage de la mission a effectuer pour chaque niveau et la zone ou sera affichier le contenu du fichier
-// attraper par le joueur
+/**
+ * La classe qui represente le niveau du jeu chaque niveau commence presque pareil seul 
+ * les fichier et les mission change
+ * @since 20/01/2024
+ * @version 16/03/2024
+ * @author ORCUN Gabriel
+ * 
+ */
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
 
 public class fenetrePrincipale extends JFrame {
 
@@ -16,11 +22,11 @@ public class fenetrePrincipale extends JFrame {
     private VueZoneCode vueZoneCode = new VueZoneCode("XA");
     public boolean continuer=false;
     private JTextArea messageArea;
-    private VuePlateforme plateforme1 = new VuePlateforme(Color.BLACK, 5);
+    private VuePlateforme plateforme1 = new VuePlateforme(Color.GRAY, 5);
     private VuePlateforme plateforme2 = new VuePlateforme(Color.RED, 5);
     private VuePlateforme plateforme3 = new VuePlateforme(Color.RED, 5);
     public VueFichier fichier =new VueFichier("200","EntréeQuestion2.txt");
-    public VueMission mission=new VueMission("Question2.txt");
+    public VueMission mission=new VueMission("mission2.txt");
     
 
     public fenetrePrincipale() {
@@ -49,6 +55,10 @@ public class fenetrePrincipale extends JFrame {
         JPanel zoneGauche = new JPanel(new GridBagLayout());
         zoneGauche.setBackground(Color.BLACK);
         zoneGauche.setBorder(new LineBorder(Color.GRAY, 3));
+        plateforme1.afficherMessageHaut("800");
+        plateforme2.afficherMessageBas("-1");
+        plateforme3.afficherMessageBas("-1");
+        plateforme2.afficherMessageHaut("800");
 
         // VueFichier fichier =new VueFichier("200","EntréeQuestion2.txt");
         // VueMission mission=new VueMission("Question2.txt");
@@ -151,6 +161,8 @@ public class fenetrePrincipale extends JFrame {
         supprimerFichierPlateforme2(200);
 
         plateforme2.dessinerFichier(200);
+        vueZoneCode.setXValue("0");
+        vueZoneCode.setTValue("0");
 
     }
 });
@@ -348,6 +360,14 @@ public class fenetrePrincipale extends JFrame {
     public VuePlateforme getPlateforme3(){
         return plateforme3;
     }
+    public void reussirNiveau() {
+        JOptionPane.showMessageDialog(null, "Bravo ! Vous avez réussi le niveau !");
+       
+    }
+    public void raterNiveau() {
+        JOptionPane.showMessageDialog(null, "OH non ! Vous avez raté le niveau ! Essayez de nouveau !");
+       
+    }
     public void deplacerRobott(int id){
         supprimerRobotPlateforme1();
         supprimerRobotPlateforme2();
@@ -483,3 +503,5 @@ public void dessinerToutFichier(Level levelOf){
         fenetrePrincipale frame = new fenetrePrincipale();
     }
 }
+
+

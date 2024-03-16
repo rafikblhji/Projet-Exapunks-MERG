@@ -1,3 +1,11 @@
+/**
+ * Les platforme du jeu
+ * @since 20/01/2024
+ * @version 16/03/2024
+ * @author ORCUN Gabriel
+ * 
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.LineBorder;
@@ -19,11 +27,16 @@ public class VuePlateforme extends JPanel {
     private int currentFileX;
     private int currentFileY;
 
+    private String messageHaut;
+    private String messageBas;
+
     public VuePlateforme(Color couleur, int size) {
         this.couleur = couleur;
         this.size = size;
         this.robotPresent = false;
         this.fichiers = new HashMap<>();
+        this.messageHaut = "";
+        this.messageBas = "";
         setPreferredSize(new Dimension(size * 25, size * 25));
         setBorder(new LineBorder(Color.GREEN, 2));
         setOpaque(true);
@@ -93,6 +106,18 @@ public class VuePlateforme extends JPanel {
         repaint();
     }
 
+    // Méthode pour afficher un message en haut de la plateforme
+    public void afficherMessageHaut(String message) {
+        this.messageHaut = message;
+        repaint();
+    }
+
+    // Méthode pour afficher un message en bas de la plateforme
+    public void afficherMessageBas(String message) {
+        this.messageBas = message;
+        repaint();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -132,6 +157,24 @@ public class VuePlateforme extends JPanel {
             g.setColor(Color.GREEN);
             g.drawString(String.valueOf(id), fichierX + fichierSize / 2 - 10, fichierY - 5);
         }
+
+        // Dessiner le message en haut si présent
+        if (!messageHaut.isEmpty()) {
+            g.setColor(Color.YELLOW);
+            // Ajuster les coordonnées pour centrer le texte en haut
+            int x = (width - g.getFontMetrics().stringWidth(messageHaut)) / 2;
+            int y = g.getFontMetrics().getAscent();  // Utiliser l'ascenseur pour l'alignement vertical
+            g.drawString(messageHaut, x, y);
+        }
+
+        // Dessiner le message en bas si présent
+        if (!messageBas.isEmpty()) {
+            g.setColor(Color.YELLOW);
+            // Ajuster les coordonnées pour aligner le texte en bas
+            int x = (width - g.getFontMetrics().stringWidth(messageBas)) / 2;
+            int y = height - g.getFontMetrics().getDescent();  // Utiliser la descente pour l'alignement vertical
+            g.drawString(messageBas, x, y);
+        }
     }
 
     public boolean robotPresent() {
@@ -142,8 +185,6 @@ public class VuePlateforme extends JPanel {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Test de la Plateforme");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
             
             frame.pack();
             frame.setLocationRelativeTo(null);

@@ -1,0 +1,12 @@
+Passons aux choses sérieuse! Finiee la rigolade on passe en matheux... N'ai pas peur ça va le faire.
+*************************************************************
+Créé 2 fichiers que tu depose dans la dernière pièce
+Ensuite revenir à la pièce 1 et prendre le fichier 200
+mettre la valeur du fichier dans T et 5 dans X
+Additioner X et T et le mettre dans X 
+Multiplier X par 2 et le mettre dans X
+soustraire 16 à X et le mettre dans X
+Déposer dans la première pièce le fichier 200
+Aller avec le robot dans la dernière pièce
+*************************************************************
+Ne craignez rien vous en etes capable Bonne chance :-) !

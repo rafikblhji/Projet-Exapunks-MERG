@@ -1,3 +1,12 @@
+/**
+ * la classe ou l'utilisateur entre les commande pour lexecution du robot
+ * @since 20/01/2024
+ * @version 16/03/2024
+ * @author ORCUN Gabriel
+ * 
+ */
+
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
