@@ -372,8 +372,11 @@ import java.text.BreakIterator;
             }
 
 
-
-
+            if(!testNiveauDejaFait)
+            {
+                /* ici je rajoute automatiquement le HALT si l'utilisateur ne l'a pas déjà fait  */
+                menu.getNiveau().suprimerrobotplt(levelOfGame.getRobot().getIndexPieceCourante());
+            }
 
 
 
