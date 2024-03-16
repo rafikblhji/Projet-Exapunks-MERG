@@ -15,6 +15,7 @@ import java.text.BreakIterator;
 
     public static void main(String[] args) {
         LancerJeu programme= new LancerJeu();
+        boolean testNiveau=false,testNiveauDejaFait=false;
         // int numNiveau=0;
         clearFile("ligne.txt");
         Menu menu =new Menu();
@@ -245,6 +246,41 @@ import java.text.BreakIterator;
 
                     } 
                 } /* fin de else if  */
+                else if ( tmp.getNom().equals("HALT"))
+                {
+                    /* aie aie aie là il faut d'abord tester si le jeu a réussi  */
+
+
+
+                    switch(levelOfGame.getNumLevel())
+                    {
+                       case 1:
+                       if( levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(200) && levelOfGame.getRobot().getIndexPieceCourante()==0)
+                           testNiveau=true;
+       
+                       case 2:
+                           /* on sait que le premier fichier créé aura 400 comme identifiant  */
+                           if( levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(200) && levelOfGame.getRobot().getIndexPieceCourante()==2 &&  levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(400) )
+                           testNiveau=true;
+       
+                       break;
+       
+                       case 3:
+                       if(levelOfGame.getRobot().getValueOfRegisterX().equals("4000")  && levelOfGame.getRobot().getListPieceRobot().get(0).contientFichier(200)&& levelOfGame.getRobot().getIndexPieceCourante()==2
+                       &&(levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(400)&&levelOfGame.getRobot().getListPieceRobot().get(2).contientFichier(401))
+                       )
+                           testNiveau=true;
+                       break;
+       
+                       default: 
+                       /* un niveau libre afin de vous permettre de tester les conditions comme vous voulez  */                
+                       testNiveau=true;
+                       testNiveauDejaFait=true; /* j'ai fait ça pour ne pas tester une autre fois le niveau  */
+
+                    menu.getNiveau().suprimerrobotplt(levelOfGame.getRobot().getIndexPieceCourante());
+
+                }
+            }
                     else
                     {
                             /*
@@ -284,8 +320,12 @@ import java.text.BreakIterator;
 
 
              */
-            boolean testNiveau=false;;
-
+            if(!testNiveauDejaFait) 
+            /* si on a pas encore fait 
+             en effet on a rajouté ça pour gérer le cas ou l'utilisateur ne fais pas de HALT on va pas considérer que c'est une erreur
+             on va juste vérifier si les étapes avant le HALT sont bien fait 
+             */
+            {
              switch(levelOfGame.getNumLevel())
              {
                 case 1:
@@ -329,6 +369,7 @@ import java.text.BreakIterator;
                 System.out.println("Réessayez , vous avez échoué  !");
 
              }
+            }
 
 
 
@@ -396,10 +437,7 @@ public void lireInstruction(Instruction executMe, Level levelOfGame,Menu menu)
                     /**
                      * le bloc suivant contient les instructions qui sont sans arguments 
                      */
-                    case "HALT": 
-                        
-                        menu.getNiveau().suprimerrobotplt(levelOfGame.getRobot().getIndexPieceCourante());
-                        break;
+                
                     
                     case "DROP":
                     levelOfGame.getRobot().DROP();
