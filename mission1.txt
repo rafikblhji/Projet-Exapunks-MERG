@@ -1,6 +1,6 @@
-Le but de ce niveau est assez simple ! histoire de bien s'échauffer.
+Le but de ce niveau est assez simple !
 ******************************************************************
-Déposer le fichier 200 dans la dernière pièce et faite revenait le 
-robot dans la première pièce !
+Il faut Déposer le fichier 200 dans la dernière pièce et faire revenir le 
+robot dans la première pièce 
 ******************************************************************
 Bonne Chance :-)

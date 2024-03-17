@@ -2,7 +2,7 @@
  * La classe qui represente le niveau du jeu chaque niveau commence presque pareil seul 
  * les fichier et les mission change
  * @since 20/01/2024
- * @version 16/03/2024
+ * @version 17/03/2024
  * @author ORCUN Gabriel
  * 
  */
@@ -15,12 +15,16 @@ import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
 
 public class fenetrePrincipale extends JFrame {
 
     private int index = 0;
     private VueZoneCode vueZoneCode = new VueZoneCode("XA");
-    public boolean continuer=false;
+    private boolean continuer=false;
+    public boolean go=false;
+    public boolean reni=false;
     private JTextArea messageArea;
     private VuePlateforme plateforme1 = new VuePlateforme(Color.GRAY, 5);
     private VuePlateforme plateforme2 = new VuePlateforme(Color.RED, 5);
@@ -59,15 +63,7 @@ public class fenetrePrincipale extends JFrame {
         plateforme2.afficherMessageBas("-1");
         plateforme3.afficherMessageBas("-1");
         plateforme2.afficherMessageHaut("800");
-
-        // VueFichier fichier =new VueFichier("200","EntréeQuestion2.txt");
-        // VueMission mission=new VueMission("Question2.txt");
-        
-
-        // cretattion des platforme pour le niveau
-        // VuePlateforme plateforme1 = new VuePlateforme(Color.BLACK, 5);
-        // VuePlateforme plateforme2 = new VuePlateforme(Color.RED, 5);
-        // VuePlateforme plateforme3 = new VuePlateforme(Color.RED, 5);
+   
 
         this.dessinerRobotPlateforme1();
         this.dessinerFichierPlateforme2(200);
@@ -105,9 +101,22 @@ public class fenetrePrincipale extends JFrame {
         zoneGauche.add(vueZoneCode, gbcPage);
 
         // Ajouter des boutons en haut à gauche du JPanel du bas (zoneEnDessous)
-        JButton boutonPas = new JButton(">");
-        JButton boutonStop = new JButton("||");
+        JButton boutonPas = new JButton("AVANCER");
+        JButton boutonStop = new JButton("RENITIALISER");
+        JButton boutonPause = new JButton("PAUSE");
+        JButton boutonGo = new JButton("GO");
+        
         // creation des composante du bouton pas lorsque on appuis dessus il decoupe une ligne puis la copie dans le
+        
+          boutonPas.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "boutonPas");
+        boutonPas.getActionMap().put("boutonPas", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boutonPas.doClick();
+            }
+        });
+        
+        
         // fichier ligne.txt et incremente l'index de sorte que la prochaine fois qu'on appuis dessus il passe a la procjaine ligne
         boutonPas.addActionListener(new ActionListener() {
             @Override
@@ -130,7 +139,22 @@ public class fenetrePrincipale extends JFrame {
                 continuer=true;
             }
         });
+    boutonPause.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        continuer=false;
+        go=false;
+    }
+});
 
+boutonGo.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+       continuer=true;
+       go=true;
+       
+    }
+});
 
 
         boutonStop.addActionListener(new ActionListener() {
@@ -163,9 +187,11 @@ public class fenetrePrincipale extends JFrame {
         plateforme2.dessinerFichier(200);
         vueZoneCode.setXValue("0");
         vueZoneCode.setTValue("0");
+        
 
     }
 });
+
 
         // Définir le gestionnaire de disposition pour le JPanel du bas
         zoneEnDessous.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -173,6 +199,8 @@ public class fenetrePrincipale extends JFrame {
         // Ajouter les boutons en haut à gauche du JPanel du bas
         zoneEnDessous.add(boutonPas);
         zoneEnDessous.add(boutonStop);
+        zoneEnDessous.add(boutonPause);
+        zoneEnDessous.add(boutonGo);
 
         zoneEnDessous.add(mission, BorderLayout.SOUTH);
 
@@ -299,6 +327,7 @@ public class fenetrePrincipale extends JFrame {
     public VueMission getMission(){
         return this.mission;
     }
+    
     public VueZoneCode getZoneCode(){
         return this.vueZoneCode;
     }
@@ -350,7 +379,12 @@ public class fenetrePrincipale extends JFrame {
     public void supprimerRobotPlateforme3(){
         this.getPlateforme3().retirerRobot();
     }
-
+    public boolean getgo(){
+        return this.go;
+    }
+    public void setgo(boolean val){
+        this.go=val;
+    }
     public VuePlateforme getPlateforme1(){
         return plateforme1;
     }
@@ -360,13 +394,22 @@ public class fenetrePrincipale extends JFrame {
     public VuePlateforme getPlateforme3(){
         return plateforme3;
     }
-    public void reussirNiveau() {
-        JOptionPane.showMessageDialog(null, "Bravo ! Vous avez réussi le niveau !");
-       
+
+
+    
+  public void reussirNiveau(int score) {
+        int choix = JOptionPane.showOptionDialog(null, "Bravo ! Vous avez réussi le niveau ! Avec un score de " + score + " ! Plus le score est bas mieux c'est !", "Réussite du niveau", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"OK", "Quitter"}, null);
+        
+        if (choix == JOptionPane.YES_OPTION) {
+
+        } else if (choix == JOptionPane.NO_OPTION) {
+            // Instruction à exécuter si l'utilisateur choisit de quitter
+            System.exit(0); // Fermer l'application
+        }
     }
+
     public void raterNiveau() {
-        JOptionPane.showMessageDialog(null, "OH non ! Vous avez raté le niveau ! Essayez de nouveau !");
-       
+        JOptionPane.showMessageDialog(null, "OH non ! Vous avez raté le niveau ! Essayez de nouveau ! Appuyez sur OK puis renitialiser" );
     }
     public void deplacerRobott(int id){
         supprimerRobotPlateforme1();
@@ -447,6 +490,17 @@ public void dessinerToutFichier(Level levelOf){
 
 
         }
+    public void suprimerrrfichier(int index,int id){
+        if(index==0){
+            supprimerFichierPlateforme1(id);
+        }
+        if(index==1){
+            supprimerFichierPlateforme2(id);
+        }
+        if(index==2){
+            supprimerFichierPlateforme3(id);
+        }
+    }
 
     public void suprimerlefichier(int index,int id){
         if(index==0){
@@ -465,14 +519,17 @@ public void dessinerToutFichier(Level levelOf){
 
     public void dessinerlefichier(int index, int id){
         if(index==0){
-            dessinerFichierPlateforme1(id);
+            // dessinerFichierPlateforme1(id);
+            plateforme1.dessinerFichierSurRobot(id);
         
         }
         if(index==1){
-            dessinerFichierPlateforme2(id);
+            // dessinerFichierPlateforme2(id);
+            plateforme2.dessinerFichierSurRobot(id);
         }
         if(index==2){
-            dessinerFichierPlateforme3(id);
+            // dessinerFichierPlateforme3(id);
+            plateforme3.dessinerFichierSurRobot(id);
         }
     }
     public void suprimerrobotplt(int index){
@@ -486,10 +543,7 @@ public void dessinerToutFichier(Level levelOf){
             supprimerRobotPlateforme3();
         }
     }
-    
- 
- 
-
+     
     private void effacerContenuFichier(String cheminFichier) {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(cheminFichier, false))) {
         // Écrire une chaîne vide dans le fichier (efface le contenu)

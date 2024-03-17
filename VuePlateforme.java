@@ -1,10 +1,12 @@
+
 /**
- * Les platforme du jeu
+ * Les plateformes du jeu 
  * @since 20/01/2024
- * @version 16/03/2024
+ * @version 17/03/2024
  * @author ORCUN Gabriel
  * 
  */
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -106,6 +108,12 @@ public class VuePlateforme extends JPanel {
         repaint();
     }
 
+    public void dessinerFichierSurRobot(int id) {
+        Point centre = new Point(size / 2, size / 2);
+        fichiers.put(id, centre);
+        repaint();
+    }
+
     // Méthode pour afficher un message en haut de la plateforme
     public void afficherMessageHaut(String message) {
         this.messageHaut = message;
@@ -194,6 +202,3 @@ public class VuePlateforme extends JPanel {
         });
     }
 }
-
-
-

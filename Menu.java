@@ -1,7 +1,7 @@
 /**
  * Le menu du jeu 
  * @since 20/01/2024
- * @version 16/03/2024
+ * @version 17/03/2024
  * @author ORCUN Gabriel
  * 
  */
@@ -23,6 +23,7 @@ public class Menu extends JFrame {
         JButton niveau2Button = createButton("Niveau 2");
         JButton niveau3Button = createButton("Niveau 3");
         JButton niveau4Button = createButton("Niveau Libre");
+        
 
         // Ajout des écouteurs d'événements aux boutons
         niveau1Button.addActionListener(new ActionListener() {

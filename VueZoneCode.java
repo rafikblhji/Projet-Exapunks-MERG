@@ -1,7 +1,7 @@
 /**
  * la classe ou l'utilisateur entre les commande pour lexecution du robot
  * @since 20/01/2024
- * @version 16/03/2024
+ * @version 17/03/2024
  * @author ORCUN Gabriel
  * 
  */
@@ -9,7 +9,10 @@
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.text.BadLocationException; // Ajout de l'importation pour BadLocationException
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 public class VueZoneCode extends JPanel {
     private JLabel labelX;
@@ -97,7 +100,23 @@ public class VueZoneCode extends JPanel {
 
     // Création de la zone de texte éditable
     private JTextArea createEditableTextArea() {
-        JTextArea textArea = new JTextArea();
+        JTextArea textArea = new JTextArea() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (isFocusOwner()) {
+                    int caretPosition = getCaretPosition();
+                    Rectangle rect;
+                    try {
+                        rect = modelToView(caretPosition);
+                        g.setColor(Color.RED); 
+                        g.fillRect(rect.x, rect.y, 2, rect.height);
+                    } catch (BadLocationException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
         textArea.setBackground(Color.BLACK);
         textArea.setForeground(Color.WHITE);
         textArea.setAlignmentX(CENTER_ALIGNMENT);
@@ -106,7 +125,23 @@ public class VueZoneCode extends JPanel {
 
     // Création des champs des paramètres X Y... avec mettant leur zone inchangeable par l'utilisateur
     private JTextArea createNonEditableTextArea(String initialValue) {
-        JTextArea textArea = new JTextArea(initialValue);
+        JTextArea textArea = new JTextArea(initialValue) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (isFocusOwner()) {
+                    int caretPosition = getCaretPosition();
+                    Rectangle rect;
+                    try {
+                        rect = modelToView(caretPosition);
+                        g.setColor(Color.WHITE); 
+                        g.fillRect(rect.x, rect.y, 2, rect.height);
+                    } catch (BadLocationException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
         textArea.setEditable(false);
         textArea.setBackground(Color.BLACK);
         textArea.setForeground(Color.WHITE);
@@ -129,7 +164,8 @@ public class VueZoneCode extends JPanel {
     public void setZoneTexte(String text) {
         this.zoneTexte.setText(text);
     }
-       public String getXValue() {
+
+    public String getXValue() {
         return xValueTextArea.getText();
     }
 
@@ -161,8 +197,6 @@ public class VueZoneCode extends JPanel {
         zValueTextArea.setText(value);
     }
 
-    
-
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setTitle("Page Principale");
@@ -176,4 +210,3 @@ public class VueZoneCode extends JPanel {
         frame.setVisible(true);
     }
 }
-

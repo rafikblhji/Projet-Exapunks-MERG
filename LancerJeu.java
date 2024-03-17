@@ -14,13 +14,17 @@ import javax.swing.JOptionPane;
 
  public class LancerJeu 
  {
-
     public static void main(String[] args) {
-        int cpt;
+        boolean encore=true;
+        
+       try {
+    MusicPlayer play = new MusicPlayer("credits.wav");
+    play.play();
+} catch (Exception e) {
+    e.printStackTrace();
+}
         LancerJeu programme= new LancerJeu();
-        boolean testNiveau=false,testNiveauDejaFait=false;
         // int numNiveau=0;
-        clearFile("ligne.txt");
         Menu menu =new Menu();
         while (menu.getNiveau() == null) {
     try {
@@ -29,11 +33,17 @@ import javax.swing.JOptionPane;
         e.printStackTrace();
     }
 }
-        boolean continuer=false;
+        do{
+        
+         boolean testNiveau=false,testNiveauDejaFait=false;
+         clearFile("ligne.txt");
+         int score=0;
          Level levelOfGame;
          int registreCountInstruction=0;
          boolean testJMP=false; /* cette variable permet l'execution de JMP une fois dans le programme  */
          List<Instruction> instructions = new ArrayList<>();
+         menu.getNiveau().setgo(false);
+
 
 
          /**
@@ -110,8 +120,8 @@ import javax.swing.JOptionPane;
     Instruction tmp;
 
     while(registreCountInstruction<instructions.size()){
-                /* on execute les instructions avec une boucle while tant que y a toujours une instruction à exxécuter on execute*/
-                             while (menu.getNiveau().getPeutContinuer() != true) {
+                score++;/* on execute les instructions avec une boucle while tant que y a toujours une instruction à exxécuter on execute*/
+                             while (menu.getNiveau().getPeutContinuer() != true) {           
     try {
         Thread.sleep(100); // Attendez 100 millisecondes avant de vérifier à nouveau
     } catch (InterruptedException e) {
@@ -293,14 +303,18 @@ import javax.swing.JOptionPane;
                 {
                    /* ici il faut afficher sur le graphique du jeu que voilà le joueur a gagné  */
                    /* à modifier */
-                    menu.getNiveau().reussirNiveau();
+                    menu.getNiveau().reussirNiveau(score);
+                    encore=false;
                    System.out.println("Niveau Réussi !");
    
                 }
                 else
                 {
-                   System.out.println("Réessayez , vous avez échoué  !");
                    menu.getNiveau().raterNiveau();
+                   menu.getNiveau().setPeutContinuer(false);
+                   menu.getNiveau().setgo(false);
+                   System.out.println("Réessayez , vous avez échoué  !");
+                   
    
                 }
                 /* et là le HALT */
@@ -316,9 +330,19 @@ import javax.swing.JOptionPane;
                 
                     }/* fin de if  */
  
-
-
-            menu.getNiveau().setPeutContinuer(false);
+            if(!menu.getNiveau().getgo()){
+                menu.getNiveau().setPeutContinuer(false);
+            }
+            else if(menu.getNiveau().getgo()) {
+    try {
+        // Mettre en pause l'exécution pendant 500 millisecondes (0,5 seconde)
+        Thread.sleep(1000);
+    } catch (InterruptedException e) {
+        // Gérer l'exception si elle se produit pendant le sommeil du thread
+        e.printStackTrace();
+    }
+}
+            
 
             }/* fin de la boucle while   */
 
@@ -384,14 +408,18 @@ import javax.swing.JOptionPane;
 
              if ( testNiveau)
              {
-                /* ici il faut afficher sur le graphique du jeu que voilà le joueur a gagné  */
+                // * ici il faut afficher sur le graphique du jeu que voilà le joueur a gagné  */
                 /* à modifier */
-                menu.getNiveau().reussirNiveau();
+                menu.getNiveau().reussirNiveau(score);
+                encore=false;
                 System.out.println("Niveau Réussi !");
 
              }
              else
              {
+                menu.getNiveau().raterNiveau();
+                menu.getNiveau().setPeutContinuer(false);
+                menu.getNiveau().setgo(false);
                 System.out.println("Réessayez , vous avez échoué  !");
 
              }
@@ -403,8 +431,8 @@ import javax.swing.JOptionPane;
                 menu.getNiveau().suprimerrobotplt(levelOfGame.getRobot().getIndexPieceCourante());
             }
 
-
-
+        }
+        while(encore==true);
 
 
 
@@ -449,8 +477,9 @@ public void lireInstruction(Instruction executMe, Level levelOfGame,Menu menu)
                     */
                     if(!(levelOfGame.getRobot().isInteger(tabArguments[0])))
                     {
-                        System.err.println("LINK doit avoir un entier en argument");
-                        System.exit(1);
+                        // System.err.println("LINK doit avoir un entier en argument");
+                        // System.exit(1);
+                        commandeIncorrectee("LINK doit avoir un entier en argument");
                     }
                     /* si c'est un entier super! */
 
@@ -463,8 +492,7 @@ public void lireInstruction(Instruction executMe, Level levelOfGame,Menu menu)
                     else{
                         menu.getNiveau().dessinerToutFichier(levelOfGame);
                         menu.getNiveau().suprimerlefichier(levelOfGame.getRobot().getIndexPieceCourante(),levelOfGame.getRobot().getFileRobot().getId());
-                    }
-                    // menu.getNiveau().suprimerTouTFichierr(levelOfGame);                                       
+                    }                                      
                      break;
                     /**
                      * le bloc suivant contient les instructions qui sont sans arguments 
@@ -559,21 +587,25 @@ public void lireInstruction(Instruction executMe, Level levelOfGame,Menu menu)
                     */
                     if(!(levelOfGame.getRobot().isInteger(tabArguments[0])))
                     {
-                        System.err.println("GRAB doit avoir un entier en argument");
-                        System.exit(1);
+                        // System.err.println("GRAB doit avoir un entier en argument");
+                        // System.exit(1);
+                        commandeIncorrectee("GRAB doit avoir un entier en argument");
                     }
                     /* si c'est un entier super! */
 
                     levelOfGame.getRobot().GRAB(Integer.parseInt(tabArguments[0]));
-                    // menu.getNiveau().suprimerrrfichier(levelOfGame.getRobot().getIndexPieceCourante(),levelOfGame.getRobot().get)
+
+                    menu.getNiveau().suprimerrrfichier(levelOfGame.getRobot().getIndexPieceCourante(),levelOfGame.getRobot().getFileRobot().getId());
+                    menu.getNiveau().dessinerlefichier(levelOfGame.getRobot().getIndexPieceCourante(),levelOfGame.getRobot().getFileRobot().getId());
                     // menu.getNiveau().deplacerFichierr(levelOfGame);                                      
                      break;
 
 
                     default : 
                     /* le cas ou on fait appel à une instruction bizarre  */
-                    System.err.println("Nom d'instruction inconnu ");
-                    System.exit(1);
+                    // System.err.println("Nom d'instruction inconnu ");
+                    // System.exit(1);
+                    commandeIncorrectee("Nom d'instruction inconnu");
                    
 
 
