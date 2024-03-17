@@ -26,7 +26,7 @@
 ## CONTRIBUTEUR ##
 
 	On travaillé sur ce projet :
-		Mohamed Amine BOUGHARA
+		Mohamed Amine BOUGHRARA
 		Emna NGOMA
 		Rafik BELHADJI
 		Gabriel ORCUN
